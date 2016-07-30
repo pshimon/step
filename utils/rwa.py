@@ -7,7 +7,7 @@
 import numpy as np
 def write_arr2(a,filename):
     (n2,n1)=a.shape
-    nn=np.zeros(2,int)
+    nn=np.zeros(2,np.int32)
     nn[0]=n1
     nn[1]=n2
     fid = open(filename, 'wb')
@@ -18,7 +18,7 @@ def write_arr2(a,filename):
 
 def read_arr2_flt(filename):
     fid = open(filename, 'rb')
-    nn=np.fromfile(fid,int,2)
+    nn=np.fromfile(fid,np.int32,2)
     n1=nn[0]
     n2=nn[1]
     a = np.fromfile(fid,np.float32,n1*n2)
@@ -28,7 +28,7 @@ def read_arr2_flt(filename):
 
 def read_arr2_cmpl(filename):
     fid = open(filename, 'rb')
-    nn=np.fromfile(fid,int,2)
+    nn=np.fromfile(fid,np.int32,2)
     n1=nn[0]
     n2=nn[1]
     a = np.fromfile(fid,np.complex64,n1*n2)
