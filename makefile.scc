@@ -1,0 +1,15 @@
+########################################################################
+# Shimon Panfil: Industrial Physics and Simulations                   ##
+# http://industrialphys.com                                           ##
+# THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           ##
+########################################################################
+CC:=suncc
+COPT:=-O3 $(FPIC) $(CINC) -I/usr/include/x86_64-linux-gnu/
+FPE:=-ftrap=common
+CLOPT:= $(COPT) $(FPE)
+
+FC:=sunf95
+FOPT:=-O3 $(FPIC)
+FPE:=-ftrap=common #default
+FLOPT:=$(FOPT) $(FPE)
+

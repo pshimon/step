@@ -1,0 +1,25 @@
+########################################################################
+# Shimon Panfil: Industrial Physics and Simulations                   ##
+# http://industrialphys.com                                           ##
+# THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           ##
+########################################################################
+OEXT:=o
+BEXT:=x
+SHEXT:=so
+FPIC:=-fpic
+RM:=rm -f
+LEXT:=a
+LBS:=ar crv 
+LM:=-lm -lrt
+NOUT:= -o 
+MEXT:=mod
+
+FDIR:=$(ROOTDIR)/utils
+CDIR:=$(ROOTDIR)/utils
+ 
+vpath %.f90 $(FDIR):src
+vpath %.c   $(CDIR):src
+vpath %.h   $(CDIR):src
+
+CINC=-I$(CDIR) 
+

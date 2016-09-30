@@ -1,0 +1,14 @@
+########################################################################
+# Shimon Panfil: Industrial Physics and Simulations                   ##
+# http://industrialphys.com                                           ##
+# THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           ##
+########################################################################
+CC:=icc
+COPT:=-O3 $(FPIC) $(CINC) -g #-openmp
+CLOPT:= $(COPT)
+
+FC:=ifort
+FOPT:=-O3 $(FPIC) -warn all -g -nogen-interfaces #-openmp
+FPE:= -fpe0
+FLOPT:= $(FOPT) $(FPE)
+

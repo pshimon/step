@@ -1,0 +1,36 @@
+########################################################################
+# Shimon Panfil: Industrial Physics and Simulations                   ##
+# http://industrialphys.com                                           ##
+# THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           ##
+########################################################################
+ROOTDIR:=../step
+include $(ROOTDIR)/makefile.def
+include $(ROOTDIR)/makefile.gcc
+include $(ROOTDIR)/makefile.rules
+# fortran library sources
+LSTF:=fdefs.f90 poly.f90 sdist1.f90 rng.f90 arrio.f90 sde_diff.f90 hsort.f90 stat.f90 
+# C library sources
+LSTC:= arr.c  ogl.c  ogl_glut.c  read_bytes.c   surf.c 
+# combining
+SLST:=$(LSTF:.f90=.$(OEXT)) $(LSTC:.c=.$(OEXT))
+#static library name
+SLIB:=ogllib.$(LEXT)
+# fortran program sources
+LSTBF:=mc_test.f90 mc_test1.f90 mc_test2.f90 fdata_exp.f90 fit_data.f90
+# C program sources
+LSTBC:=draw_surf1.c surf-test.c
+# combining
+TRG:=$(LSTBF:.f90=.$(BEXT)) $(LSTBC:.c=.$(BEXT))
+all:$(TRG)  
+$(SLIB): $(SLST) 
+	$(LBS)$(SLIB) $(SLST) 
+$(TRG):$(SLIB)
+clean:	
+	$(RM) *.$(LEXT) *.$(BEXT) *.$(MEXT) *.$(OEXT) *.$(SHEXT)
+#special treatment
+draw_surf1.$(BEXT): draw_surf1.c $(ULIB) $(GLIB)
+	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS) $(LM)
+
+
+
+

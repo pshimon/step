@@ -1,0 +1,35 @@
+########################################################################
+# Shimon Panfil: Industrial Physics and Simulations                   ##
+# http://industrialphys.com                                           ##
+# THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           ##
+########################################################################
+ROOTDIR:=../step
+include $(ROOTDIR)/makefile.def
+include $(ROOTDIR)/makefile.gcc
+%.$(OEXT): %.f90
+	$(FC) -c $(FOPT)    $<  $(NOUT) $@
+%.$(BEXT): %.f90
+	$(FC) $(FLOPT)  $(NOUT) $@ $^ 
+%.$(OEXT): %.c
+	$(CC) -c $(COPT)   $< $(NOUT) $@
+%.$(BEXT): %.c
+	$(CC) $(CLOPT)  $(NOUT) $@ $^ -lm
+	
+#LSTF:=fdefs.f90 poly.f90 sdist1.f90 rng.f90 arrio.f90 sde_diff.f90 hsort.f90 stat.f90 
+LSTC:= arr.c  ogl.c  ogl_glut.c  read_bytes.c   surf.c 
+SLST:=$(LSTF:.f90=.$(OEXT)) $(LSTC:.c=.$(OEXT))
+SLIB:=ogllib.$(LEXT)
+#LSTBF:=mc_test.f90 mc_test1.f90 mc_test2.f90 fdata_exp.f90 fit_data.f90
+LSTBC:=draw_surf1.c surf-test.c
+TRG:=$(LSTBF:.f90=.$(BEXT)) $(LSTBC:.c=.$(BEXT))
+all:$(TRG)  
+$(SLIB): $(SLST) 
+	$(LBS)$(SLIB) $(SLST) 
+$(TRG):$(SLIB)
+draw_surf1.$(BEXT): draw_surf1.c $(ULIB) $(GLIB)
+	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS) $(LM)
+
+clean:	
+	$(RM) *.$(LEXT) *.$(BEXT) *.$(MEXT) *.$(OEXT) *.$(SHEXT)
+
+

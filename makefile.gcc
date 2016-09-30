@@ -1,0 +1,15 @@
+########################################################################
+# Shimon Panfil: Industrial Physics and Simulations                   ##
+# http://industrialphys.com                                           ##
+# THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           ##
+########################################################################
+CC:=gcc
+COPT:=-O3 -g $(CINC) $(FPIC) -Wall -fexcess-precision=standard -fopenmp
+CLOPT:= $(COPT)
+FC:=gfortran
+FOPT:=-O3 $(FPIC) -Wall -g  -fopenmp
+FPE:= -ffpe-trap=invalid,zero,overflow
+FLOPT:=$(FOPT) $(FPE)
+	
+
+
