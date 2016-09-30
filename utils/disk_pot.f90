@@ -5,12 +5,13 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     FUNCTION  DISK_POT(R,Z,A) RESULT(RES)
     USE FDEFS
-    REAL(F64)::R,Z,A,RES,res2
-    REAL(F64),parameter::phi0=zero_f64,phi1=half_f64*PI_F64
+    IMPLICIT NONE    
+    REAL(F64)::R,Z,A,RES,RES2
+    REAL(F64),PARAMETER::PHI0=ZERO_F64,PHI1=HALF_F64*PI_F64
     INTEGER,PARAMETER:: JMAX=20, JMAXP=JMAX+1, K=5, KM=K-1
-    REAL,PARAMETER::EPS=1.e-6
-    call qromb(res2)
-    res=two_f64*res2
+    REAL,PARAMETER::EPS=1.E-6
+    CALL QROMB(RES2)
+    RES=TWO_F64*RES2
     CONTAINS
     FUNCTION DP(PHI) RESULT(RES)
     REAL(F64)::PHI,RES
@@ -24,42 +25,42 @@
     R2=SQRT(A**2+TWO_F64*A*RC+W2)
     RES=R1+R2-TWO_F64*R0+RC*LOG((R1+AR1)/(R0-RC)*(R0+RC)/(R2+AR2))
     ENDFUNCTION DP
-    SUBROUTINE trapzd(s,n)
-      INTEGER:: n
-      REAL(F64):: s
-      INTEGER it,j
-      REAL(F64):: del,acc,tnm,x
-      if (n.eq.1) then
-        s=0.5*(phi1-phi0)*(dp(phi0)+dp(phi1))
-      else
-        it=2**(n-2)
-        tnm=it
-        del=(phi1-phi0)/tnm
-        x=phi0+0.5*del
-        acc=0.
-        do  j=1,it
-          acc=acc+dp(x)
-          x=x+del
-        enddo
-        s=0.5*(s+(phi1-phi0)*acc/tnm)
-      endif
-      return
-    ENDSUBROUTINE trapzd
-    SUBROUTINE qromb(ss)
-    REAL(F64):: ss
-    INTEGER:: j
-    REAL(F64):: dss,h(JMAXP),s(JMAXP)
-      h(1)=1.
-      do j=1,JMAX
-        call trapzd(s(j),j)
-        if (j.ge.K) then
-          call polint(h(j-KM),s(j-KM),K,0.,ss,dss)
-          if (abs(dss).le.EPS*abs(ss)) return
-        endif
-        s(j+1)=s(j)
-        h(j+1)=0.25*h(j)
-    enddo
-    ENDSUBROUTINE qromb
+    SUBROUTINE TRAPZD(S,N)
+      INTEGER:: N
+      REAL(F64):: S
+      INTEGER IT,J
+      REAL(F64):: DEL,ACC,TNM,X
+      IF (N.EQ.1) THEN
+        S=0.5*(PHI1-PHI0)*(DP(PHI0)+DP(PHI1))
+      ELSE
+        IT=2**(N-2)
+        TNM=IT
+        DEL=(PHI1-PHI0)/TNM
+        X=PHI0+0.5*DEL
+        ACC=0.
+        DO  J=1,IT
+          ACC=ACC+DP(X)
+          X=X+DEL
+        ENDDO
+        S=0.5*(S+(PHI1-PHI0)*ACC/TNM)
+      ENDIF
+      RETURN
+    ENDSUBROUTINE TRAPZD
+    SUBROUTINE QROMB(SS)
+    REAL(F64):: SS
+    INTEGER:: J
+    REAL(F64):: DSS,H(JMAXP),S(JMAXP)
+      H(1)=1.
+      DO J=1,JMAX
+        CALL TRAPZD(S(J),J)
+        IF (J.GE.K) THEN
+          CALL POLINT(H(J-KM),S(J-KM),K,0.,SS,DSS)
+          IF (ABS(DSS).LE.EPS*ABS(SS)) RETURN
+        ENDIF
+        S(J+1)=S(J)
+        H(J+1)=0.25*H(J)
+    ENDDO
+    ENDSUBROUTINE QROMB
     ENDFUNCTION DISK_POT
 
     FUNCTION  DISK_POT0(Z,A) RESULT(RES)

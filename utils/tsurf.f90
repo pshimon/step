@@ -504,4 +504,30 @@ SUBROUTINE MAKE_REPERS(RVEC,S,FLAG)
     ENDDO
     FLAG=0
 END SUBROUTINE MAKE_REPERS
+! not shifted
+subroutine get_trg(trg,ts,t)
+    real(f32)::trg(3,3)
+    TYPE(TSURF_TYPE):: tS
+    integer::t
+    real(f32)::v1(3),v2(3),v3(3)
+    v1=ts%vvec(:,ts%tvec(1,t))
+    v2=ts%vvec(:,ts%tvec(2,t))
+    v3=ts%vvec(:,ts%tvec(3,t))
+    trg(:,1)=v1(1)*ts%rpr(:,1)+v1(2)*ts%rpr(:,2)+v1(3)*ts%rpr(:,3)
+    trg(:,2)=v2(1)*ts%rpr(:,1)+v2(2)*ts%rpr(:,2)+v2(3)*ts%rpr(:,3)
+    trg(:,3)=v3(1)*ts%rpr(:,1)+v3(2)*ts%rpr(:,2)+v3(3)*ts%rpr(:,3)
+endsubroutine get_trg
+subroutine get_trg_shifted(trg,ts,t)
+    real(f32)::trg(3,3)
+    TYPE(TSURF_TYPE):: tS
+    integer::t
+    real(f32)::v1(3),v2(3),v3(3)
+    v1=ts%vvec(:,ts%tvec(1,t))
+    v2=ts%vvec(:,ts%tvec(2,t))
+    v3=ts%vvec(:,ts%tvec(3,t))
+    trg(:,1)=v1(1)*ts%rpr(:,1)+v1(2)*ts%rpr(:,2)+v1(3)*ts%rpr(:,3)+ts%org
+    trg(:,2)=v2(1)*ts%rpr(:,1)+v2(2)*ts%rpr(:,2)+v2(3)*ts%rpr(:,3)+ts%org
+    trg(:,3)=v3(1)*ts%rpr(:,1)+v3(2)*ts%rpr(:,2)+v3(3)*ts%rpr(:,3)+ts%org
+endsubroutine get_trg_shifted
+
 END MODULE TSURF
