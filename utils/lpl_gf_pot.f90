@@ -17,7 +17,7 @@ FUNCTION LPL_GF_DISK(POS,DIR,RAD,DST) RESULT (RES)
     REAL(F32)::POS(3),DIR(3),RAD,DST(3)    
     REAL(F64)::RES,DISK_POT
     EXTERNAL DISK_POT
-    REAL(F64)::R,A,Z
+    REAL(F64)::R,Z
     REAL(F32)::RV(3)
     RV=DST-POS
     Z=DOT_F32(RV,DIR)/LENGTH_F32(DIR)
@@ -25,21 +25,29 @@ FUNCTION LPL_GF_DISK(POS,DIR,RAD,DST) RESULT (RES)
     RES=DISK_POT(R,Z,RAD)
 ENDFUNCTION LPL_GF_DISK
 
-FUNCTION LPL_GF_tsurf(ts,DST,chrg) RESULT (RES)
-    USE  tsurf
+FUNCTION LPL_GF_TSURF(TS,DST,CHRG) RESULT (RES)
+    USE  TSURF
     IMPLICIT NONE
-    TYPE(TSURF_TYPE):: tS
+    TYPE(TSURF_TYPE):: TS
     REAL(F32)::DST(3)
-    REAL(F64)::chrg(:),RES
-    REAL(F32)::rv(3),trg(3,3) 
+    REAL(F64)::CHRG(:),RES
+    REAL(F32)::TRG(3,3) 
     REAL(F64)::LPL_GF_TRG
-    external LPL_GF_TRG
-    integer::t,n
-    !rv=dst-ts%org
-    res=0.0d0
-    do t=1,ts%nt
-        !call get_trg(trg,ts,t)
-        res=res+LPL_GF_TRG(TRG,DST)*chrg(t)
-    enddo
+    EXTERNAL LPL_GF_TRG
+    INTEGER::T
+    
+    RES=0.0D0
+    DO T=1,TS%NT
+        CALL GET_TRG(T)
+        RES=RES+LPL_GF_TRG(TRG,DST)*CHRG(T)
+    ENDDO
+CONTAINS
+SUBROUTINE GET_TRG(T)
+    INTEGER::T
+    TRG(:,1)=TS%VVEC(:,TS%TVEC(1,T))
+    TRG(:,2)=TS%VVEC(:,TS%TVEC(2,T))
+    TRG(:,3)=TS%VVEC(:,TS%TVEC(3,T))
+ENDSUBROUTINE GET_TRG
+
 ENDFUNCTION LPL_GF_tsurf
 
