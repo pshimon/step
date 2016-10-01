@@ -161,6 +161,7 @@ void display_cb(void){
     glUseProgram(0);
     glutSwapBuffers();
 }
+/*
 int read_sphere(t_surf *s,char * fname) {
     FILE *fp=fopen(fname,"rb");
     int n,t,ret,j;
@@ -189,7 +190,7 @@ abend:
     fclose(fp);    
     return ret;
 }
-    
+*/    
 
 int main(int argc, char* argv[]){
     int handle; 
@@ -208,7 +209,7 @@ int main(int argc, char* argv[]){
 	exit(1);
     }
     init_surf(&s);
-    ret=read_sphere(&s,argv[1]);
+    ret=read_surf(&s,argv[1]);
     if(ret) {
 	fprintf(stderr,"read_surf returns %d\n",ret);
 	exit(1);

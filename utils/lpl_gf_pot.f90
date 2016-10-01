@@ -35,10 +35,10 @@ FUNCTION LPL_GF_tsurf(ts,DST,chrg) RESULT (RES)
     REAL(F64)::LPL_GF_TRG
     external LPL_GF_TRG
     integer::t,n
-    rv=dst-ts%org
+    !rv=dst-ts%org
     res=0.0d0
     do t=1,ts%nt
-        call get_trg(trg,ts,t)
+        !call get_trg(trg,ts,t)
         res=res+LPL_GF_TRG(TRG,DST)*chrg(t)
     enddo
 ENDFUNCTION LPL_GF_tsurf
