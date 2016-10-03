@@ -3,7 +3,7 @@
 ! http://industrialphys.com                                           !!
 ! THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           !!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    FUNCTION  DISK_POT(R,Z,A) RESULT(RES)
+SUBROUTINE   DISK_POT(RES,R,Z,A) 
     USE FDEFS
     IMPLICIT NONE    
     REAL(F64)::R,Z,A,RES,RES2
@@ -61,12 +61,12 @@
         H(J+1)=0.25*H(J)
     ENDDO
     ENDSUBROUTINE QROMB
-    ENDFUNCTION DISK_POT
+ENDSUBROUTINE DISK_POT
 
-    FUNCTION  DISK_POT0(Z,A) RESULT(RES)
+FUNCTION  DISK_POT0(Z,A) RESULT(RES)
     USE FDEFS
     REAL(F64)::Z,A,RES
     REAL(F64),PARAMETER::FCT=TWO_F64*PI_F64;
     RES=FCT*(SQRT(A**2+Z**2)-ABS(Z))
-    ENDFUNCTION DISK_POT0
+ENDFUNCTION DISK_POT0
 
