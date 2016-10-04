@@ -19,7 +19,7 @@ real(f64) function dip_pot(dst)
     REAL(F64)::R
     REAL(F32)::RV(3)
     RV=DST-MAG_POS
-    d=PI_F32*MAG_R**2*MAG_H*MAG_NORM
+    d=PI_F32*MAG_R**2*MAG_H
     R=LENGTH_F32(RV)
     dip_pot=d*DOT_F32(RV,MAG_DIR)/LENGTH_F32(MAG_DIR)/r**3
 endfunction dip_pot
