@@ -6,6 +6,7 @@
 
 !!!!!!!!!!!!!!!!!!!!!!!!!! FLOAT ARRAYS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 MODULE ARRIO
+    USE FDEFS
     IMPLICIT NONE
     PUBLIC
 CONTAINS
