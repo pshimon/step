@@ -5,19 +5,12 @@
 ***********************************************************************/
 #ifndef OGL_H
 #define OGL_H
-#include "ogl_glut.h"
+#include  <GL/glew.h>
 #define MAX_FILE_NAME_LENGTH 256
 #include "my_cdefs.h"
 
 #define BUFFER_OFFSET(offs) ((void *) (offs))
 
-void resize_cb(int w,int h);
-void display_cb();
-//void timer_cb(int v);
-void idle_cb();
-void clean_cb(void);
-void keyboard_cb(unsigned char key,int x,int y);
-void special_cb(int key,int x,int y);
 char * read_bytes(char* filename);
 
 /* returns program id on success 0 on error */

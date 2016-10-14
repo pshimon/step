@@ -4,13 +4,13 @@
 * THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           **
 ***********************************************************************/
 #include "ogl.h" 
-
+#include "ogl_glut.h"
 int glut_init_window(int * argc,char * argv[]) {
     GLenum GlewInitResult;
     int w=800,h=600,handle=0;
     char * wt="glut window";
     glutInit(argc, argv);
-    glutInitContextVersion(3, 0); 
+    glutInitContextVersion(3, 3); 
     glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
     glutInitContextProfile(GLUT_CORE_PROFILE);
     glutSetOption(

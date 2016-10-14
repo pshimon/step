@@ -3,6 +3,7 @@
 * http://industrialphys.com                                           **
 * THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           **
 ***********************************************************************/
+
 #include "ogl.h"
 void ogl_init_3d() {
     

@@ -4,6 +4,7 @@
 * THE SOFTWARE IS PROVIDED "AS IS",USE IT AT YOUR OWN RISK *
 ***********************************************************/
 #include "ogl.h"
+#include "ogl_glut.h"
 #include "surf.h"
 GLuint vaoid[1]; /* VAO id, no need in more than 1 */
 GLuint vboid[3]; /* VBO ids vertices, normals, triangles*/
@@ -203,6 +204,8 @@ int main(int argc, char* argv[]){
 	fprintf(stderr,"failed to create window,handle =%d\n",handle);
 	exit(1);
     }
+    printf ("(glut) Renderer: %s\n", glGetString (GL_RENDERER));
+    printf ("(glut) OpenGL version supported %s\n",glGetString (GL_VERSION) );
 
     if(argc!=2) {
 	fprintf(stderr,"usage: %s surf \n",argv[0]);

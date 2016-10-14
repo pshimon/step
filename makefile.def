@@ -13,7 +13,7 @@ LBS:=ar crv
 LM:=-lm -lrt
 NOUT:= -o 
 MEXT:=mod
-VPATH:=$(ROOTDIR)/bem $(ROOTDIR)/fft $(ROOTDIR)/geom $(ROOTDIR)/interp $(ROOTDIR)/lalg $(ROOTDIR)/ode $(ROOTDIR)/opengl $(ROOTDIR)/utils  src
+VPATH:=$(ROOTDIR)/bem $(ROOTDIR)/fft $(ROOTDIR)/geom $(ROOTDIR)/interp $(ROOTDIR)/lalg $(ROOTDIR)/ode $(ROOTDIR)/opengl $(ROOTDIR)/utils  $(ROOTDIR)/tst src
 #FDIR:=$(ROOTDIR)/utils
 CDIR:=$(ROOTDIR)/utils
  
@@ -21,6 +21,6 @@ CDIR:=$(ROOTDIR)/utils
 #vpath %.c   $(CDIR) src
 #vpath %.h   $(CDIR) src
 
-CINC=-I$(ROOTDIR)/utils -I$(ROOTDIR)/geom
+CINC=-I$(ROOTDIR)/utils -I$(ROOTDIR)/geom -I$(ROOTDIR)/opengl
 
 
