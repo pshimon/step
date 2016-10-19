@@ -18,8 +18,8 @@
 typedef int t_clst[MAX_CONNECT];
 typedef struct {
     int * tvec;/*trg vector(3*nt);*/
-    t_f32 * vvec;/* vertices vec(3*nv)*/
-    t_f32 * nvec;/* normal vec(3*nv)*/
+    float * vvec;/* vertices vec(3*nv)*/
+    float * nvec;/* normal vec(3*nv)*/
     int nt; /* number of triangles */
     int nv; /* number of vertices */
 } t_surf;
@@ -42,7 +42,7 @@ int mk_dodecahedron(t_surf *s);
 int mk_icosahedron(t_surf *s);
 
 /* rerturns are of trg */
-t_f32 trg_norm(t_v3 w,t_surf *s,int t);
+float trg_norm(t_v3 w,t_surf *s,int t);
 /* array lst must be of  MAX_CONNECT length at least*/
 int get_trgs(int * lst,t_surf *s,int v);
 int get_trg_pair(int * first,int * second,int * lst,int nc,t_surf *s,int v);
@@ -51,6 +51,6 @@ int get_trg_con(int *ntc,t_clst *tcvec,t_surf *s);
 int get_vrt_con(int *nvc,t_clst *vcvec,t_surf *s);
 int get_vrt_betw(int *nvc,t_clst *vcvec,t_surf *s,int k1,int k2);
 int refine2(t_surf *s,t_surf *sold,int *nvc,t_clst *vcvec);
-int check_normals(t_f32 * d,t_surf *s);
+int check_normals(float * d,t_surf *s);
 void mk_unit_sphere(t_surf *s);
 #endif

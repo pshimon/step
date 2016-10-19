@@ -23,6 +23,8 @@
 /* C-style index: i1=0,n1-1,i2=0,n2-1,i3=0,n3-1,i4=0,n4-1 col-major */
 #define CEL4(a,i1,i2,i3,i4) (a)->data[(i1)+(a)->n1*((i2)+(a)->n2*((i3)+(a)->n3*((i4))))]
 
+typedef float Cfl[2];
+typedef double Cdb[2];
 
 /* float arrays*/
 /* one dimensional  array */

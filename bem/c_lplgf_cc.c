@@ -46,88 +46,89 @@ static inline double ff0(double wtt,double wbt,double wtb,double wbb,
 		+(newg0(wtb,Vb,qb,zz)-newg0(wbb,Vb,qb,zz))/(Vb*Vb+1.0);
 	return res;
 }
-double trgint0(double x,double y,double z,
-             double x0,double y0,double z0,
-             double x1,double y1,double z1,
-             double x2,double y2,double z2) {
-	double x10,y10,z10,x20,y20,z20;
-	double nx,ny,nz,kx,ky,kz,n2x,n2y,n2z;
-	double d1,d2,c2,s2,u2,u1,v2,zz,u3,v3,v4;
-	double Pt,pt,pb,qt,qb,Pb,ppt,ppb,wtt,wbb,wtb,wbt,Vb,Vt,res/*,norm=0.25/M_PI*/;
-	x10=x1-x0;
-	y10=y1-y0;
-	z10=z1-z0;
-	d1=sqrt(x10*x10+y10*y10+z10*z10);
-	x20=x2-x0;
-	y20=y2-y0;
-	z20=z2-z0;
-	d2=sqrt(x20*x20+y20*y20+z20*z20);
-	nx=x10/d1;
-	ny=y10/d1;
-	nz=z10/d1;
-	n2x=x20/d2;
-	n2y=y20/d2;
-	n2z=z20/d2;
-	c2=nx*n2x+ny*n2y+nz*n2z;
-	s2=sqrt(1.0-c2*c2);
-	u2=d2*c2;
-	u1=d1;
-	v2=d2*s2;
-	kx=(n2x-c2*nx)/s2;
-	ky=(n2y-c2*ny)/s2;
-	kz=(n2z-c2*nz)/s2;
-	x0-=x;
-	y0-=y;
-	z0-=z;
-	u3=nx*x0+ny*y0+nz*z0;
-	v3=kx*x0+ky*y0+kz*z0;	
-	zz=x0*x0+y0*y0+z0*z0-u3*u3-v3*v3;
-	if(zz<ZZERO) zz=ZZERO;
-	v4=v2+v3;
-	Pt=(u2-u1)/v2;
-	Pb=u2/v2;
-	ppt=sqrt(1.0+Pt*Pt);
-	ppb=sqrt(1.0+Pb*Pb);
-	qt=(u3+u1-Pt*v3)/ppt;
-	qb=(u3-Pb*v3)/ppb;
-	wtt=ppt*v4+Pt*qt;
-	wtb=ppb*v4+Pb*qb;
-	wbt=ppt*v3+Pt*qt;
-	wbb=ppb*v3+Pb*qb;
-	pt=Pt/ppt;
-	pb=Pb/ppb;
-	Vt=sqrt((1.0+pt)/(1.0-pt));
-	Vb=sqrt((1.0+pb)/(1.0-pb));  
-	res=ff0(wtt,wbt,wtb,wbb,qt,qb,Vt,Vb,zz);
-    return res;
+double c_lplgf_cc1(float dst[3],float vrt0[3],float vrt1[3],float vrt2[3]) {
+    double x0,y0, z0;
+    double x10,y10,z10,x20,y20,z20;
+    double nx,ny,nz,kx,ky,kz,n2x,n2y,n2z;
+    double d1,d2,c2,s2,u2,u1,v2,zz,u3,v3,v4;
+    double Pt,pt,pb,qt,qb,Pb,ppt,ppb,wtt,wbb,wtb,wbt,Vb,Vt,res;
 
+    x10=vrt1[0]-vrt0[0];
+    y10=vrt1[1]-vrt0[1];
+    z10=vrt1[2]-vrt0[2];
+    x20=vrt2[0]-vrt0[0];
+    y20=vrt2[1]-vrt0[1];
+    z20=vrt2[2]-vrt0[2];
+    x0=vrt0[0]-dst[0];
+    y0=vrt0[1]-dst[1];
+    z0=vrt0[2]-dst[2];
+
+
+    d1=sqrt(x10*x10+y10*y10+z10*z10);
+    d2=sqrt(x20*x20+y20*y20+z20*z20);
+    nx=x10/d1;
+    ny=y10/d1;
+    nz=z10/d1;
+    n2x=x20/d2;
+    n2y=y20/d2;
+    n2z=z20/d2;
+    c2=nx*n2x+ny*n2y+nz*n2z;
+    s2=sqrt(1.0-c2*c2);
+    u2=d2*c2;
+    u1=d1;
+    v2=d2*s2;
+    kx=(n2x-c2*nx)/s2;
+    ky=(n2y-c2*ny)/s2;
+    kz=(n2z-c2*nz)/s2;
+    u3=nx*x0+ny*y0+nz*z0;
+    v3=kx*x0+ky*y0+kz*z0;	
+    zz=x0*x0+y0*y0+z0*z0-u3*u3-v3*v3;
+    if(zz<ZZERO) zz=ZZERO;
+    v4=v2+v3;
+    Pt=(u2-u1)/v2;
+    Pb=u2/v2;
+    ppt=sqrt(1.0+Pt*Pt);
+    ppb=sqrt(1.0+Pb*Pb);
+    qt=(u3+u1-Pt*v3)/ppt;
+    qb=(u3-Pb*v3)/ppb;
+    wtt=ppt*v4+Pt*qt;
+    wtb=ppb*v4+Pb*qb;
+    wbt=ppt*v3+Pt*qt;
+    wbb=ppb*v3+Pb*qb;
+    pt=Pt/ppt;
+    pb=Pb/ppb;
+    Vt=sqrt((1.0+pt)/(1.0-pt));
+    Vb=sqrt((1.0+pb)/(1.0-pb));  
+    res=ff0(wtt,wbt,wtb,wbb,qt,qb,Vt,Vb,zz);
+    return res;
 }
+
 //maple checked!!!
-inline static dbl psi(dbl s,dbl u,dbl v,dbl w2) {
-    dbl vv=(1.0-v*v);
-    dbl dd=w2*vv-u*u;
-    dbl d=sqrt(dd);
-    dbl r=sqrt(s*s+w2);
-    dbl b=r+v*s+u;
-    dbl a=d*(r*v+s);
-    dbl c=dd+u*b;
+inline static double psi(double s,double u,double v,double w2) {
+    double vv=(1.0-v*v);
+    double dd=w2*vv-u*u;
+    double d=sqrt(dd);
+    double r=sqrt(s*s+w2);
+    double b=r+v*s+u;
+    double a=d*(r*v+s);
+    double c=dd+u*b;
     return -s*vv+(s*vv-v*u)*log(b)-u*log(r-s)+d*atan2(a,c);
 };
 /* psi0(s,u,w)= psi(s,u,0,w) */
-inline static dbl psi0(dbl s,dbl u,dbl w2) {
-    dbl dd=w2-u*u;
-    dbl d=sqrt(dd);
-    dbl r=sqrt(s*s+w2);
-    dbl b=r+u;
-    dbl a=d*s;
-    dbl c=dd+u*b;
+inline static double psi0(double s,double u,double w2) {
+    double dd=w2-u*u;
+    double d=sqrt(dd);
+    double r=sqrt(s*s+w2);
+    double b=r+u;
+    double a=d*s;
+    double c=dd+u*b;
     return -s+s*log(b)-u*log(r-s)+d*atan2(a,c);
 };
 /* triangle */
-inline static dbl pot_patch0(dbl a,dbl p,dbl h,dbl x,dbl y,dbl z2) {
-    dbl sR,sL,w2L,w2R,uL,uR,vL,vR;
-    dbl a1L,a2L,a1R,a2R;
-    dbl aL,bL,aR,bR;
+inline static double pot_patch0(double a,double p,double h,double x,double y,double z2) {
+    double sR,sL,w2L,w2R,uL,uR,vL,vR;
+    double a1L,a2L,a1R,a2R;
+    double aL,bL,aR,bR;
     aL=p/h;aR=(p-a)/h;
     bL=aL*y-x;bR=aR*y-x+a;
     a2R=1.0+aR*aR;
@@ -145,10 +146,10 @@ inline static dbl pot_patch0(dbl a,dbl p,dbl h,dbl x,dbl y,dbl z2) {
     return h*log(a1R/a1L)+(psi(sR+h,uR,vR,w2R)-psi(sR,uR,vR,w2R))*a2R+(psi(sL,uL,vL,w2L)-psi(sL+h,uL,vL,w2L))*a2L;
 };
 /* parallelogram */
-inline static dbl pot_patch1(dbl a,dbl p,dbl h,dbl x,dbl y,dbl z2) {
-    dbl sR,sL,w2L,w2R,uL,uR,vL;
-    dbl a1L,a2L;
-    dbl aL,bL,bR;
+inline static double pot_patch1(double a,double p,double h,double x,double y,double z2) {
+    double sR,sL,w2L,w2R,uL,uR,vL;
+    double a1L,a2L;
+    double aL,bL,bR;
     aL=p/h;
     bL=aL*y-x;bR=bL+a;
     a2L=1.0+aL*aL;
@@ -163,9 +164,9 @@ inline static dbl pot_patch1(dbl a,dbl p,dbl h,dbl x,dbl y,dbl z2) {
     return (psi(sR+h,uR,vL,w2R)-psi(sR,uR,vL,w2R)+psi(sL,uL,vL,w2L)-psi(sL+h,uL,vL,w2L))*a2L;
 };
 /* rectangular, p=0 */
-inline static dbl pot_patch2(dbl a,dbl h,dbl x,dbl y,dbl z2) {
-    dbl sR,sL,w2L,w2R,uL,uR;
-    dbl bL,bR;
+inline static double pot_patch2(double a,double h,double x,double y,double z2) {
+    double sR,sL,w2L,w2R,uL,uR;
+    double bL,bR;
     bL=-x;bR=-x+a;
     sR=-y;
     sL=-y;
@@ -175,10 +176,10 @@ inline static dbl pot_patch2(dbl a,dbl h,dbl x,dbl y,dbl z2) {
     uL=bL;
     return psi0(sR+h,uR,w2R)-psi0(sR,uR,w2R)+psi0(sL,uL,w2L)-psi0(sL+h,uL,w2L);
 };
-inline static dbl pot_patch0(dbl a,dbl p,dbl h,dbl x,dbl y,dbl z2) {
-    dbl sR,sL,w2L,w2R,uL,uR,vL,vR;
-    dbl a1L,a2L,a1R,a2R;
-    dbl aL,bL,aR,bR;
+inline static double pot_patch0(double a,double p,double h,double x,double y,double z2) {
+    double sR,sL,w2L,w2R,uL,uR,vL,vR;
+    double a1L,a2L,a1R,a2R;
+    double aL,bL,aR,bR;
     aL=p/h;aR=(p-a)/h;
     bL=aL*y-x;bR=aR*y-x+a;
     a2R=1.0+aR*aR;
@@ -200,10 +201,10 @@ inline static dbl pot_patch0(dbl a,dbl p,dbl h,dbl x,dbl y,dbl z2) {
 
 
 
-dbl pot_patch_t(v3_flt pnt,patch_flt patch) {
+double pot_patch_t(v3_flt pnt,patch_flt patch) {
     v3_flt k,n,m;
-    dbl a,h,p,r2;
-    dbl x,y,z,zz;
+    double a,h,p,r2;
+    double x,y,z,zz;
     a=sqrt(v3_dot_flt(patch[1],patch[1]));
     r2=v3_dot_flt(patch[2],patch[2]);
     k[0]=patch[1][0]/a;k[1]=patch[1][1]/a;k[2]=patch[1][2]/a;
@@ -221,10 +222,10 @@ dbl pot_patch_t(v3_flt pnt,patch_flt patch) {
     return pot_patch0(a,p,h,x,y,zz);
 }
 /* parallelogram */
-inline static dbl pot_patch1(dbl a,dbl p,dbl h,dbl x,dbl y,dbl z2) {
-    dbl sR,sL,w2L,w2R,uL,uR,vL;
-    dbl a1L,a2L;
-    dbl aL,bL,bR;
+inline static double pot_patch1(double a,double p,double h,double x,double y,double z2) {
+    double sR,sL,w2L,w2R,uL,uR,vL;
+    double a1L,a2L;
+    double aL,bL,bR;
     aL=p/h;
     bL=aL*y-x;bR=bL+a;
     a2L=1.0+aL*aL;
@@ -239,9 +240,9 @@ inline static dbl pot_patch1(dbl a,dbl p,dbl h,dbl x,dbl y,dbl z2) {
     return (psi(sR+h,uR,vL,w2R)-psi(sR,uR,vL,w2R)+psi(sL,uL,vL,w2L)-psi(sL+h,uL,vL,w2L))*a2L;
 };
 /* rectangular, p=0 */
-inline static dbl pot_patch2(dbl a,dbl h,dbl x,dbl y,dbl z2) {
-    dbl sR,sL,w2L,w2R,uL,uR;
-    dbl bL,bR;
+inline static double pot_patch2(double a,double h,double x,double y,double z2) {
+    double sR,sL,w2L,w2R,uL,uR;
+    double bL,bR;
     bL=-x;bR=-x+a;
     sR=-y;
     sL=-y;
@@ -252,10 +253,10 @@ inline static dbl pot_patch2(dbl a,dbl h,dbl x,dbl y,dbl z2) {
     return psi0(sR+h,uR,w2R)-psi0(sR,uR,w2R)+psi0(sL,uL,w2L)-psi0(sL+h,uL,w2L);
 };
 /* parallelogramm */
-dbl pot_patch_p(v3_flt pnt,patch_flt patch) {
+double pot_patch_p(v3_flt pnt,patch_flt patch) {
     v3_flt k,n,m;
-    dbl a,h,p,r2;
-    dbl x,y,z,zz;
+    double a,h,p,r2;
+    double x,y,z,zz;
     a=sqrt(v3_dot_flt(patch[1],patch[1]));
     r2=v3_dot_flt(patch[2],patch[2]);
     k[0]=patch[1][0]/a;k[1]=patch[1][1]/a;k[2]=patch[1][2]/a;
@@ -273,10 +274,10 @@ dbl pot_patch_p(v3_flt pnt,patch_flt patch) {
     return pot_patch1(a,p,h,x,y,zz);
 }
 /* rectangular p=0*/
-dbl pot_patch_r(v3_flt pnt,patch_flt patch) {
+double pot_patch_r(v3_flt pnt,patch_flt patch) {
     v3_flt k,n,m;
-    dbl a,h,p,r2;
-    dbl x,y,z,zz;
+    double a,h,p,r2;
+    double x,y,z,zz;
     a=sqrt(v3_dot_flt(patch[1],patch[1]));
     r2=v3_dot_flt(patch[2],patch[2]);
     k[0]=patch[1][0]/a;k[1]=patch[1][1]/a;k[2]=patch[1][2]/a;

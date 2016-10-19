@@ -8,14 +8,10 @@
 /* Green functions for Laplace equation integrated
  * over triangle with constant unit charge distribution
  */
-
-double trgint0(double x,double y,double z,
-             double x0,double y0,double z0,
-             double x1,double y1,double z1,
-             double x2,double y2,double z2);
-dbl pot_patch_t(v3_flt pnt,patch_flt patch);/* trg, unit charge density */
-dbl pot_patch_p(v3_flt pnt,patch_flt patch);/* parallelogramm, unit charge density
+double c_lplgf_cc1(float dst[3],float vrt0[3],float vrt1[3],float vrt2[3]);
+double pot_patch_t(v3_flt pnt,patch_flt patch);/* trg, unit charge density */
+double pot_patch_p(v3_flt pnt,patch_flt patch);/* parallelogramm, unit charge density
 not used actually*/
-dbl pot_patch_r(v3_flt pnt,patch_flt patch);/* rectangular, unit charge density */
+double pot_patch_r(v3_flt pnt,patch_flt patch);/* rectangular, unit charge density */
 
 #endif

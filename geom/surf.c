@@ -30,9 +30,9 @@ int make_surf(t_surf* s,int T,int N) {
     s->tvec=ALLOC_MEM(int,3*T);
     if(0==s->tvec) {ret=-4;goto abend;}
     s->nv=N;
-    s->vvec=ALLOC_MEM(t_f32,3*N);
+    s->vvec=ALLOC_MEM(float,3*N);
     if(0==s->vvec) {ret=-5;goto abend;}
-    s->nvec=ALLOC_MEM(t_f32,3*N);
+    s->nvec=ALLOC_MEM(float,3*N);
     if(0==s->nvec) {ret=-6;goto abend;}
     return 0;
 abend:
@@ -43,8 +43,8 @@ abend:
 int cp_surf(t_surf* dst,t_surf* src) {
     if(make_surf(dst,src->nt,src->nv)) return -1;
     memcpy(dst->tvec,src->tvec,3*src->nt*sizeof(int));
-    memcpy(dst->vvec,src->vvec,3*src->nv*sizeof(t_f32));
-    memcpy(dst->nvec,src->nvec,3*src->nv*sizeof(t_f32));
+    memcpy(dst->vvec,src->vvec,3*src->nv*sizeof(float));
+    memcpy(dst->nvec,src->nvec,3*src->nv*sizeof(float));
     return 0;
 }
 int write_surf(t_surf *s,char * fname) {
@@ -56,8 +56,8 @@ int write_surf(t_surf *s,char * fname) {
     l=3*s->nt;
     if(fwrite(s->tvec,sizeof(int),l,fp)!= l) return -2;
     l=3*s->nv;
-    if(fwrite(s->vvec,sizeof(t_f32),l,fp)!= l) return -3;
-    if(fwrite(s->nvec,sizeof(t_f32),l,fp)!= l) return -4;
+    if(fwrite(s->vvec,sizeof(float),l,fp)!= l) return -3;
+    if(fwrite(s->nvec,sizeof(float),l,fp)!= l) return -4;
     fclose(fp);
     return 0;
 }
@@ -72,8 +72,8 @@ int read_surf(t_surf *s,char * fname) {
     l=3*t;
     if(fread(s->tvec,sizeof(int), l,fp)!= l) {ret=-3;goto abend;}
     l=3*n;
-    if(fread(s->vvec,sizeof(t_f32), l,fp)!= l) {ret=-4;goto abend;}
-    if(fread(s->nvec,sizeof(t_f32), l,fp)!= l) {ret=-4;goto abend;}
+    if(fread(s->vvec,sizeof(float), l,fp)!= l) {ret=-4;goto abend;}
+    if(fread(s->nvec,sizeof(float), l,fp)!= l) {ret=-4;goto abend;}
     ret=0;
 abend:
     fclose(fp);    
@@ -98,11 +98,11 @@ int print_surf(t_surf *s,char * fname) {
 int  mk_tetrahedron(t_surf *s) {
     int nt=4,nv=4,j;
     int vt[]={0,1,2,0,3,1,0,2,3,1,3,2};
-    t_f32 vv[]={ 0.577350259,0.577350259,0.577350259,
+    float vv[]={ 0.577350259,0.577350259,0.577350259,
 	0.577350259,     -0.577350259,     -0.577350259,
 	-0.577350259 ,     0.577350259,     -0.577350259,
 	-0.577350259,     -0.577350259,      0.577350259};
-    t_f32 vn[]=  {0.577350318,      0.577350318,      0.577350318,    
+    float vn[]=  {0.577350318,      0.577350318,      0.577350318,    
 	0.577350318,     -0.577350318,     -0.577350318,    
 	-0.577350318,      0.577350318,     -0.577350318,    
 	-0.577350318,     -0.577350318,      0.577350318};    
@@ -140,7 +140,7 @@ int mk_hexahedron(t_surf *s) {
           13,           7,           5,
           13,           5,           1,
           13,           1,           3};
-    t_f32 vv[]={   0.577350259     ,  0.577350259     ,  0.577350259     ,
+    float vv[]={   0.577350259     ,  0.577350259     ,  0.577350259     ,
   0.577350259     ,  0.577350259     , -0.577350259     ,
   0.577350259     , -0.577350259     ,  0.577350259     ,
   0.577350259     , -0.577350259     , -0.577350259     ,
@@ -155,7 +155,7 @@ int mk_hexahedron(t_surf *s) {
    0.00000000     ,   0.00000000     ,  0.577350259     ,
    0.00000000     ,   0.00000000     , -0.577350259     
 };
-    t_f32 vn[]=  { 0.577350318     ,  0.577350318     ,  0.577350318     ,
+    float vn[]=  { 0.577350318     ,  0.577350318     ,  0.577350318     ,
   0.577350318     ,  0.577350318     , -0.577350318     ,
   0.577350318     , -0.577350318     ,  0.577350318     ,
   0.577350318     , -0.577350318     , -0.577350318     ,
@@ -188,13 +188,13 @@ int mk_octahedron(t_surf *s) {
            5 ,           1 ,           2 ,
            4 ,           1 ,           3 ,
            5 ,           3 ,           1 };
-    t_f32 vv[]={  1.00000000     ,   0.00000000     ,   0.00000000     ,
+    float vv[]={  1.00000000     ,   0.00000000     ,   0.00000000     ,
   -1.00000000     ,   0.00000000     ,   0.00000000     ,
    0.00000000     ,   1.00000000     ,   0.00000000     ,
    0.00000000     ,  -1.00000000     ,   0.00000000     ,
    0.00000000     ,   0.00000000     ,   1.00000000     ,
    0.00000000     ,   0.00000000     ,  -1.00000000 };
-    t_f32 vn[]={ 1.00000000     ,   0.00000000     ,   0.00000000     ,
+    float vn[]={ 1.00000000     ,   0.00000000     ,   0.00000000     ,
   -1.00000000     ,   0.00000000     ,   0.00000000     ,
    0.00000000     ,   1.00000000     ,   0.00000000     ,
    0.00000000     ,  -1.00000000     ,   0.00000000     ,
@@ -272,7 +272,7 @@ int mk_dodecahedron(t_surf *s) {
           31 ,          13 ,          12 ,
           31 ,          12 ,          11 ,
           31 ,          11 ,           1 };
-    t_f32 vv[]={ 0.356822103     , -0.934172392     ,   0.00000000     ,
+    float vv[]={ 0.356822103     , -0.934172392     ,   0.00000000     ,
  -0.356822103     , -0.934172392     ,   0.00000000     ,
  -0.577350259     , -0.577350259     ,  0.577350259     ,
    0.00000000     , -0.356822103     ,  0.934172392     ,
@@ -304,7 +304,7 @@ int mk_dodecahedron(t_surf *s) {
   0.675973535     , -0.417774558     ,   0.00000000     ,
  -0.675973475     ,  0.417774558     ,   0.00000000     ,
  -0.675973535     , -0.417774558     ,   0.00000000  };
-    t_f32 vn[]={  0.356822103     , -0.934172392     ,   0.00000000     ,
+    float vn[]={  0.356822103     , -0.934172392     ,   0.00000000     ,
  -0.356822103     , -0.934172392     ,   0.00000000     ,
  -0.577350318     , -0.577350318     ,  0.577350318     ,
    0.00000000     , -0.356822103     ,  0.934172392     ,
@@ -366,7 +366,7 @@ int mk_icosahedron(t_surf *s) {
            5 ,           8 ,           9 ,
            6 ,          10 ,          11 ,
            7 ,          11 ,          10 };
-    t_f32 vv[]={   0.00000000     ,  0.850650847     ,  0.525731146     ,
+    float vv[]={   0.00000000     ,  0.850650847     ,  0.525731146     ,
    0.00000000     ,  0.850650847     , -0.525731146     ,
    0.00000000     , -0.850650847     ,  0.525731146     ,
    0.00000000     , -0.850650847     , -0.525731146     ,
@@ -378,7 +378,7 @@ int mk_icosahedron(t_surf *s) {
   0.850650847     , -0.525731146     ,   0.00000000     ,
  -0.850650847     ,  0.525731146     ,   0.00000000     ,
  -0.850650847     , -0.525731146     ,   0.00000000 };
-    t_f32 vn[]={   0.00000000     ,  0.850650847     ,  0.525731146     ,
+    float vn[]={   0.00000000     ,  0.850650847     ,  0.525731146     ,
    0.00000000     ,  0.850650847     , -0.525731146     ,
    0.00000000     , -0.850650847     ,  0.525731146     ,
    0.00000000     , -0.850650847     , -0.525731146     ,
@@ -399,10 +399,10 @@ int mk_icosahedron(t_surf *s) {
     return 0;
 }
 
-t_f32 trg_norm(t_v3 w,t_surf *s,int t) {
+float trg_norm(t_v3 w,t_surf *s,int t) {
     t_v3 u,v; 
     int i,v0,v1,v2;
-    t_f32 a;
+    float a;
     v0=s->tvec[3*t+0];
     v1=s->tvec[3*t+1];
     v2=s->tvec[3*t+2];
@@ -467,7 +467,7 @@ int get_trg_pair(int * first,int * second,int * lst,int nc,t_surf *s,int v) {
 /* returns number of vertices removed */
 int remove_repeated_vertices(t_surf *s, int vstart) {
     int i,j,k,m,n,nr,new_nv;
- //   t_f32 d;
+ //   float d;
     new_nv=s->nv;
     nr=0;
     for(i=vstart;i<s->nv;i++) {
@@ -496,8 +496,8 @@ int remove_repeated_vertices(t_surf *s, int vstart) {
     }
     if(nr) {
 	s->nv=new_nv;
-	s->vvec=(t_f32 *) realloc(s->vvec,3*new_nv);
-	s->nvec=(t_f32 *) realloc(s->nvec,3*new_nv);
+	s->vvec=(float *) realloc(s->vvec,3*new_nv);
+	s->nvec=(float *) realloc(s->nvec,3*new_nv);
     }
     return nr;
 }
@@ -649,7 +649,7 @@ int get_vrt_con(int *nvc,t_clst *vcvec,t_surf *s) {
 }
 int get_vrt_betw(int *nvc,t_clst *vcvec,t_surf *s,int k1,int k2) {
     int nmin,j,k;
-    t_f32 xx,yy,zz,x,y,z,x1,x2,y1,y2,z1,z2,d;
+    float xx,yy,zz,x,y,z,x1,x2,y1,y2,z1,z2,d;
     x1=s->vvec[3*k1];
     x2=s->vvec[3*k2];	
     y1=s->vvec[3*k1+1];
@@ -675,7 +675,7 @@ int get_vrt_betw(int *nvc,t_clst *vcvec,t_surf *s,int k1,int k2) {
 
 
 inline static int new_vert(t_surf *s,int n,int m,int k) {
-    t_f32 a,b;
+    float a,b;
     int j,ret;
     a=dot3(s->nvec+3*m,s->nvec+3*k);
     if(a>-1.0f+MIN_NORM) {
@@ -694,7 +694,7 @@ inline static int new_vert(t_surf *s,int n,int m,int k) {
 
 int refine2(t_surf *s,t_surf *sold,int *nvc,t_clst *vcvec) {
     int i,k,v0,v1,v2,ret,n,u0,u1,u2,j,m,v;
-  //  t_f32 x1,y1,z1,x2,y2,z2;
+  //  float x1,y1,z1,x2,y2,z2;
     n=sold->nv;
     for(j=0;j<sold->nv;j++) n+=nvc[j];/* new vertex count */
     if(make_surf(s,4*sold->nt,n)) return -1;
@@ -746,12 +746,12 @@ int refine2(t_surf *s,t_surf *sold,int *nvc,t_clst *vcvec) {
     return ret;
 }
 
-int check_normals(t_f32 * d,t_surf *s) {
+int check_normals(float * d,t_surf *s) {
     int n0,n1,n2;
     int t,i;
     int ret=0;
     t_v3 w1,w2;
-    t_f32 a;
+    float a;
     for(t=0;t<s->nt;t++) {
 	a= trg_norm(w1,s,t);
 	if(a==0.0f) return -1;
@@ -771,8 +771,8 @@ int check_normals(t_f32 * d,t_surf *s) {
 void mk_unit_sphere(t_surf *s) {
     t_v3 cnt,w1;
     int j,i;
-    t_f32 a=1.0/s->nv;
-    t_f32 b;
+    float a=1.0/s->nv;
+    float b;
     for(i=0;i<3;i++) cnt[i]=0.0;
     for(j=0;j<s->nv;j++) {
 	for(i=0;i<3;i++) cnt[i]+=s->vvec[3*j+i];

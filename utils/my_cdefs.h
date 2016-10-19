@@ -25,8 +25,6 @@
 #define HPT(a,b) (sqrt(SQR(a)+SQR(b)))
 #define ARG(a,b) atan2(a,b)
 
-typedef float Cfl[2];
-typedef double Cdb[2];
 /* used in ogl */
 typedef float t_v3[3];
 typedef float t_v4[4];
@@ -41,6 +39,15 @@ typedef float t_m4[16];/* column major matrix:
 			* m[2] m[6] m[10] m[14]
 			* m[3] m[7] m[11] m[15]
 			*/
+
+
+#if 0
+/* data types */
+typedef float t_c32[2];
+typedef double t_c64[2];
+
+typedef float Cfl[2];
+typedef double Cdb[2];
 typedef unsigned int t_u32;
 typedef double	t_f64;
 typedef float	t_f32;
@@ -49,10 +56,6 @@ typedef unsigned char t_u08;
 typedef int  t_i32;
 typedef unsigned long long t_u64;
 
-#if 0
-/* data types */
-typedef t_f32 t_c32[2];
-typedef t_f64 t_c64[2];
 /* high resolution timer */
 double cpu_clock();
 #define STRLENGTH 80
