@@ -25,42 +25,31 @@
 #define HPT(a,b) (sqrt(SQR(a)+SQR(b)))
 #define ARG(a,b) atan2(a,b)
 
-/* used in ogl */
-typedef float t_v3[3];
-typedef float t_v4[4];
-typedef float t_m3[9];	/* column major matrix:
+/* basic types */
+typedef double	Dbl;
+typedef float	Flt;
+typedef int	Int;
+typedef char	Chr;
+
+/* small derived types */
+typedef Flt Cflt[2];
+typedef Dbl Cdbl[2];
+
+typedef Flt FVec2[2];
+typedef Flt FVec3[3];
+typedef Flt FVec4[4];
+typedef Flt FMat3[9];  /* column major matrix:
 			* m[0] m[3] m[6]
 			* m[1] m[4] m[7]
 			* m[2] m[5] m[8]
 			*/ 
-typedef float t_m4[16];/* column major matrix:
+typedef Flt FMat4[16];  /* column major matrix:
 			* m[0] m[4] m[8]  m[12]
 			* m[1] m[5] m[9]  m[13]
 			* m[2] m[6] m[10] m[14]
 			* m[3] m[7] m[11] m[15]
 			*/
 
-
-#if 0
-/* data types */
-typedef float t_c32[2];
-typedef double t_c64[2];
-
-typedef float Cfl[2];
-typedef double Cdb[2];
-typedef unsigned int t_u32;
-typedef double	t_f64;
-typedef float	t_f32;
-typedef char	t_i08;
-typedef unsigned char t_u08;
-typedef int  t_i32;
-typedef unsigned long long t_u64;
-
-/* high resolution timer */
-double cpu_clock();
-#define STRLENGTH 80
-#define TINY_F64 1.0e-20
-#endif
 /* 
  * Mathematical constant
  */ 
@@ -84,6 +73,40 @@ double cpu_clock();
 # define MATH_TINY_NUMBER    1.0e-300 /* practically 0 */
 # define MATH_LARGE_NUMBER    1.0e30  /* practically infinity */
 # define MATH_SMALL_NUMBER    1.0e-30 /* practically 0 */
+
+#if 0
+
+/* used in ogl */
+typedef float t_v3[3];
+typedef float t_v4[4];
+typedef float t_m3[9];	/* column major matrix:
+			* m[0] m[3] m[6]
+			* m[1] m[4] m[7]
+			* m[2] m[5] m[8]
+			*/ 
+typedef float t_m4[16];/* column major matrix:
+			* m[0] m[4] m[8]  m[12]
+			* m[1] m[5] m[9]  m[13]
+			* m[2] m[6] m[10] m[14]
+			* m[3] m[7] m[11] m[15]
+			*/
+
+
+/* data types */
+typedef float t_c32[2];
+typedef double t_c64[2];
+
+typedef unsigned int t_u32;
+typedef unsigned char t_u08;
+typedef int  t_i32;
+typedef unsigned long long t_u64;
+
+/* high resolution timer */
+double cpu_clock();
+#define STRLENGTH 80
+#define TINY_F64 1.0e-20
+#endif
+
 
 #endif
 
