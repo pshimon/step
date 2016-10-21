@@ -131,7 +131,7 @@ int main(int argc, char* argv[]){
  
     Vec3F v; 
     int ret,i;
-    t_surf s;
+    TSurf s;
     Flt rmax,fct=1.1,r;
      int width=800, height=600;
   Flt dx=0.1;
@@ -150,10 +150,10 @@ int main(int argc, char* argv[]){
     }
     printf ("(glfw) Renderer: %s\n", glGetString (GL_RENDERER));
     printf ("(glfw) OpenGL version supported %s\n",glGetString (GL_VERSION) );
-    init_surf(&s);
-    ret=read_surf(&s,argv[1]);
+    iniTSurf(&s);
+    ret=readTSurf(&s,argv[1]);
     if(ret) {
-	fprintf(stderr,"read_surf returns %d\n",ret);
+	fprintf(stderr,"readTSurf returns %d\n",ret);
 	exit(1);
     }
     nv=s.nv;

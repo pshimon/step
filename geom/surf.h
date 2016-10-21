@@ -22,35 +22,35 @@ typedef struct {
     float * nvec;/* normal vec(3*nv)*/
     int nt; /* number of triangles */
     int nv; /* number of vertices */
-} t_surf;
+} TSurf;
 
 /* unintialized variable may contain garbage */
-int init_surf(t_surf* s);
+int iniTSurf(TSurf* s);
 /* to avoid memory leaks */
-void clean_surf(t_surf* s); 
+void cleanTSurf(TSurf* s); 
 /* creates empty surface */
-int make_surf(t_surf* s,int T,int N);
-int cp_surf(t_surf* dst,t_surf*src);
+int makeTSurf(TSurf* s,int T,int N);
+int cpTSurf(TSurf* dst,TSurf*src);
 /* binary */
-int write_surf(t_surf *s,char * fname);
-int read_surf(t_surf *s,char * fname);
-int print_surf(t_surf *s,char * fname);
-int mk_tetrahedron(t_surf *s);
-int mk_hexahedron(t_surf *s);
-int mk_octahedron(t_surf *s);
-int mk_dodecahedron(t_surf *s);
-int mk_icosahedron(t_surf *s);
+int writeTSurf(TSurf *s,char * fname);
+int readTSurf(TSurf *s,char * fname);
+int prinTSurf(TSurf *s,char * fname);
+int mk_tetrahedron(TSurf *s);
+int mk_hexahedron(TSurf *s);
+int mk_octahedron(TSurf *s);
+int mk_dodecahedron(TSurf *s);
+int mk_icosahedron(TSurf *s);
 
 /* rerturns are of trg */
-float trg_norm(Vec3F w,t_surf *s,int t);
+float trg_norm(Vec3F w,TSurf *s,int t);
 /* array lst must be of  MAX_CONNECT length at least*/
-int get_trgs(int * lst,t_surf *s,int v);
-int get_trg_pair(int * first,int * second,int * lst,int nc,t_surf *s,int v);
-int remove_repeated_vertices(t_surf *s, int vstart);
-int get_trg_con(int *ntc,t_clst *tcvec,t_surf *s);
-int get_vrt_con(int *nvc,t_clst *vcvec,t_surf *s);
-int get_vrt_betw(int *nvc,t_clst *vcvec,t_surf *s,int k1,int k2);
-int refine2(t_surf *s,t_surf *sold,int *nvc,t_clst *vcvec);
-int check_normals(float * d,t_surf *s);
-void mk_unit_sphere(t_surf *s);
+int get_trgs(int * lst,TSurf *s,int v);
+int get_trg_pair(int * first,int * second,int * lst,int nc,TSurf *s,int v);
+int remove_repeated_vertices(TSurf *s, int vstart);
+int get_trg_con(int *ntc,t_clst *tcvec,TSurf *s);
+int get_vrt_con(int *nvc,t_clst *vcvec,TSurf *s);
+int get_vrt_betw(int *nvc,t_clst *vcvec,TSurf *s,int k1,int k2);
+int refine2(TSurf *s,TSurf *sold,int *nvc,t_clst *vcvec);
+int check_normals(float * d,TSurf *s);
+void mk_unit_sphere(TSurf *s);
 #endif

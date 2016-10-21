@@ -8,7 +8,7 @@
 int main(int argc,char * argv[]) {
     int ret,i;
     Flt * dist;
-    t_surf * s=ALLOC_MEM0(t_surf,1);
+    TSurf * s=ALLOC_MEM0(TSurf,1);
     ret=mk_tetrahedron(s);
     dist=ALLOC_MEM(Flt,s->nt);
     ret=check_normals(dist,s);
@@ -18,8 +18,8 @@ int main(int argc,char * argv[]) {
     else 
 	for(i=0;i<s->nt;i++) printf("\t%d\t%e\n",i,dist[i]);
     FREE_MEM(dist);
-    //ret=print_surf(s,"tetrahedron.tsa");
-    ret=write_surf(s,"tetrahedron.tsb");
+    //ret=prinTSurf(s,"tetrahedron.tsa");
+    ret=writeTSurf(s,"tetrahedron.tsb");
 
     ret=mk_hexahedron(s);
     dist=ALLOC_MEM(Flt,s->nt);
@@ -31,8 +31,8 @@ int main(int argc,char * argv[]) {
 	for(i=0;i<s->nt;i++) printf("\t%d\t%e\n",i,dist[i]);
     FREE_MEM(dist);
 
-    //ret=print_surf(s,"hexahedron.tsa");
-    ret=write_surf(s,"hexahedron.tsb");
+    //ret=prinTSurf(s,"hexahedron.tsa");
+    ret=writeTSurf(s,"hexahedron.tsb");
 
     ret=mk_octahedron(s);
    dist=ALLOC_MEM(Flt,s->nt);
@@ -44,8 +44,8 @@ int main(int argc,char * argv[]) {
 	for(i=0;i<s->nt;i++) printf("\t%d\t%e\n",i,dist[i]);
     FREE_MEM(dist);
 
-    //ret=print_surf(s,"octahedron.tsa");
-    ret=write_surf(s,"octahedron.tsb");
+    //ret=prinTSurf(s,"octahedron.tsa");
+    ret=writeTSurf(s,"octahedron.tsb");
 
     ret=mk_dodecahedron(s);
     dist=ALLOC_MEM(Flt,s->nt);
@@ -57,8 +57,8 @@ int main(int argc,char * argv[]) {
 	for(i=0;i<s->nt;i++) printf("\t%d\t%e\n",i,dist[i]);
     FREE_MEM(dist);
 
-    //ret=print_surf(s,"dodecahedron.tsa");
-    ret=write_surf(s,"dodecahedron.tsb");
+    //ret=prinTSurf(s,"dodecahedron.tsa");
+    ret=writeTSurf(s,"dodecahedron.tsb");
 
     ret=mk_icosahedron(s);
 
@@ -72,8 +72,8 @@ int main(int argc,char * argv[]) {
     FREE_MEM(dist);
   
 
-    //ret=print_surf(s,"icosahedron.tsa");
-    ret=write_surf(s,"icosahedron.tsb");
+    //ret=prinTSurf(s,"icosahedron.tsa");
+    ret=writeTSurf(s,"icosahedron.tsb");
 
     return 0;
 }

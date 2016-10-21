@@ -163,7 +163,7 @@ void display_cb(void){
     glutSwapBuffers();
 }
 /*
-int read_sphere(t_surf *s,char * fname) {
+int read_sphere(TSurf *s,char * fname) {
     FILE *fp=fopen(fname,"rb");
     int n,t,ret,j;
     size_t l;
@@ -171,7 +171,7 @@ int read_sphere(t_surf *s,char * fname) {
     if(fp==0) return -1;
     if(fread(&t,sizeof(int),1,fp)!=1) {ret=-5;goto abend;}
     if(fread(&n,sizeof(int),1,fp)!=1) {ret=-5;goto abend;}
-    if(make_surf(s,t,n)) {ret=-2;goto abend;}
+    if(makeTSurf(s,t,n)) {ret=-2;goto abend;}
     l=3*t;
     if(fread(s->tvec,sizeof(int), l,fp)!= l) {ret=-3;goto abend;}
     l=3*n;
@@ -197,7 +197,7 @@ int main(int argc, char* argv[]){
     int handle; 
     Vec3F v; 
     int ret,i;
-    t_surf s;
+    TSurf s;
     Flt rmax,fct=1.1,r;
     handle=glut_init_window(&argc,argv);
     if(handle<1) {
@@ -211,10 +211,10 @@ int main(int argc, char* argv[]){
 	fprintf(stderr,"usage: %s surf \n",argv[0]);
 	exit(1);
     }
-    init_surf(&s);
-    ret=read_surf(&s,argv[1]);
+    iniTSurf(&s);
+    ret=readTSurf(&s,argv[1]);
     if(ret) {
-	fprintf(stderr,"read_surf returns %d\n",ret);
+	fprintf(stderr,"readTSurf returns %d\n",ret);
 	exit(1);
     }
     nv=s.nv;

@@ -5,14 +5,14 @@
 ***********************************************************/
 #include "surf.h"
 #include "geom.h"
-int init_surf(t_surf* s) {
+int iniTSurf(TSurf* s) {
     if(s==0) return -1;
     s->vvec=0;s->nvec=0;s->nv=0;
     s->tvec=0;s->nt=0;
     return 0;
 }
 
-void clean_surf(t_surf* s) {
+void cleanTSurf(TSurf* s) {
     if(s==0) return;
     FREE_MEM(s->vvec);
     FREE_MEM(s->tvec);
@@ -20,10 +20,10 @@ void clean_surf(t_surf* s) {
     s->nt=0;s->nv=0;
 }
 
-int make_surf(t_surf* s,int T,int N) {
+int makeTSurf(TSurf* s,int T,int N) {
     int ret;
     if(0==s) return -1;
-    clean_surf(s);
+    cleanTSurf(s);
     if(N<3) {ret=-2;goto abend;}
     if(T<1) {ret=-3;goto abend;}
     s->nt=T;
@@ -36,18 +36,18 @@ int make_surf(t_surf* s,int T,int N) {
     if(0==s->nvec) {ret=-6;goto abend;}
     return 0;
 abend:
-     clean_surf(s);
+     cleanTSurf(s);
     return ret;   
 }
 
-int cp_surf(t_surf* dst,t_surf* src) {
-    if(make_surf(dst,src->nt,src->nv)) return -1;
+int cpTSurf(TSurf* dst,TSurf* src) {
+    if(makeTSurf(dst,src->nt,src->nv)) return -1;
     memcpy(dst->tvec,src->tvec,3*src->nt*sizeof(int));
     memcpy(dst->vvec,src->vvec,3*src->nv*sizeof(float));
     memcpy(dst->nvec,src->nvec,3*src->nv*sizeof(float));
     return 0;
 }
-int write_surf(t_surf *s,char * fname) {
+int writeTSurf(TSurf *s,char * fname) {
     FILE *fp=fopen(fname,"wb");
     size_t l;
     if(fp==0) return -1;
@@ -61,14 +61,14 @@ int write_surf(t_surf *s,char * fname) {
     fclose(fp);
     return 0;
 }
-int read_surf(t_surf *s,char * fname) {
+int readTSurf(TSurf *s,char * fname) {
     FILE *fp=fopen(fname,"rb");
     int n,t,ret;
     size_t l;
     if(fp==0) return -1;
     if(fread(&t,sizeof(int),1,fp)!=1) {ret=-5;goto abend;}
     if(fread(&n,sizeof(int),1,fp)!=1) {ret=-5;goto abend;}
-    if(make_surf(s,t,n)) {ret=-2;goto abend;}
+    if(makeTSurf(s,t,n)) {ret=-2;goto abend;}
     l=3*t;
     if(fread(s->tvec,sizeof(int), l,fp)!= l) {ret=-3;goto abend;}
     l=3*n;
@@ -80,7 +80,7 @@ abend:
     return ret;
 }
 
-int print_surf(t_surf *s,char * fname) {
+int prinTSurf(TSurf *s,char * fname) {
     FILE *fp=fopen(fname,"w");
     int j;
     if(fp==0) return -1;
@@ -95,7 +95,7 @@ int print_surf(t_surf *s,char * fname) {
     return 0;
 }
 
-int  mk_tetrahedron(t_surf *s) {
+int  mk_tetrahedron(TSurf *s) {
     int nt=4,nv=4,j;
     int vt[]={0,1,2,0,3,1,0,2,3,1,3,2};
     float vv[]={ 0.577350259,0.577350259,0.577350259,
@@ -106,7 +106,7 @@ int  mk_tetrahedron(t_surf *s) {
 	0.577350318,     -0.577350318,     -0.577350318,    
 	-0.577350318,      0.577350318,     -0.577350318,    
 	-0.577350318,     -0.577350318,      0.577350318};    
-    if(make_surf(s,nt,nv)) return -1;
+    if(makeTSurf(s,nt,nv)) return -1;
     for(j=0;j<3*nt;j++)    s->tvec[j]=vt[j];
     for(j=0;j<3*nv;j++)  {
 	s->vvec[j]=vv[j];
@@ -114,7 +114,7 @@ int  mk_tetrahedron(t_surf *s) {
     }
     return 0;
 }
-int mk_hexahedron(t_surf *s) {
+int mk_hexahedron(TSurf *s) {
     int nt=24,nv=14,j;
     int vt[]={8,           0,           2,
            8,           2,           3,
@@ -169,7 +169,7 @@ int mk_hexahedron(t_surf *s) {
    0.00000000     ,  -1.00000000     ,   0.00000000     ,
    0.00000000     ,   0.00000000     ,   1.00000000     ,
    0.00000000     ,   0.00000000     ,  -1.00000000     };    
-    if(make_surf(s,nt,nv)) return -1;
+    if(makeTSurf(s,nt,nv)) return -1;
     for(j=0;j<3*nt;j++)    s->tvec[j]=vt[j];
     for(j=0;j<3*nv;j++)  {
 	s->vvec[j]=vv[j];
@@ -178,7 +178,7 @@ int mk_hexahedron(t_surf *s) {
     return 0;
 }
  
-int mk_octahedron(t_surf *s) {
+int mk_octahedron(TSurf *s) {
     int nt=8,nv=6,j;
     int vt[]={          4 ,           0 ,           2 ,
            5 ,           2 ,           0 ,
@@ -200,7 +200,7 @@ int mk_octahedron(t_surf *s) {
    0.00000000     ,  -1.00000000     ,   0.00000000     ,
    0.00000000     ,   0.00000000     ,   1.00000000     ,
    0.00000000     ,   0.00000000     ,  -1.00000000     };
-    if(make_surf(s,nt,nv)) return -1;
+    if(makeTSurf(s,nt,nv)) return -1;
     for(j=0;j<3*nt;j++)    s->tvec[j]=vt[j];
     for(j=0;j<3*nv;j++)  {
 	s->vvec[j]=vv[j];
@@ -209,7 +209,7 @@ int mk_octahedron(t_surf *s) {
     return 0;
 }
 
-int mk_dodecahedron(t_surf *s) {
+int mk_dodecahedron(TSurf *s) {
     int nt=60,nv=32,j;
     int vt[]={ 
           20 ,          7 ,           14 ,
@@ -336,7 +336,7 @@ int mk_dodecahedron(t_surf *s) {
   0.850650787     , -0.525731027     ,   0.00000000     ,
  -0.850650787     ,  0.525731087     ,   0.00000000     ,
  -0.850650787     , -0.525731027     ,   0.00000000    };
-    if(make_surf(s,nt,nv)) return -1;
+    if(makeTSurf(s,nt,nv)) return -1;
     for(j=0;j<3*nt;j++)    s->tvec[j]=vt[j];
     for(j=0;j<3*nv;j++)  {
 	s->vvec[j]=vv[j];
@@ -344,7 +344,7 @@ int mk_dodecahedron(t_surf *s) {
     }
     return 0;
 }
-int mk_icosahedron(t_surf *s) {
+int mk_icosahedron(TSurf *s) {
     int nt=20,nv=12,j;
     int vt[]={         0 ,           4 ,           8 ,
            0 ,           8 ,           1 ,
@@ -390,7 +390,7 @@ int mk_icosahedron(t_surf *s) {
   0.850650847     , -0.525731146     ,   0.00000000     ,
  -0.850650847     ,  0.525731146     ,   0.00000000     ,
  -0.850650847     , -0.525731146     ,   0.00000000 };
-    if(make_surf(s,nt,nv)) return -1;
+    if(makeTSurf(s,nt,nv)) return -1;
     for(j=0;j<3*nt;j++)    s->tvec[j]=vt[j];
     for(j=0;j<3*nv;j++)  {
 	s->vvec[j]=vv[j];
@@ -399,7 +399,7 @@ int mk_icosahedron(t_surf *s) {
     return 0;
 }
 
-float trg_norm(Vec3F w,t_surf *s,int t) {
+float trg_norm(Vec3F w,TSurf *s,int t) {
     Vec3F u,v; 
     int i,v0,v1,v2;
     float a;
@@ -421,7 +421,7 @@ float trg_norm(Vec3F w,t_surf *s,int t) {
     }
 } 
 
-int get_tvec(int * lst,t_surf *s,int v) {
+int get_tvec(int * lst,TSurf *s,int v) {
     int count,t,v0,v1,v2;
     count=0;
     for(t=0;t<s->nt;t++) {
@@ -439,7 +439,7 @@ int get_tvec(int * lst,t_surf *s,int v) {
     }
     return count;
 }
-int get_trg_pair(int * first,int * second,int * lst,int nc,t_surf *s,int v) {
+int get_trg_pair(int * first,int * second,int * lst,int nc,TSurf *s,int v) {
     int count,t,v0,v1,v2,i;
     count=0;
     *first=-1;
@@ -465,7 +465,7 @@ int get_trg_pair(int * first,int * second,int * lst,int nc,t_surf *s,int v) {
 }
 
 /* returns number of vertices removed */
-int remove_repeated_vertices(t_surf *s, int vstart) {
+int remove_repeated_vertices(TSurf *s, int vstart) {
     int i,j,k,m,n,nr,new_nv;
  //   float d;
     new_nv=s->nv;
@@ -502,7 +502,7 @@ int remove_repeated_vertices(t_surf *s, int vstart) {
     return nr;
 }
 
-int get_trg_con(int *ntc,t_clst *tcvec,t_surf *s) {
+int get_trg_con(int *ntc,t_clst *tcvec,TSurf *s) {
     int n0,n1,n2,k,n,i;
     if(ntc==0) return -1;
     if(tcvec==0) return -2; 
@@ -535,7 +535,7 @@ int get_trg_con(int *ntc,t_clst *tcvec,t_surf *s) {
 }
 
 
-int get_vrt_con(int *nvc,t_clst *vcvec,t_surf *s) {
+int get_vrt_con(int *nvc,t_clst *vcvec,TSurf *s) {
     int n0,n1,n2,k,n,key,i;
     if(nvc==0) return -1;
     if(vcvec==0) return -2; 
@@ -647,7 +647,7 @@ int get_vrt_con(int *nvc,t_clst *vcvec,t_surf *s) {
     } 	
     return 0;
 }
-int get_vrt_betw(int *nvc,t_clst *vcvec,t_surf *s,int k1,int k2) {
+int get_vrt_betw(int *nvc,t_clst *vcvec,TSurf *s,int k1,int k2) {
     int nmin,j,k;
     float xx,yy,zz,x,y,z,x1,x2,y1,y2,z1,z2,d;
     x1=s->vvec[3*k1];
@@ -674,7 +674,7 @@ int get_vrt_betw(int *nvc,t_clst *vcvec,t_surf *s,int k1,int k2) {
 
 
 
-inline static int new_vert(t_surf *s,int n,int m,int k) {
+inline static int new_vert(TSurf *s,int n,int m,int k) {
     float a,b;
     int j,ret;
     a=dot3(s->nvec+3*m,s->nvec+3*k);
@@ -692,12 +692,12 @@ inline static int new_vert(t_surf *s,int n,int m,int k) {
     return ret;
 }
 
-int refine2(t_surf *s,t_surf *sold,int *nvc,t_clst *vcvec) {
+int refine2(TSurf *s,TSurf *sold,int *nvc,t_clst *vcvec) {
     int i,k,v0,v1,v2,ret,n,u0,u1,u2,j,m,v;
   //  float x1,y1,z1,x2,y2,z2;
     n=sold->nv;
     for(j=0;j<sold->nv;j++) n+=nvc[j];/* new vertex count */
-    if(make_surf(s,4*sold->nt,n)) return -1;
+    if(makeTSurf(s,4*sold->nt,n)) return -1;
     for(i=0;i<3*sold->nv;i++) {
 	s->vvec[i]=sold->vvec[i];
 	s->nvec[i]=sold->nvec[i];
@@ -746,7 +746,7 @@ int refine2(t_surf *s,t_surf *sold,int *nvc,t_clst *vcvec) {
     return ret;
 }
 
-int check_normals(float * d,t_surf *s) {
+int check_normals(float * d,TSurf *s) {
     int n0,n1,n2;
     int t,i;
     Vec3F w1,w2;
@@ -767,7 +767,7 @@ int check_normals(float * d,t_surf *s) {
     return 0;
 }
     
-void mk_unit_sphere(t_surf *s) {
+void mk_unit_sphere(TSurf *s) {
     Vec3F cnt,w1;
     int j,i;
     float a=1.0/s->nv;
