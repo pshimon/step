@@ -399,8 +399,8 @@ int mk_icosahedron(t_surf *s) {
     return 0;
 }
 
-float trg_norm(t_v3 w,t_surf *s,int t) {
-    t_v3 u,v; 
+float trg_norm(Vec3F w,t_surf *s,int t) {
+    Vec3F u,v; 
     int i,v0,v1,v2;
     float a;
     v0=s->tvec[3*t+0];
@@ -749,8 +749,7 @@ int refine2(t_surf *s,t_surf *sold,int *nvc,t_clst *vcvec) {
 int check_normals(float * d,t_surf *s) {
     int n0,n1,n2;
     int t,i;
-    int ret=0;
-    t_v3 w1,w2;
+    Vec3F w1,w2;
     float a;
     for(t=0;t<s->nt;t++) {
 	a= trg_norm(w1,s,t);
@@ -769,7 +768,7 @@ int check_normals(float * d,t_surf *s) {
 }
     
 void mk_unit_sphere(t_surf *s) {
-    t_v3 cnt,w1;
+    Vec3F cnt,w1;
     int j,i;
     float a=1.0/s->nv;
     float b;

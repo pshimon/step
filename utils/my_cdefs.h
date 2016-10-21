@@ -35,15 +35,15 @@ typedef char	Chr;
 typedef Flt Cflt[2];
 typedef Dbl Cdbl[2];
 
-typedef Flt FVec2[2];
-typedef Flt FVec3[3];
-typedef Flt FVec4[4];
-typedef Flt FMat3[9];  /* column major matrix:
+typedef Flt Vec2F[2];
+typedef Flt Vec3F[3];
+typedef Flt Vec4F[4];
+typedef Flt Mat3F[9];  /* column major matrix:
 			* m[0] m[3] m[6]
 			* m[1] m[4] m[7]
 			* m[2] m[5] m[8]
 			*/ 
-typedef Flt FMat4[16];  /* column major matrix:
+typedef Flt Mat4F[16];  /* column major matrix:
 			* m[0] m[4] m[8]  m[12]
 			* m[1] m[5] m[9]  m[13]
 			* m[2] m[6] m[10] m[14]

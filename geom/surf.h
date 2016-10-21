@@ -42,7 +42,7 @@ int mk_dodecahedron(t_surf *s);
 int mk_icosahedron(t_surf *s);
 
 /* rerturns are of trg */
-float trg_norm(t_v3 w,t_surf *s,int t);
+float trg_norm(Vec3F w,t_surf *s,int t);
 /* array lst must be of  MAX_CONNECT length at least*/
 int get_trgs(int * lst,t_surf *s,int v);
 int get_trg_pair(int * first,int * second,int * lst,int nc,t_surf *s,int v);

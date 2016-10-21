@@ -25,7 +25,7 @@ inline static float norm4(float * u) {/* |u| */
     return sqrtf(u[0]*u[0]+u[1]*u[1]+u[2]*u[2]+u[3]*u[3]);
 }
 inline static float dist3(float *u,float  *v) {/* |u-v|*/
-    t_v3 w;
+    Vec3F w;
     w[0]=u[0]-v[0]; w[1]=u[1]-v[1]; w[2]=u[2]-v[2];
     return norm3(w);
 }
@@ -61,7 +61,7 @@ inline static void mxm3(float * c,float * a,float * b) {/* c=a*b */
 /* a in rads */
 inline static void rotm3(float * m,float * v,float a) {
     int i,j;
-    t_v3 u;
+    Vec3F u;
     float c,s;
     c=cosf(a);
     s=sinf(a);
@@ -109,7 +109,7 @@ inline static void setv4(float * v4,float * v3,float a) {/* v4=(v3,a) */
 /* a in rads */
 inline static void rotm4(float * m,float * v,float a) {
     int i,j;
-    t_v3 u;
+    Vec3F u;
     float c,s;
     c=cosf(a);
     s=sinf(a);  
@@ -199,8 +199,8 @@ inline static void proj_mat(float * m,float fovy,float aspect_ratio, float near_
     m[11] = -1;
     m[14] = -((2 * near_plane * far_plane) / frustum_length);
 }
-inline static void lookat(float * m,t_v3 eye,t_v3 cnt,t_v3 up) { 
-    t_v3 f,s,u;
+inline static void lookat(float * m,Vec3F eye,Vec3F cnt,Vec3F up) { 
+    Vec3F f,s,u;
     int i;
     float a;
     for(i=0;i<3;i++) f[i]=cnt[i]-eye[i];
@@ -221,7 +221,7 @@ inline static void lookat(float * m,t_v3 eye,t_v3 cnt,t_v3 up) {
     m[indf4(3,2)] =-dot3(f, eye);
 }
 
-inline static void m3_from_m4(t_m3 m1,t_m4 m2) {
+inline static void m3_from_m4(Mat3F m1,Mat4F m2) {
     int i,j;
     for(i=0;i<3;i++)
 	for(j=0;j<3;j++)

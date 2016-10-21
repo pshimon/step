@@ -7,10 +7,10 @@
 #include "geom.h"
 int main(int argc,char * argv[]) {
     int ret,i;
-    t_f32 * dist;
+    Flt * dist;
     t_surf * s=ALLOC_MEM0(t_surf,1);
     ret=mk_tetrahedron(s);
-    dist=ALLOC_MEM(t_f32,s->nt);
+    dist=ALLOC_MEM(Flt,s->nt);
     ret=check_normals(dist,s);
     printf("tetrahedron\n");
     if(ret) 
@@ -22,7 +22,7 @@ int main(int argc,char * argv[]) {
     ret=write_surf(s,"tetrahedron.tsb");
 
     ret=mk_hexahedron(s);
-    dist=ALLOC_MEM(t_f32,s->nt);
+    dist=ALLOC_MEM(Flt,s->nt);
     ret=check_normals(dist,s);
     printf("hexahedron\n");
     if(ret) 
@@ -35,7 +35,7 @@ int main(int argc,char * argv[]) {
     ret=write_surf(s,"hexahedron.tsb");
 
     ret=mk_octahedron(s);
-   dist=ALLOC_MEM(t_f32,s->nt);
+   dist=ALLOC_MEM(Flt,s->nt);
     ret=check_normals(dist,s);
     printf("octahedron\n");
     if(ret) 
@@ -48,7 +48,7 @@ int main(int argc,char * argv[]) {
     ret=write_surf(s,"octahedron.tsb");
 
     ret=mk_dodecahedron(s);
-    dist=ALLOC_MEM(t_f32,s->nt);
+    dist=ALLOC_MEM(Flt,s->nt);
     ret=check_normals(dist,s);
     printf("dodecahedron\n");
     if(ret) 
@@ -62,7 +62,7 @@ int main(int argc,char * argv[]) {
 
     ret=mk_icosahedron(s);
 
-  dist=ALLOC_MEM(t_f32,s->nt);
+  dist=ALLOC_MEM(Flt,s->nt);
     ret=check_normals(dist,s);
     printf("icosahedron\n");
     if(ret) 

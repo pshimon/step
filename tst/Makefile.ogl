@@ -3,7 +3,7 @@
 # http://industrialphys.com                                           ##
 # THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           ##
 ########################################################################
-ROOTDIR:=../step
+ROOTDIR:=..
 include $(ROOTDIR)/makefile.def
 include $(ROOTDIR)/makefile.gcc
 include $(ROOTDIR)/makefile.rules

@@ -76,7 +76,7 @@ void ogl_make_buffs(GLuint vaoid[],GLuint vboid[],int nv,int nt,float * vvec,flo
     glBufferData(GL_ARRAY_BUFFER, (3 * nv) * sizeof(float), nvec, GL_STATIC_DRAW);
     /* triangles */
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboid[2]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, (3*nt) * sizeof(t_u32), tvec, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, (3*nt) * sizeof(int), tvec, GL_STATIC_DRAW);
 
     // Create the VAO
     glGenVertexArrays( 1, vaoid );
@@ -104,13 +104,13 @@ void ogl_delete_buffs(GLuint vaoid[],GLuint vboid[]) {
     glBindVertexArray(0);
     glDeleteVertexArrays(1, vaoid);
 }
-void ogl_set_uniform_m4(GLuint pid,const char * name,t_m4 val) { 
+void ogl_set_uniform_m4(GLuint pid,const char * name,Mat4F val) { 
     GLuint loc=glGetUniformLocation(pid,name);
     glUniformMatrix4fv(loc, 1, GL_FALSE,val);
 }
 
 void ogl_print_log(GLuint sid) {
-    GLuint maxloglen,loglen;
+    GLint maxloglen,loglen;
     GLchar * log;
     glGetShaderiv(sid, GL_INFO_LOG_LENGTH, &maxloglen);
     log = ALLOC_MEM(GLchar,maxloglen);
@@ -121,7 +121,7 @@ void ogl_print_log(GLuint sid) {
     exit(1);
 }
 
-void ogl_set_uniform_m3(GLuint pid,const char * name,t_m3 val) { 
+void ogl_set_uniform_m3(GLuint pid,const char * name,Mat3F val) { 
     GLuint loc=glGetUniformLocation(pid,name);
     glUniformMatrix3fv(loc, 1, GL_FALSE,val);
 }
