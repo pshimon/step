@@ -9,6 +9,7 @@ int main(int argc,char * argv[]) {
     int s[ARRAY_MAX_RANK],r;
     int ret,i;
     float maxdiff,diff;
+    char str[30];
     AFlt a,b;
     initAFlt(&a);
     initAFlt(&b);
@@ -21,14 +22,14 @@ int main(int argc,char * argv[]) {
 	printf("\n");
 	for(i=0;i<ARRAY_SHAPE_LENGTH;i++) printf("%d ",a.stride[i]);
 	printf("\n");
-
 	for(i=0;i<a.stride[r];i++) a.data[i]=0.001*i;
-	ret=writeAFlt(&a,"arr_tmp.bin");
+	sprintf(str,"arr_%d.bin",r);
+	ret=writeAFlt(&a,str);
 	if(ret) {
 	    fprintf(stderr,"writeAFlt returns %d\n",ret);
 	    exit(1);
 	}
-	ret=readAFlt(&b,"arr_tmp.bin");
+	ret=readAFlt(&b,str);
 	if(ret) {
 	    fprintf(stderr,"readAFlt returns %d\n",ret);
 	    exit(1);

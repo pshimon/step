@@ -8,6 +8,12 @@
 #include "my_cdefs.h"
 #define ARRAY_MAX_RANK 7		// no need to change that	
 #define ARRAY_SHAPE_LENGTH (ARRAY_MAX_RANK+1) //8 no need to change that
+#define Chr_LBL	    0
+#define Flt_LBL	    16
+#define Dbl_LBL	    32
+#define Cflt_LBL    48
+#define Cdbl_LBL    64
+#define Int_LBL	    80
 
 /* C-style index: i1=0,n1-1,i2=0,n2-1,... col-major */
 
