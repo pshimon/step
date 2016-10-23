@@ -8,7 +8,7 @@ include $(ROOTDIR)/makefile.def
 include $(ROOTDIR)/makefile.gcc
 include $(ROOTDIR)/makefile.rules
 LSTC:= arr.c
-LSTF:=fdefs.f90 farr.f90
+LSTF:=fdefs.f90 farr.f90 cdata.f90
 SLST:=$(LSTF:.f90=.$(OEXT)) $(LSTC:.c=.$(OEXT))
 SLIB:=alib.$(LEXT)
 LSTBC:=arr-test.c
