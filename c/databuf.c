@@ -3,21 +3,21 @@
 * http://industrialphys.com                                           **
 * THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           **
 ***********************************************************************/
-#include "arr.h"
+#include "databuf.h"
 /* float arrays */
 
-void initAFlt(AFlt *a) {
+void initDataBufFlt(DataBufFlt *a) {
     int i;
     a->data=0;
     for(i=0;i<ARRAY_SHAPE_LENGTH;i++)a->shape[i]=1;
     for(i=0;i<ARRAY_SHAPE_LENGTH;i++)a->stride[i]=0;
 }
-void cleanAFlt(AFlt *a) {
+void cleanDataBufFlt(DataBufFlt *a) {
     FREE_MEM(a->data);
-    initAFlt(a);
+    initDataBufFlt(a);
 }
 
-int makeAFlt(AFlt *a,int rank,int ind[]) {//ind[] should be of length rank at least
+int makeDataBufFlt(DataBufFlt *a,int rank,int ind[]) {//ind[] should be of length rank at least
     int i,oldsize,newsize,oldrank;
     oldrank=a->shape[0]-Flt_LBL;
     oldsize=a->stride[oldrank];
@@ -39,7 +39,7 @@ int makeAFlt(AFlt *a,int rank,int ind[]) {//ind[] should be of length rank at le
     return 0;
 }
 
-int writeAFlt(AFlt *a,char *file) {
+int writeDataBufFlt(DataBufFlt *a,char *file) {
     FILE* fp;
     size_t n;
     int ret,rank;
@@ -56,7 +56,7 @@ abend:
     return ret;
 }
 
-int readAFlt(AFlt *a,char *file) {
+int readDataBufFlt(DataBufFlt *a,char *file) {
     int ret,s[ARRAY_SHAPE_LENGTH],rank;
     FILE* fp;
     size_t n;
@@ -65,7 +65,7 @@ int readAFlt(AFlt *a,char *file) {
     n=ARRAY_SHAPE_LENGTH;
     if(fread(s,sizeof(int),n,fp)!=n) {ret=-2;goto abend;}   //shape
     rank=s[0]-Flt_LBL;
-    if(makeAFlt(a,rank,s+1)){ret=-3;goto abend;};
+    if(makeDataBufFlt(a,rank,s+1)){ret=-3;goto abend;};
     n=a->stride[rank];//total size
     if(fread(a->data,sizeof(Flt),n,fp)!=n) {ret=-4;goto abend;}//data
     ret=0;

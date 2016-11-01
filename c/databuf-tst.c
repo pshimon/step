@@ -3,20 +3,20 @@
 * http://industrialphys.com                                *
 * THE SOFTWARE IS PROVIDED "AS IS",USE IT AT YOUR OWN RISK *
 ***********************************************************/
-#include "arr.h"
+#include "databuf.h"
 
 int main(int argc,char * argv[]) {
     int s[ARRAY_MAX_RANK],r;
     int ret,i;
     float maxdiff,diff;
     char str[30];
-    AFlt a,b;
-    initAFlt(&a);
-    initAFlt(&b);
+    DataBufFlt a,b;
+    initDataBufFlt(&a);
+    initDataBufFlt(&b);
     for(i=0;i<ARRAY_MAX_RANK;i++) s[i]=i+2;
     for(r=1;r<=ARRAY_MAX_RANK;r++) {
 	printf("rank=%d\n",r);
-	makeAFlt(&a,r,s);
+	makeDataBufFlt(&a,r,s);
 	printf("initial arr\n");
 	for(i=0;i<ARRAY_SHAPE_LENGTH;i++) printf("%d ",a.shape[i]);
 	printf("\n");
@@ -24,14 +24,14 @@ int main(int argc,char * argv[]) {
 	printf("\n");
 	for(i=0;i<a.stride[r];i++) a.data[i]=0.001*i;
 	sprintf(str,"arr_%d.bin",r);
-	ret=writeAFlt(&a,str);
+	ret=writeDataBufFlt(&a,str);
 	if(ret) {
-	    fprintf(stderr,"writeAFlt returns %d\n",ret);
+	    fprintf(stderr,"writeDataBufFlt returns %d\n",ret);
 	    exit(1);
 	}
-	ret=readAFlt(&b,str);
+	ret=readDataBufFlt(&b,str);
 	if(ret) {
-	    fprintf(stderr,"readAFlt returns %d\n",ret);
+	    fprintf(stderr,"readDataBufFlt returns %d\n",ret);
 	    exit(1);
 	}
 	printf("final arr\n");
