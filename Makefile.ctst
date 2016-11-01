@@ -3,17 +3,17 @@
 # http://industrialphys.com                                           ##
 # THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           ##
 ########################################################################
-ROOTDIR:=..
+ROOTDIR:=../step
 include $(ROOTDIR)/makefile.def
 include $(ROOTDIR)/makefile.gcc
 include $(ROOTDIR)/makefile.rules
 # C library sources
-LSTC:= databuf.c # ogl.c  ogl_glut.c  read_bytes.c   surf.c 
+LSTC:= databuf.c ogl.c ogl_glut.c  ogl_glfw.c read_bytes.c surf.c 
 SLST:=$(LSTC:.c=.$(OEXT))
 #static library name
 SLIB:=stepclib.$(LEXT)
 # C program sources
-LSTBC:=databuf-tst.c# draw_surf1.c surf-test.c
+LSTBC:=databuf-tst.c draw_surf1.c draw_surf2.c surf-test.c
 TRG:=$(LSTBC:.c=.$(BEXT))
 all:$(TRG)  
 $(SLIB): $(SLST) 
@@ -22,9 +22,13 @@ $(TRG):$(SLIB)
 clean:	
 	$(RM) *.$(LEXT) *.$(BEXT) *.$(MEXT) *.$(OEXT) *.$(SHEXT)
 #special treatment
-draw_surf1.$(BEXT): draw_surf1.c $(ULIB) $(GLIB)
-	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS) $(LM)
 
+GLLIBS:=  -lGL -lglut -lGLEW
+GLLIBS2:=  -lGL -lglfw -lGLEW
+draw_surf1.$(BEXT): draw_surf1.c 
+	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS) $(LM)
+draw_surf2.$(BEXT): draw_surf2.c 
+	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS2) $(LM)
 
 
 

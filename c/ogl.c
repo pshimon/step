@@ -104,7 +104,7 @@ void ogl_delete_buffs(GLuint vaoid[],GLuint vboid[]) {
     glBindVertexArray(0);
     glDeleteVertexArrays(1, vaoid);
 }
-void ogl_set_uniform_m4(GLuint pid,const char * name,Mat4F val) { 
+void ogl_set_uniform_m4(GLuint pid,const char * name,Mat4Flt val) { 
     GLuint loc=glGetUniformLocation(pid,name);
     glUniformMatrix4fv(loc, 1, GL_FALSE,val);
 }
@@ -121,7 +121,7 @@ void ogl_print_log(GLuint sid) {
     exit(1);
 }
 
-void ogl_set_uniform_m3(GLuint pid,const char * name,Mat3F val) { 
+void ogl_set_uniform_m3(GLuint pid,const char * name,Mat3Flt val) { 
     GLuint loc=glGetUniformLocation(pid,name);
     glUniformMatrix3fv(loc, 1, GL_FALSE,val);
 }

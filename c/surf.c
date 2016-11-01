@@ -4,7 +4,7 @@
 * THE SOFTWARE IS PROVIDED "AS IS",USE IT AT YOUR OWN RISK *
 ***********************************************************/
 #include "surf.h"
-#include "geom.h"
+
 int iniTSurf(TSurf* s) {
     if(s==0) return -1;
     s->vvec=0;s->nvec=0;s->nv=0;
@@ -399,8 +399,8 @@ int mk_icosahedron(TSurf *s) {
     return 0;
 }
 
-float trg_norm(Vec3F w,TSurf *s,int t) {
-    Vec3F u,v; 
+float trg_norm(Vec3Flt w,TSurf *s,int t) {
+    Vec3Flt u,v; 
     int i,v0,v1,v2;
     float a;
     v0=s->tvec[3*t+0];
@@ -749,7 +749,7 @@ int refine2(TSurf *s,TSurf *sold,int *nvc,t_clst *vcvec) {
 int check_normals(float * d,TSurf *s) {
     int n0,n1,n2;
     int t,i;
-    Vec3F w1,w2;
+    Vec3Flt w1,w2;
     float a;
     for(t=0;t<s->nt;t++) {
 	a= trg_norm(w1,s,t);
@@ -768,7 +768,7 @@ int check_normals(float * d,TSurf *s) {
 }
     
 void mk_unit_sphere(TSurf *s) {
-    Vec3F cnt,w1;
+    Vec3Flt cnt,w1;
     int j,i;
     float a=1.0/s->nv;
     float b;

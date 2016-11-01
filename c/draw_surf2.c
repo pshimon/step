@@ -38,36 +38,36 @@ GLchar* fs_src =
     }";
 
 GLuint pid;/* program id */
-Mat4F  pm = {
+Mat4Flt  pm = {
   1, 0, 0, 0,
   0, 1, 0, 0,
   0, 0, 1, 0,
   0, 0, 0, 1
 } ;
 
-Mat4F  vm = {
+Mat4Flt  vm = {
   1, 0, 0, 0,
   0, 1, 0, 0,
   0, 0, 1, 0,
   0, 0, 0, 1
 } ;
 
-Mat4F  mm = {
+Mat4Flt  mm = {
   1, 0, 0, 0,
   0, 1, 0, 0,
   0, 0, 1, 0,
   0, 0, 0, 1
 } ;
-Mat3F  nm = {
+Mat3Flt  nm = {
   1, 0, 0,
   0, 1, 0,
   0, 0, 1} ;
 int nv,nt;
-Vec3F cl0={0.5f,0.5f,0.5f};/* clean color (gray)*/
-Vec3F cl1={1.0f,0.0f,0.0f};/* surface color (red)*/
-Vec3F cl2={1.0f,1.0f,1.0f};/* wire frame color (white)*/
-Vec3F lc={1.0f,1.0f,1.0f}; /* light color */
-Vec3F ld={0.0f,0.0f,1.0f};/* light direction */
+Vec3Flt cl0={0.5f,0.5f,0.5f};/* clean color (gray)*/
+Vec3Flt cl1={1.0f,0.0f,0.0f};/* surface color (red)*/
+Vec3Flt cl2={1.0f,1.0f,1.0f};/* wire frame color (white)*/
+Vec3Flt lc={1.0f,1.0f,1.0f}; /* light color */
+Vec3Flt ld={0.0f,0.0f,1.0f};/* light direction */
 Flt left,right,top,bot,near,far;
 Flt ax=0.0f;
 Flt ay=0.0f;
@@ -95,8 +95,8 @@ void resize_cb(int w, int h) {
 }
 
 static void render(){
-    Vec3F v;
-    Mat4F m1,m2;
+    Vec3Flt v;
+    Mat4Flt m1,m2;
     v[0]=1.0f;v[1]=0.0f;v[2]=0.0f;
     rotm4(m1, v,ax);
     v[0]=0.0f;v[1]=1.0f;v[2]=0.0f;
@@ -129,7 +129,7 @@ static void render(){
 
 int main(int argc, char* argv[]){
  
-    Vec3F v; 
+    Vec3Flt v; 
     int ret,i;
     TSurf s;
     Flt rmax,fct=1.1,r;

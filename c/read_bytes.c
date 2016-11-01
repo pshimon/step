@@ -3,7 +3,7 @@
 * http://industrialphys.com                                           **
 * THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           **
 ***********************************************************************/
-#include "my_cdefs.h"
+#include "databuf.h"
 char * read_bytes(char* filename) {
     FILE* infile;	
     int len;

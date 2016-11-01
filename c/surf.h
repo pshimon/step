@@ -5,7 +5,6 @@
 ***********************************************************************/
 #ifndef SURF_H
 #define SURF_H
-#include "my_cdefs.h" 
 #include "geom.h"
 /* if distance between points is less than MIN_DIST 
  * they are considered coinciding
@@ -42,7 +41,7 @@ int mk_dodecahedron(TSurf *s);
 int mk_icosahedron(TSurf *s);
 
 /* rerturns are of trg */
-float trg_norm(Vec3F w,TSurf *s,int t);
+float trg_norm(Vec3Flt w,TSurf *s,int t);
 /* array lst must be of  MAX_CONNECT length at least*/
 int get_trgs(int * lst,TSurf *s,int v);
 int get_trg_pair(int * first,int * second,int * lst,int nc,TSurf *s,int v);
