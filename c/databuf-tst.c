@@ -5,33 +5,34 @@
 ***********************************************************/
 #include "databuf.h"
 
+
 int main(int argc,char * argv[]) {
     int s[ARRAY_MAX_RANK],r;
     int ret,i;
     float maxdiff,diff;
     char str[30];
-    DataBufFlt a,b;
-    initDataBufFlt(&a);
-    initDataBufFlt(&b);
+    DataBufDbl a,b;
+    initDataBufDbl(&a);
+    initDataBufDbl(&b);
     for(i=0;i<ARRAY_MAX_RANK;i++) s[i]=i+2;
     for(r=1;r<=ARRAY_MAX_RANK;r++) {
 	printf("rank=%d\n",r);
-	makeDataBufFlt(&a,r,s);
+	makeDataBufDbl(&a,r,s);
 	printf("initial arr\n");
 	for(i=0;i<ARRAY_SHAPE_LENGTH;i++) printf("%d ",a.shape[i]);
 	printf("\n");
 	for(i=0;i<ARRAY_SHAPE_LENGTH;i++) printf("%d ",a.stride[i]);
 	printf("\n");
 	for(i=0;i<a.stride[r];i++) a.data[i]=0.001*i;
-	sprintf(str,"arr_%d.bin",r);
-	ret=writeDataBufFlt(&a,str);
+	sprintf(str,"DataBufDbl%d.bin",r);
+	ret=writeDataBufDbl(&a,str);
 	if(ret) {
-	    fprintf(stderr,"writeDataBufFlt returns %d\n",ret);
+	    fprintf(stderr,"writeDataBufDbl returns %d\n",ret);
 	    exit(1);
 	}
-	ret=readDataBufFlt(&b,str);
+	ret=readDataBufDbl(&b,str);
 	if(ret) {
-	    fprintf(stderr,"readDataBufFlt returns %d\n",ret);
+	    fprintf(stderr,"readDataBufDbl returns %d\n",ret);
 	    exit(1);
 	}
 	printf("final arr\n");

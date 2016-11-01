@@ -116,7 +116,35 @@ int makeDataBufFlt(DataBufFlt *a,int rank,int ind[]);//ind[] should be of length
 int writeDataBufFlt(DataBufFlt *a,char *file);
 int readDataBufFlt(DataBufFlt *a,char *file);
 
+/* doubles */
 
+typedef Dbl Vec2Dbl[2];
+typedef Dbl Vec3Dbl[3];
+typedef Dbl Vec4Dbl[4];
+typedef Dbl Mat3Dbl[9];  /* column major matrix:
+			* m[0] m[3] m[6]
+			* m[1] m[4] m[7]
+			* m[2] m[5] m[8]
+			*/ 
+typedef Dbl Mat4Dbl[16];  /* column major matrix:
+			* m[0] m[4] m[8]  m[12]
+			* m[1] m[5] m[9]  m[13]
+			* m[2] m[6] m[10] m[14]
+			* m[3] m[7] m[11] m[15]
+			*/
+
+/* data buffer */
+typedef struct  {
+    Dbl *data;
+    int shape[ARRAY_SHAPE_LENGTH];//shape[0]=rank+data_lbl
+    int stride[ARRAY_SHAPE_LENGTH];//stride[0] is normally 1,stride[rank] is total size
+} DataBufDbl;
+
+void initDataBufDbl(DataBufDbl *a);
+void cleanDataBufDbl(DataBufDbl *a);
+int makeDataBufDbl(DataBufDbl *a,int rank,int ind[]);//ind[] should be of length rank at least
+int writeDataBufDbl(DataBufDbl *a,char *file);
+int readDataBufDbl(DataBufDbl *a,char *file);
 
 
 #endif
