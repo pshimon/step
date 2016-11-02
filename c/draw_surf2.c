@@ -150,7 +150,7 @@ int main(int argc, char* argv[]){
     }
     printf ("(glfw) Renderer: %s\n", glGetString (GL_RENDERER));
     printf ("(glfw) OpenGL version supported %s\n",glGetString (GL_VERSION) );
-    iniTSurf(&s);
+    initTSurf(&s);
     ret=readTSurf(&s,argv[1]);
     if(ret) {
 	fprintf(stderr,"readTSurf returns %d\n",ret);

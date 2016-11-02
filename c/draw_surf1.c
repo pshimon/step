@@ -211,7 +211,7 @@ int main(int argc, char* argv[]){
 	fprintf(stderr,"usage: %s surf \n",argv[0]);
 	exit(1);
     }
-    iniTSurf(&s);
+    initTSurf(&s);
     ret=readTSurf(&s,argv[1]);
     if(ret) {
 	fprintf(stderr,"readTSurf returns %d\n",ret);

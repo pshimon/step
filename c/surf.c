@@ -5,7 +5,7 @@
 ***********************************************************/
 #include "surf.h"
 
-int iniTSurf(TSurf* s) {
+int initTSurf(TSurf* s) {
     if(s==0) return -1;
     s->vvec=0;s->nvec=0;s->nv=0;
     s->tvec=0;s->nt=0;
@@ -80,7 +80,7 @@ abend:
     return ret;
 }
 
-int prinTSurf(TSurf *s,char * fname) {
+int printTSurf(TSurf *s,char * fname) {
     FILE *fp=fopen(fname,"w");
     int j;
     if(fp==0) return -1;
@@ -502,7 +502,7 @@ int remove_repeated_vertices(TSurf *s, int vstart) {
     return nr;
 }
 
-int get_trg_con(int *ntc,t_clst *tcvec,TSurf *s) {
+int get_trg_con(int *ntc,CList *tcvec,TSurf *s) {
     int n0,n1,n2,k,n,i;
     if(ntc==0) return -1;
     if(tcvec==0) return -2; 
@@ -535,7 +535,7 @@ int get_trg_con(int *ntc,t_clst *tcvec,TSurf *s) {
 }
 
 
-int get_vrt_con(int *nvc,t_clst *vcvec,TSurf *s) {
+int get_vrt_con(int *nvc,CList *vcvec,TSurf *s) {
     int n0,n1,n2,k,n,key,i;
     if(nvc==0) return -1;
     if(vcvec==0) return -2; 
@@ -647,7 +647,7 @@ int get_vrt_con(int *nvc,t_clst *vcvec,TSurf *s) {
     } 	
     return 0;
 }
-int get_vrt_betw(int *nvc,t_clst *vcvec,TSurf *s,int k1,int k2) {
+int get_vrt_betw(int *nvc,CList *vcvec,TSurf *s,int k1,int k2) {
     int nmin,j,k;
     float xx,yy,zz,x,y,z,x1,x2,y1,y2,z1,z2,d;
     x1=s->vvec[3*k1];
@@ -692,7 +692,7 @@ inline static int new_vert(TSurf *s,int n,int m,int k) {
     return ret;
 }
 
-int refine2(TSurf *s,TSurf *sold,int *nvc,t_clst *vcvec) {
+int refine2(TSurf *s,TSurf *sold,int *nvc,CList *vcvec) {
     int i,k,v0,v1,v2,ret,n,u0,u1,u2,j,m,v;
   //  float x1,y1,z1,x2,y2,z2;
     n=sold->nv;
