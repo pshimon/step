@@ -11,28 +11,28 @@ int main(int argc,char * argv[]) {
     int ret,i;
     float maxdiff,diff;
     char str[30];
-    DataBufDbl a,b;
-    initDataBufDbl(&a);
-    initDataBufDbl(&b);
+    DataBufFlt a,b;
+    initDataBufFlt(&a);
+    initDataBufFlt(&b);
     for(i=0;i<ARRAY_MAX_RANK;i++) s[i]=i+2;
     for(r=1;r<=ARRAY_MAX_RANK;r++) {
 	printf("rank=%d\n",r);
-	makeDataBufDbl(&a,r,s);
+	makeDataBufFlt(&a,r,s);
 	printf("initial arr\n");
 	for(i=0;i<ARRAY_SHAPE_LENGTH;i++) printf("%d ",a.shape[i]);
 	printf("\n");
 	for(i=0;i<ARRAY_SHAPE_LENGTH;i++) printf("%d ",a.stride[i]);
 	printf("\n");
 	for(i=0;i<a.stride[r];i++) a.data[i]=0.001*i;
-	sprintf(str,"DataBufDbl%d.bin",r);
-	ret=writeDataBufDbl(&a,str);
+	sprintf(str,"DataBufFlt%d.bin",r);
+	ret=writeDataBufFlt(&a,str);
 	if(ret) {
-	    fprintf(stderr,"writeDataBufDbl returns %d\n",ret);
+	    fprintf(stderr,"writeDataBufFlt returns %d\n",ret);
 	    exit(1);
 	}
-	ret=readDataBufDbl(&b,str);
+	ret=readDataBufFlt(&b,str);
 	if(ret) {
-	    fprintf(stderr,"readDataBufDbl returns %d\n",ret);
+	    fprintf(stderr,"readDataBufFlt returns %d\n",ret);
 	    exit(1);
 	}
 	printf("final arr\n");
