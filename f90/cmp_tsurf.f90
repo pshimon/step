@@ -17,8 +17,8 @@ PROGRAM CMP_TSURF
     ENDIF
     CALL GET_COMMAND_ARGUMENT(1, FNAME1)
     CALL GET_COMMAND_ARGUMENT(2, FNAME2)
-    call READ_TSURF_B(S1,FNAME1,FLAG)
-    call READ_TSURF_B(S2,FNAME2,FLAG)
+    call READ_TSURF_B(S1,TRIM(FNAME1),FLAG)
+    call READ_TSURF_B(S2,TRIM(FNAME2),FLAG)
     if((s1%nt/=s2%nt).or.(s1%nv/=s2%nv)) then
     print *,'surfaces are different'
         stop
@@ -27,7 +27,9 @@ PROGRAM CMP_TSURF
     dt=sum(abs(s1%tvec-s2%tvec))
     if(dt/=0) then
         print *,'triangles are different'
- !       stop
+    call WRITE_TSURF_A(S1,'CMP-'//TRIM(FNAME1))
+    call WRITE_TSURF_A(S2,'CMP-'//TRIM(FNAME2))
+       
     endif
     dv=maxval(abs(s1%vvec-s2%vvec))
     dn=maxval(abs(s1%nvec-s2%nvec))

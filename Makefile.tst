@@ -22,7 +22,7 @@ LSTBC:=databuf-tst.c draw_surf1.c draw_surf2.c surf-test.c mksphere.c
 # combining
 TRG:=$(LSTBF:.f90=.$(BEXT)) $(LSTBC:.c=.$(BEXT))
 all:$(TRG)  
-$SLIB): $(SLST) 
+$(SLIB): $(SLST) 
 	$(LBS)$(SLIB) $(SLST) 
 $(TRG):$(SLIB)
 clean:	

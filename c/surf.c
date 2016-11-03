@@ -503,7 +503,7 @@ int remove_repeated_vertices(TSurf *s, int vstart) {
 }
 
 int get_trg_con(int *ntc,CList *tcvec,TSurf *s) {
-    int n0,n1,n2,k,n,i;
+    int n0,k,n,i;
     if(ntc==0) return -1;
     if(tcvec==0) return -2; 
     if(s==0) return -3;
@@ -512,24 +512,14 @@ int get_trg_con(int *ntc,CList *tcvec,TSurf *s) {
 	for(i=0;i<MAX_CONNECT;i++) tcvec[k][i]=-1;
     }
     for(k=0;k<s->nt;k++) {
-	n0=s->tvec[3*k];
-	n1=s->tvec[3*k+1];
-	n2=s->tvec[3*k+2];
-	n=ntc[n0]++;
-	if(n<MAX_CONNECT)  
-	    tcvec[n0][n]=k;
-	else 
-	    return -4;
-	n=ntc[n1]++;
-	if(n<MAX_CONNECT)  
-	    tcvec[n1][n]=k;
-	else 
-	    return -4;
-	n=ntc[n2]++;
-	if(n<MAX_CONNECT)  
-	    tcvec[n2][n]=k;
-	else 
-	    return -4;
+	for(i=0;i<3;i++) {
+	    n0=s->tvec[3*k+i];
+	    n=ntc[n0]++;
+	    if(n<MAX_CONNECT)  
+		tcvec[n0][n]=k;
+	    else 
+		return -4;
+	}
     } 	
     return 0;
 }
