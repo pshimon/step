@@ -9,9 +9,9 @@ int main(int argc,char * argv[]) {
     int ret,i;
     Flt * dist;
     TSurf * s=ALLOC_MEM0(TSurf,1);
-    ret=mk_tetrahedron(s);
+    ret=mkTetrahedron(s);
     dist=ALLOC_MEM(Flt,s->nt);
-    ret=check_normals(dist,s);
+    ret=checkNormals(dist,s);
     printf("tetrahedron\n");
     if(ret) 
 	fprintf(stdout,"bad trg %d\n",ret);
@@ -21,9 +21,9 @@ int main(int argc,char * argv[]) {
     //ret=prinTSurf(s,"tetrahedron.tsa");
     ret=writeTSurf(s,"tetrahedron.tsb");
 
-    ret=mk_hexahedron(s);
+    ret=mkHexahedron(s);
     dist=ALLOC_MEM(Flt,s->nt);
-    ret=check_normals(dist,s);
+    ret=checkNormals(dist,s);
     printf("hexahedron\n");
     if(ret) 
 	fprintf(stdout,"bad trg %d\n",ret);
@@ -34,9 +34,9 @@ int main(int argc,char * argv[]) {
     //ret=prinTSurf(s,"hexahedron.tsa");
     ret=writeTSurf(s,"hexahedron.tsb");
 
-    ret=mk_octahedron(s);
+    ret=mkOctahedron(s);
    dist=ALLOC_MEM(Flt,s->nt);
-    ret=check_normals(dist,s);
+    ret=checkNormals(dist,s);
     printf("octahedron\n");
     if(ret) 
 	fprintf(stdout,"bad trg %d\n",ret);
@@ -47,9 +47,9 @@ int main(int argc,char * argv[]) {
     //ret=prinTSurf(s,"octahedron.tsa");
     ret=writeTSurf(s,"octahedron.tsb");
 
-    ret=mk_dodecahedron(s);
+    ret=mkDodecahedron(s);
     dist=ALLOC_MEM(Flt,s->nt);
-    ret=check_normals(dist,s);
+    ret=checkNormals(dist,s);
     printf("dodecahedron\n");
     if(ret) 
 	fprintf(stdout,"bad trg %d\n",ret);
@@ -60,10 +60,10 @@ int main(int argc,char * argv[]) {
     //ret=prinTSurf(s,"dodecahedron.tsa");
     ret=writeTSurf(s,"dodecahedron.tsb");
 
-    ret=mk_icosahedron(s);
+    ret=mkIcosahedron(s);
 
   dist=ALLOC_MEM(Flt,s->nt);
-    ret=check_normals(dist,s);
+    ret=checkNormals(dist,s);
     printf("icosahedron\n");
     if(ret) 
 	fprintf(stdout,"bad trg %d\n",ret);

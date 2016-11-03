@@ -34,22 +34,22 @@ int cpTSurf(TSurf* dst,TSurf*src);
 int writeTSurf(TSurf *s,char * fname);
 int readTSurf(TSurf *s,char * fname);
 int printTSurf(TSurf *s,char * fname);
-int mk_tetrahedron(TSurf *s);
-int mk_hexahedron(TSurf *s);
-int mk_octahedron(TSurf *s);
-int mk_dodecahedron(TSurf *s);
-int mk_icosahedron(TSurf *s);
+int mkTetrahedron(TSurf *s);
+int mkHexahedron(TSurf *s);
+int mkOctahedron(TSurf *s);
+int mkDodecahedron(TSurf *s);
+int mkIcosahedron(TSurf *s);
 
-/* rerturns are of trg */
-float trg_norm(Vec3Flt w,TSurf *s,int t);
+/* rerturns area of trg */
+float trgNorm(Vec3Flt w,TSurf *s,int t);
 /* array lst must be of  MAX_CONNECT length at least*/
-int get_trgs(int * lst,TSurf *s,int v);
-int get_trg_pair(int * first,int * second,int * lst,int nc,TSurf *s,int v);
-int remove_repeated_vertices(TSurf *s, int vstart);
-int get_trg_con(int *ntc,CList *tcvec,TSurf *s);
-int get_vrt_con(int *nvc,CList *vcvec,TSurf *s);
-int get_vrt_betw(int *nvc,CList *vcvec,TSurf *s,int k1,int k2);
+//int get_trgs(int * lst,TSurf *s,int v);
+//int get_trg_pair(int * first,int * second,int * lst,int nc,TSurf *s,int v);
+//int remove_repeated_vertices(TSurf *s, int vstart);
+int getTrgCon(int *ntc,CList *tcvec,TSurf *s);
+int getVrtCon(int *nvc,CList *vcvec,TSurf *s);
+int getVrtBetw(int *nvc,CList *vcvec,TSurf *s,int k1,int k2);
 int refine2(TSurf *s,TSurf *sold,int *nvc,CList *vcvec);
-int check_normals(float * d,TSurf *s);
-void mk_unit_sphere(TSurf *s);
+int checkNormals(float * d,TSurf *s);
+void mkUnitSphere(TSurf *s);
 #endif

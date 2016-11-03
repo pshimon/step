@@ -399,7 +399,7 @@ int mkIcosahedron(TSurf *s) {
     return 0;
 }
 
-Flt trgNorm(Vec3Flt w,TSurf *s,int t) {
+Flt trg_norm(Vec3Flt w,TSurf *s,int t) {
     Vec3Flt u,v; 
     int i,v0,v1,v2;
     Flt a;
@@ -421,7 +421,88 @@ Flt trgNorm(Vec3Flt w,TSurf *s,int t) {
     }
 } 
 
-int getTrgCon(int *ntc,CList *tcvec,TSurf *s) {
+int get_tvec(int * lst,TSurf *s,int v) {
+    int count,t,v0,v1,v2;
+    count=0;
+    for(t=0;t<s->nt;t++) {
+	v0=s->tvec[3*t+0];
+	v1=s->tvec[3*t+1];
+	v2=s->tvec[3*t+2];
+	if((v==v0)||(v==v1)||(v==v2)) {// vert in trg
+	    if(count<MAX_CONNECT) {
+		lst[count]=t;
+		count++;
+	    } else {
+		return -1;
+	    }
+	}
+    }
+    return count;
+}
+int get_trg_pair(int * first,int * second,int * lst,int nc,TSurf *s,int v) {
+    int count,t,v0,v1,v2,i;
+    count=0;
+    *first=-1;
+    *second=-1;
+    for(i=0;i<nc;i++) {
+	t=lst[i];
+	v0=s->tvec[3*t+0];
+	v1=s->tvec[3*t+1];
+	v2=s->tvec[3*t+2];
+	if((v==v0)||(v==v1)||(v==v2)) {// vert in trg
+	    if(count==0) {
+		*first=t;
+		count++;
+	    };
+	    if(count==1) {
+		*second=t;
+		count++;
+	    };
+	    if(count>2) break;	
+	}	
+    }
+    return count;
+}
+
+/* returns number of vertices removed */
+int remove_repeated_vertices(TSurf *s, int vstart) {
+    int i,j,k,m,n,nr,new_nv;
+ //   Flt d;
+    new_nv=s->nv;
+    nr=0;
+    for(i=vstart;i<s->nv;i++) {
+	j=i+1;
+	while (j<new_nv) {
+	    if(dist3Flt(s->vvec+3*i,s->vvec+3*j)>MIN_DIST) 
+		j++;
+	    else {/* coinciding verts */
+		for(k=0;k<s->nt;k++){ /* update triangles */
+		    for(m=0;m<3;m++) {
+			if(s->tvec[3*k+m]>j) s->tvec[3*k+m]--;
+			if(s->tvec[3*k+m]==j) s->tvec[3*k+m]=i;
+		    }
+		}
+		new_nv--;
+		nr++;
+		for(n=j+1;n<s->nv;n++) {/* update vertices and normals */
+		    for(m=0;m<3;m++) {
+			s->vvec[3*(n-1)+m]=s->vvec[3*n+m];
+			s->nvec[3*(n-1)+m]=s->nvec[3*n+m];
+		    }
+		}
+
+	    }
+	}
+    }
+    if(nr) {
+	s->nv=new_nv;
+	s->vvec=(Flt *) realloc(s->vvec,3*new_nv);
+	s->nvec=(Flt *) realloc(s->nvec,3*new_nv);
+    }
+    return nr;
+}
+
+int get_trg_con(int *ntc,CList *tcvec,TSurf *s) {
     int n0,k,n,i;
     if(ntc==0) return -1;
     if(tcvec==0) return -2; 
@@ -444,7 +525,7 @@ int getTrgCon(int *ntc,CList *tcvec,TSurf *s) {
 }
 
 
-int getVrtCon(int *nvc,CList *vcvec,TSurf *s) {
+int get_vrt_con(int *nvc,CList *vcvec,TSurf *s) {
     int n0,n1,n2,k,n,key,i;
     if(nvc==0) return -1;
     if(vcvec==0) return -2; 
@@ -556,7 +637,7 @@ int getVrtCon(int *nvc,CList *vcvec,TSurf *s) {
     } 	
     return 0;
 }
-int getVrtBetw(int *nvc,CList *vcvec,TSurf *s,int k1,int k2) {
+int get_vrt_betw(int *nvc,CList *vcvec,TSurf *s,int k1,int k2) {
     int nmin,j,k;
     Flt xx,yy,zz,x,y,z,x1,x2,y1,y2,z1,z2,d;
     x1=s->vvec[3*k1];
@@ -631,13 +712,13 @@ int refine2(TSurf *s,TSurf *sold,int *nvc,CList *vcvec) {
 	v1=sold->tvec[3*i+1];
 	v2=sold->tvec[3*i+2];
 	/* 0->1 */
-	u0=getVrtBetw(nvc,vcvec,s,v0,v1);
+	u0=get_vrt_betw(nvc,vcvec,s,v0,v1);
 	if(u0<0) return -2;
 	/* 1->2 */
-	u1=getVrtBetw(nvc,vcvec,s,v1,v2);
+	u1=get_vrt_betw(nvc,vcvec,s,v1,v2);
 	if(u1<0) return -2;
 	/* 2->0 */
-	u2=getVrtBetw(nvc,vcvec,s,v2,v0);
+	u2=get_vrt_betw(nvc,vcvec,s,v2,v0);
 	if(u2<0) return -2;
 	s->tvec[3*(4*i+0)+0]=v0;
 	s->tvec[3*(4*i+0)+1]=u0;
@@ -655,13 +736,13 @@ int refine2(TSurf *s,TSurf *sold,int *nvc,CList *vcvec) {
     return ret;
 }
 
-int checkNormals(Flt * d,TSurf *s) {
+int check_normals(Flt * d,TSurf *s) {
     int n0,n1,n2;
     int t,i;
     Vec3Flt w1,w2;
     Flt a;
     for(t=0;t<s->nt;t++) {
-	a= trgNorm(w1,s,t);
+	a= trg_norm(w1,s,t);
 	if(a==0.0f) return -1;
 	n0=s->tvec[3*t+0];
 	n1=s->tvec[3*t+1];
@@ -676,7 +757,7 @@ int checkNormals(Flt * d,TSurf *s) {
     return 0;
 }
     
-void mkUnitSphere(TSurf *s) {
+void mk_unit_sphere(TSurf *s) {
     Vec3Flt cnt,w1;
     int j,i;
     Flt a=1.0/s->nv;

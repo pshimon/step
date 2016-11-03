@@ -16,14 +16,14 @@ int main(int argc,char * argv[]) {
     initTSurf(&s2);
     sold=&s1;
     snew=&s2;
-    ret=mk_icosahedron(sold);
+    ret=mkIcosahedron(sold);
     for(j=0;j<=5;j++) {
 	sprintf(fname,"usph_%d.tsb",j);
 	printf("%s %d %d\n",fname,sold->nt,sold->nv);
 	ret=writeTSurf(sold,fname);
 	nvc=ALLOC_MEM(int,sold->nv);
 	vcvec=ALLOC_MEM(CList,sold->nv);
-	ret= get_vrt_con(nvc,vcvec,sold);
+	ret= getVrtCon(nvc,vcvec,sold);
 	if(ret) {
 	    fprintf(stderr,"get_vrt_con returns %d\n",ret);
 	    exit(1);
@@ -33,7 +33,7 @@ int main(int argc,char * argv[]) {
 	    fprintf(stderr,"refine2 returns %d\n",ret);
 	    exit(1);
 	}
-	mk_unit_sphere(snew);
+	mkUnitSphere(snew);
 	FREE_MEM(vcvec);
 	FREE_MEM(nvc);
 	tmp=sold;

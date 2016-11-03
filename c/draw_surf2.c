@@ -82,10 +82,10 @@ void resize_cb(int w, int h) {
     glViewport(0, 0,w ,h );
     if(w<h) {
 	asp=(h+0.0f)/(w+0.0f);
-	ortho(pm,left,right,bot*asp,top*asp,near,far);
+	orthoFlt(pm,left,right,bot*asp,top*asp,near,far);
     } else {
 	asp=(w+0.0f)/(h+0.0f);
-	ortho(pm,left*asp,right*asp,bot,top,near,far);
+	orthoFlt(pm,left*asp,right*asp,bot,top,near,far);
     }
 
   glUseProgram(pid);
@@ -98,11 +98,11 @@ static void render(){
     Vec3Flt v;
     Mat4Flt m1,m2;
     v[0]=1.0f;v[1]=0.0f;v[2]=0.0f;
-    rotm4(m1, v,ax);
+    rotm4Flt(m1, v,ax);
     v[0]=0.0f;v[1]=1.0f;v[2]=0.0f;
-    rotm4(m2, v,ay);
-    mxm4(mm,m1,m2);
-    m3_from_m4(nm,mm);    
+    rotm4Flt(m2, v,ay);
+    mxm4Flt(mm,m1,m2);
+    m3_from_m4Flt(nm,mm);    
     glUseProgram(pid);
     ogl_set_uniform_m4(pid,"mm",mm);
     ogl_set_uniform_m4(pid,"vm",vm);
@@ -160,7 +160,7 @@ int main(int argc, char* argv[]){
     nt=s.nt;
     rmax=0.0;
     for(i=0;i<nv;i++) {
-	r=norm3(s.vvec+3*i);
+	r=norm3Flt(s.vvec+3*i);
 	if(r>rmax) rmax=r;
     }
     left=-rmax*fct;
@@ -189,7 +189,7 @@ int main(int argc, char* argv[]){
     ogl_set_uniform_v3(pid,"ld",ld);
     ogl_set_uniform_v3(pid,"lc",lc);
     v[0]=0.0f;v[1]=0.0f;v[2]=-rmax*fct;
-    translate4(vm,v);
+    translate4Flt(vm,v);
     
  
     while (!glfwWindowShouldClose(window)) {
