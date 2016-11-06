@@ -28,7 +28,7 @@ int main(int argc,char * argv[]) {
 	    fprintf(stderr,"get_vrt_con returns %d\n",ret);
 	    exit(1);
 	}
-	ret=refine2(snew,sold,nvc,vcvec); 
+	ret=refineTSurf2(snew,sold,nvc,vcvec); 
 	if(ret) {
 	    fprintf(stderr,"refine2 returns %d\n",ret);
 	    exit(1);

@@ -601,7 +601,7 @@ inline static int new_vert(TSurf *s,int n,int m,int k) {
     return ret;
 }
 
-int refine2(TSurf *s,TSurf *sold,int *nvc,CList *vcvec) {
+int refineTSurf2(TSurf *s,TSurf *sold,int *nvc,CList *vcvec) {
     int i,k,v0,v1,v2,ret,n,u0,u1,u2,j,m,v;
   //  Flt x1,y1,z1,x2,y2,z2;
     n=sold->nv;

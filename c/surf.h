@@ -17,8 +17,8 @@
 typedef int CList[MAX_CONNECT];
 typedef struct {
     int * tvec;/*trg vector(3*nt);*/
-    float * vvec;/* vertices vec(3*nv)*/
-    float * nvec;/* normal vec(3*nv)*/
+    Flt * vvec;/* vertices vec(3*nv)*/
+    Flt * nvec;/* normal vec(3*nv)*/
     int nt; /* number of triangles */
     int nv; /* number of vertices */
 } TSurf;
@@ -49,7 +49,7 @@ float trgNorm(Vec3Flt w,TSurf *s,int t);
 int getTrgCon(int *ntc,CList *tcvec,TSurf *s);
 int getVrtCon(int *nvc,CList *vcvec,TSurf *s);
 int getVrtBetw(int *nvc,CList *vcvec,TSurf *s,int k1,int k2);
-int refine2(TSurf *s,TSurf *sold,int *nvc,CList *vcvec);
+int refineTSurf2(TSurf *s,TSurf *sold,int *nvc,CList *vcvec);
 int checkNormals(float * d,TSurf *s);
 void mkUnitSphere(TSurf *s);
 #endif
