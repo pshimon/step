@@ -8,9 +8,9 @@
 %.$(BEXT): %.f90
 	$(FC) $(FLOPT)  $(NOUT) $@ $^ 
 %.$(OEXT): %.c
-	$(CC) -c $(COPT)   $< $(NOUT) $@
+	$(CC) -c $(COPT)   $< $(NOUT) $@ $(MKLCOPT)
 %.$(BEXT): %.c
-	$(CC) $(CLOPT)  $(NOUT) $@ $^ -lm
+	$(CC) $(CLOPT)  $(NOUT) $@ $^ $(MKLCLOPT) $(MKLCOPT)
 
 
 

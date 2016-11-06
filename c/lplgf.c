@@ -233,7 +233,7 @@ static inline double ff0(double wtt,double wbt,double wtb,double wbb,
 		+(newg0(wtb,Vb,qb,zz)-newg0(wbb,Vb,qb,zz))/(Vb*Vb+1.0);
 	return res;
 }
-Dbl lplGfC(Vec3Flt dst,Vec3Flt vrt0,Vec3Flt vrt1,Vec3Flt vrt2) {
+Dbl lplGfC1(Vec3Flt dst,Vec3Flt vrt0,Vec3Flt vrt1,Vec3Flt vrt2) {
     double x0,y0, z0;
     double x10,y10,z10,x20,y20,z20;
     double nx,ny,nz,kx,ky,kz,n2x,n2y,n2z;

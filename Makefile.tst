@@ -18,7 +18,7 @@ SLIB:=steplib.$(LEXT)
 # fortran program sources
 LSTBF:=data_buf_tst.f90 #mk_sphere.f90 cmp_tsurf.f90
 # C program sources
-LSTBC:=databuf-tst.c draw_surf1.c draw_surf2.c surf-test.c mksphere.c lplbem-tst.c
+LSTBC:=databuf-tst.c draw_surf1.c draw_surf2.c surf-test.c mksphere.c lplbem0-tst.c lplbem1-tst.c 
 # combining
 TRG:=$(LSTBF:.f90=.$(BEXT)) $(LSTBC:.c=.$(BEXT))
 all:$(TRG)  
@@ -34,8 +34,8 @@ draw_surf1.$(BEXT): draw_surf1.c
 	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS) $(LM)
 draw_surf2.$(BEXT): draw_surf2.c 
 	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS2) $(LM)
-
-
+#lplbem1-tst.$(BEXT): lplbem1-tst.c $(SLIB)
+#	$(CC) $(NOUT) $@ $^ $(MKLCOPT) $(MKLCLOPT) 
 
 
 
