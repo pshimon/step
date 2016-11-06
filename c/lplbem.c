@@ -31,7 +31,6 @@ int mkQtot0(Flt *q,TSurf *s) {
 }
 int mkCenters(Flt *c,TSurf *s) {
     int j,k,n0,n1,n2;
-    c=ALLOC_MEM(Flt,3*s->nt);
     if(!c) return -1;
     for(j=0;j<s->nt;j++) {
 	n0=s->tvec[3*j+0];

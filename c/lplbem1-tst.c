@@ -19,7 +19,7 @@ int main(int argc,char * argv[]) {
     int * ipiv=0;
     Dbl * e=0;
     Dbl * xp=0;
-    Dbl a,b,phi;//z,dlt,mdlt,fct;
+    Dbl a,b,phi,z,dlt,mdlt,fct;
 
     if(argc!=2) {
 	fprintf(stderr,"usage: %s surf \n",argv[0]);
@@ -115,6 +115,18 @@ int main(int argc,char * argv[]) {
 	
     }
     printf("qtot=%e\n",a);
+    fct=0.75f/M_PI;
+    dlt=0.0f;
+    mdlt=0.0f;
+    for(i=0;i<n;i++) {
+	z=s.vvec[3*i+2];
+	b=(e[i]-z*fct)*(e[i]-z*fct);
+	dlt+=b;
+	b=sqrtf(b);
+	if(b>mdlt) mdlt=b;
+    }
+    dlt=sqrtf(dlt/n);
+    printf("maxerr=%e,std=%e\n",mdlt,dlt);
 
   
     FREE_MEM(xp);
