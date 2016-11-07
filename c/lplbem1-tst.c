@@ -6,20 +6,25 @@
 #include "lplbem.h"
 #include "timers.h"
 #include "lalg.h"
+Dbl xpot(Flt z, Dbl phi) {
+    return -z+phi;
+}
 /* linear charge distribution */
 int main(int argc,char * argv[]) {
     TSurf s;   
     double time_start,time_stop;
-    int ret,n,t,i;
+    int ret,n,t,i,maxi;
     Flt * cnt=0;
     Flt * qt1=0;
     Int * ntc=0;
     CList *tcvec=0;
-    Dbl *lm1=0;    
+    Dbl *lm1=0; 
+    Dbl *lm2=0;
     int * ipiv=0;
     Dbl * e=0;
     Dbl * xp=0;
     Dbl a,b,phi,z,dlt,mdlt,fct;
+    Dbl phi0=1.0;
 
     if(argc!=2) {
 	fprintf(stderr,"usage: %s surf \n",argv[0]);
@@ -65,6 +70,15 @@ int main(int argc,char * argv[]) {
 	exit(1);
     }
     printf("mkQtot1 takes %e s\n",time_stop-time_start);
+    lm2=ALLOC_MEM(Dbl,n*n);
+    time_start=cpuClock();
+    ret=mkSAMat1(lm2,ntc,tcvec,&s,lplGfL2);
+    time_stop=cpuClock();
+    if(ret) {
+	fprintf(stderr,"mkSAMat1 with lplGfL2 returns %d\n",ret);
+	exit(1);
+    }
+    printf("mkSAMat1 with lplGfL2 takes %e s\n",time_stop-time_start);
     lm1=ALLOC_MEM(Dbl,n*n);
     time_start=cpuClock();
     ret=mkSAMat1(lm1,ntc,tcvec,&s,lplGfL1);
@@ -74,7 +88,13 @@ int main(int argc,char * argv[]) {
 	exit(1);
     }
     printf("mkSAMat1 with lplGfL1 takes %e s\n",time_stop-time_start);
-
+    dlt=0.0;
+    for(i=0;i<n*n;i++)  {
+	a=fabs(lm1[i]-lm2[i]);
+	if(a>dlt) dlt=a;
+    }
+    printf("maxdiff between lm1 and lm2 is %e\n",dlt);
+    FREE_MEM(lm2);
     ipiv=ALLOC_MEM(int,n);
     time_start=cpuClock();
     ret=getrfDbl(n,lm1,ipiv);
@@ -87,7 +107,8 @@ int main(int argc,char * argv[]) {
     e=ALLOC_MEM(Dbl,n);
     xp=ALLOC_MEM(Dbl,n);
     for(i=0;i<n;i++) {
-	xp[i]=-s.vvec[3*i+2];
+	//xp[i]=-s.vvec[3*i+2];
+	xp[i]=xpot(s.vvec[3*i],phi0);
 	e[i]=1.0;
     }
     ret=getrsDbl(n,lm1,1,xp,ipiv);
@@ -115,23 +136,25 @@ int main(int argc,char * argv[]) {
 	
     }
     printf("qtot=%e\n",a);
-    fct=0.75f/M_PI;
-    dlt=0.0f;
-    mdlt=0.0f;
+    fct=0.75/M_PI;
+    dlt=0.0;
+    mdlt=0.0;
+    maxi=0;
     for(i=0;i<n;i++) {
 	z=s.vvec[3*i+2];
 	b=(e[i]-z*fct)*(e[i]-z*fct);
 	dlt+=b;
 	b=sqrtf(b);
-	if(b>mdlt) mdlt=b;
+	if(b>mdlt) {mdlt=b;maxi=i;}
     }
     dlt=sqrtf(dlt/n);
-    printf("maxerr=%e,std=%e\n",mdlt,dlt);
+    printf("maxerr=%e at %d (%f %f %f) std=%e\n",mdlt,maxi,s.vvec[3*maxi+0],s.vvec[3*maxi+1],s.vvec[3*maxi+2],dlt);
 
   
     FREE_MEM(xp);
     FREE_MEM(e);
     FREE_MEM(ipiv);
+
     FREE_MEM(lm1);
     FREE_MEM(qt1);
     FREE_MEM(cnt);
