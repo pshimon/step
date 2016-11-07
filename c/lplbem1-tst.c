@@ -19,15 +19,16 @@ int main(int argc,char * argv[]) {
     Int * ntc=0;
     CList *tcvec=0;
     Dbl *lm1=0; 
-    Dbl *lm2=0;
+    //Dbl *lm2=0;
     int * ipiv=0;
     Dbl * e=0;
     Dbl * xp=0;
     Dbl a,b,phi,z,dlt,mdlt,fct;
     Dbl phi0=1.0;
-
-    if(argc!=2) {
-	fprintf(stderr,"usage: %s surf \n",argv[0]);
+    DataBufDbl db;
+    char str[100];
+    if(argc!=3) {
+	fprintf(stderr,"usage: %s surf lbl\n",argv[0]);
 	exit(1);
     }
     initTSurf(&s);
@@ -70,7 +71,7 @@ int main(int argc,char * argv[]) {
 	exit(1);
     }
     printf("mkQtot1 takes %e s\n",time_stop-time_start);
-    lm2=ALLOC_MEM(Dbl,n*n);
+ /*   lm2=ALLOC_MEM(Dbl,n*n);
     time_start=cpuClock();
     ret=mkSAMat1(lm2,ntc,tcvec,&s,lplGfL2);
     time_stop=cpuClock();
@@ -79,6 +80,7 @@ int main(int argc,char * argv[]) {
 	exit(1);
     }
     printf("mkSAMat1 with lplGfL2 takes %e s\n",time_stop-time_start);
+*/
     lm1=ALLOC_MEM(Dbl,n*n);
     time_start=cpuClock();
     ret=mkSAMat1(lm1,ntc,tcvec,&s,lplGfL1);
@@ -88,13 +90,14 @@ int main(int argc,char * argv[]) {
 	exit(1);
     }
     printf("mkSAMat1 with lplGfL1 takes %e s\n",time_stop-time_start);
-    dlt=0.0;
+/*    dlt=0.0;
     for(i=0;i<n*n;i++)  {
 	a=fabs(lm1[i]-lm2[i]);
 	if(a>dlt) dlt=a;
     }
     printf("maxdiff between lm1 and lm2 is %e\n",dlt);
-    FREE_MEM(lm2);
+   FREE_MEM(lm2);
+   */
     ipiv=ALLOC_MEM(int,n);
     time_start=cpuClock();
     ret=getrfDbl(n,lm1,ipiv);
@@ -149,12 +152,27 @@ int main(int argc,char * argv[]) {
     }
     dlt=sqrtf(dlt/n);
     printf("maxerr=%e at %d (%f %f %f) std=%e\n",mdlt,maxi,s.vvec[3*maxi+0],s.vvec[3*maxi+1],s.vvec[3*maxi+2],dlt);
-
-  
+    initDataBufDbl(&db);
+    db.shape[0]=2+Dbl_LBL;
+    db.shape[1]=n;
+    db.shape[2]=n;
+    db.stride[0]=1;
+    db.stride[1]=n;
+    db.stride[2]=n*n;
+    db.data=lm1;
+    sprintf(str,"%s-lm1.bin",argv[2]);
+    ret=writeDataBufDbl(&db,str);
+    db.shape[0]=1+Dbl_LBL;
+    db.shape[1]=n;
+    db.shape[2]=1;
+    db.stride[0]=1;
+    db.stride[1]=n;
+    db.data=e;
+    sprintf(str,"%s-chrg1.bin",argv[2]);
+    ret=writeDataBufDbl(&db,str);
     FREE_MEM(xp);
     FREE_MEM(e);
     FREE_MEM(ipiv);
-
     FREE_MEM(lm1);
     FREE_MEM(qt1);
     FREE_MEM(cnt);
