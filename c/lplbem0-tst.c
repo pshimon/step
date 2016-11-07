@@ -6,6 +6,10 @@
 #include "lplbem.h"
 #include "timers.h"
 #include "lalg.h"
+Dbl xpot(Flt z, Dbl phi) {
+    return -z+phi;
+}
+
 /* constant charge distribution */
 int main(int argc,char * argv[]) {
     TSurf s;   
@@ -14,13 +18,16 @@ int main(int argc,char * argv[]) {
     Flt * cnt=0;
     Flt * qt0=0;
     Dbl *lm0=0;
+    Dbl *lm2=0;
     int * ipiv=0;
     Dbl * e=0;
     Dbl * xp=0;
     Dbl a,b,phi,z,dlt,mdlt,fct;
-    
-    if(argc!=2) {
-	fprintf(stderr,"usage: %s surf \n",argv[0]);
+    Dbl phi0=1.0;
+    DataBufDbl db;
+    char str[100];    
+    if(argc!=3) {
+	fprintf(stderr,"usage: %s surf lbl\n",argv[0]);
 	exit(1);
     }
     initTSurf(&s);
@@ -53,15 +60,31 @@ int main(int argc,char * argv[]) {
 	exit(1);
     }
     printf("mkQtot0 takes %e s\n",time_stop-time_start);
+    lm2=ALLOC_MEM(Dbl,t*t);
+    time_start=cpuClock();
+    ret=mkSAMat0(lm2,cnt,&s,lplGfC2);
+    time_stop=cpuClock();
+    if(ret) {
+	fprintf(stderr,"mkSAMat0 with lplGfC2 returns %d\n",ret);
+	exit(1);
+    }
+    printf("mkSAMat0 with lplGfC2 takes %e s\n",time_stop-time_start);
     lm0=ALLOC_MEM(Dbl,t*t);
     time_start=cpuClock();
-    ret=mkSAMat0(lm0,cnt,&s,lplGfC2);
+    ret=mkSAMat0(lm0,cnt,&s,lplGfC1);
     time_stop=cpuClock();
     if(ret) {
 	fprintf(stderr,"mkSAMat0 with lplGfC1 returns %d\n",ret);
 	exit(1);
     }
     printf("mkSAMat0 with lplGfC1 takes %e s\n",time_stop-time_start);
+    dlt=0.0;
+    for(i=0;i<t*t;i++)  {
+	a=fabs(lm0[i]-lm2[i]);
+	if(a>dlt) dlt=a;
+    }
+    printf("maxdiff between lm0 and lm2 is %e\n",dlt);
+    FREE_MEM(lm2);
     ipiv=ALLOC_MEM(int,t);
     time_start=cpuClock();
     ret=getrfDbl(t,lm0,ipiv);
@@ -74,7 +97,7 @@ int main(int argc,char * argv[]) {
     e=ALLOC_MEM(Dbl,t);
     xp=ALLOC_MEM(Dbl,t);
     for(i=0;i<t;i++) {
-	xp[i]=-cnt[3*i+2];
+	xp[i]=xpot(cnt[3*i+2],phi0);
 	e[i]=1.0;
     }
     ret=getrsDbl(t,lm0,1,xp,ipiv);
@@ -106,7 +129,7 @@ int main(int argc,char * argv[]) {
     dlt=0.0f;
     mdlt=0.0f;
     for(i=0;i<t;i++) {
-	z=s.vvec[3*i+2];
+	z=cnt[3*i+2];
 	b=(e[i]-z*fct)*(e[i]-z*fct);
 	dlt+=b;
 	b=sqrtf(b);
@@ -114,6 +137,25 @@ int main(int argc,char * argv[]) {
     }
     dlt=sqrtf(dlt/t);
     printf("maxerr=%e,std=%e\n",mdlt,dlt);
+    initDataBufDbl(&db);
+    db.shape[0]=2+Dbl_LBL;
+    db.shape[1]=t;
+    db.shape[2]=t;
+    db.stride[0]=1;
+    db.stride[1]=t;
+    db.stride[2]=t*t;
+    db.data=lm0;
+    sprintf(str,"%s-lm0.bin",argv[2]);
+    ret=writeDataBufDbl(&db,str);
+    db.shape[0]=1+Dbl_LBL;
+    db.shape[1]=t;
+    db.shape[2]=1;
+    db.stride[0]=1;
+    db.stride[1]=t;
+    db.data=e;
+    sprintf(str,"%s-chrg0.bin",argv[2]);
+    ret=writeDataBufDbl(&db,str);
+    
     FREE_MEM(xp);
     FREE_MEM(e);
     FREE_MEM(ipiv);

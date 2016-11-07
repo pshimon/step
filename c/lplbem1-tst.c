@@ -110,8 +110,7 @@ int main(int argc,char * argv[]) {
     e=ALLOC_MEM(Dbl,n);
     xp=ALLOC_MEM(Dbl,n);
     for(i=0;i<n;i++) {
-	//xp[i]=-s.vvec[3*i+2];
-	xp[i]=xpot(s.vvec[3*i],phi0);
+	xp[i]=xpot(s.vvec[3*i+2],phi0);
 	e[i]=1.0;
     }
     ret=getrsDbl(n,lm1,1,xp,ipiv);
@@ -170,6 +169,7 @@ int main(int argc,char * argv[]) {
     db.data=e;
     sprintf(str,"%s-chrg1.bin",argv[2]);
     ret=writeDataBufDbl(&db,str);
+    
     FREE_MEM(xp);
     FREE_MEM(e);
     FREE_MEM(ipiv);
