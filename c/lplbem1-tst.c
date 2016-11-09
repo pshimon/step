@@ -9,6 +9,7 @@
 Dbl xpot(Flt z, Dbl phi) {
     return -z+phi;
 }
+ 
 /* linear charge distribution */
 int main(int argc,char * argv[]) {
     TSurf s;   
@@ -84,7 +85,7 @@ int main(int argc,char * argv[]) {
     lm1=ALLOC_MEM(Dbl,n*n);
     time_start=cpuClock();
     ret=mkSAMat1(lm1,ntc,tcvec,&s,lplGfL1);
-    time_stop=cpuClock();
+     time_stop=cpuClock();
     if(ret) {
 	fprintf(stderr,"mkSAMat1 with lplGfL1 returns %d\n",ret);
 	exit(1);

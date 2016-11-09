@@ -8,7 +8,7 @@ include $(ROOTDIR)/makefile.def
 include $(ROOTDIR)/makefile.gcc
 include $(ROOTDIR)/makefile.rules
 # fortran library sources
-LSTF:=fdefs.f90 data_buf.f90 vec3d.f90 tsurf.f90  
+LSTF:=fdefs.f90 data_buf.f90 vec3d.f90 tsurf.f90  lpl_gf.f90
 # C library sources
 LSTC:=databuf.c ogl.c ogl_glut.c  ogl_glfw.c read_bytes.c surf.c lplgf.c lplbem.c timers.c
 # combining
@@ -16,7 +16,7 @@ SLST:=$(LSTF:.f90=.$(OEXT)) $(LSTC:.c=.$(OEXT))
 #static library name
 SLIB:=steplib.$(LEXT)
 # fortran program sources
-LSTBF:=data_buf_tst.f90 #mk_sphere.f90 cmp_tsurf.f90
+LSTBF:=data_buf_tst.f90 lpl_bem_tst.f90 #mk_sphere.f90 cmp_tsurf.f90
 # C program sources
 LSTBC:=databuf-tst.c draw_surf1.c draw_surf2.c surf-test.c mksphere.c lplbem0-tst.c lplbem1-tst.c 
 # combining

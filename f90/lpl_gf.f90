@@ -1,0 +1,373 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Shimon Panfil: Industrial Physics and Simulations        !
+! http://industrialphys.com                                !
+! THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Green functions for Laplace equation integrated
+! over triangle with linear charge distribution
+! values q0,q1,q2 in vertices
+
+FUNCTION LPL_GF_L1(DST,VRT0,VRT1,VRT2,Q0,Q1,Q2) RESULT (RES)
+    USE FDEFS
+    REAL(F32)::DST(3),VRT0(3),VRT1(3),VRT2(3)
+    REAL(F64)::Q1,Q2,Q0,RES
+    REAL(F64) :: X10,Y10,Z10,X20,Y20,Z20,X0,Y0,Z0
+    REAL(F64) :: NX,NY,NZ,KX,KY,KZ,N2X,N2Y,N2Z
+    REAL(F64) :: D1,D2,C2,S2,U2,U1,V2,ZZ,U3,V3,V4,A,B,C
+    REAL(F64) :: PT1,PT,PB,QT,QB,PB1,PPT,PPB,WTT,WBB,WTB,WBT,VB,VT
+    REAL(F64),PARAMETER :: ZZERO=1.0d-12
+    X10=VRT1(1)-VRT0(1)
+    Y10=VRT1(2)-VRT0(2)
+    Z10=VRT1(3)-VRT0(3)
+    D1=SQRT(X10**2+Y10**2+Z10**2)
+    X20=VRT2(1)-VRT0(1)
+    Y20=VRT2(2)-VRT0(2)
+    Z20=VRT2(3)-VRT0(3)
+    D2=SQRT(X20**2+Y20**2+Z20**2)
+    NX=X10/D1
+    NY=Y10/D1
+    NZ=Z10/D1
+    N2X=X20/D2
+    N2Y=Y20/D2
+    N2Z=Z20/D2
+    C2=NX*N2X+NY*N2Y+NZ*N2Z
+    S2=SQRT(ONE_F64-C2*C2)
+    U2=D2*C2
+    U1=D1
+    V2=D2*S2
+    KX=(N2X-C2*NX)/S2
+    KY=(N2Y-C2*NY)/S2
+    KZ=(N2Z-C2*NZ)/S2
+    X0=VRT0(1)-DST(1)
+    Y0=VRT0(2)-DST(2)
+    Z0=VRT0(3)-DST(3)
+    U3=NX*X0+NY*Y0+NZ*Z0
+    V3=KX*X0+KY*Y0+KZ*Z0
+    ZZ=X0*X0+Y0*Y0+Z0*Z0-U3*U3-V3*V3
+    IF(ZZ<ZZERO) ZZ=ZZERO
+    V4=V2+V3
+    A=(Q1-Q0)/D1
+    B=(D1*(Q2-Q0)-D2*C2*(Q1-Q0))/(D1*V2)
+    C=Q0-A*U3-B*V3
+    PT1=(U2-U1)/V2
+    PB1=U2/V2
+    PPT=SQRT(ONE_F64+PT1*PT1)
+    PPB=SQRT(ONE_F64+PB1*PB1)
+    QT=(U3+U1-PT1*V3)/PPT
+    QB=(U3-PB1*V3)/PPB
+    WTT=PPT*V4+PT1*QT
+    WTB=PPB*V4+PB1*QB
+    WBT=PPT*V3+PT1*QT
+    WBB=PPB*V3+PB1*QB
+    PT=PT1/PPT
+    PB=PB1/PPB
+    VT=SQRT((ONE_F64+PT)/(ONE_F64-PT))
+    VB=SQRT((ONE_F64+PB)/(ONE_F64-PB))  
+    RES=FF(WTT,WBT,WTB,WBB,QT,QB,VT,VB,ZZ,A,B,C)
+CONTAINS
+
+FUNCTION FF(WTT,WBT, WTB, WBB,QT, QB,VT, VB,ZZ, A, B,C) RESULT(RES)
+    REAL(F64),INTENT(IN) :: WTT,WBT,WTB,WBB,QT,QB,VT,VB,ZZ,A,B,C
+    REAL(F64) :: RES
+    RES=(-NEWG(WTT,VT,QT,ZZ,A,B,C)+NEWG(WBT,VT,QT,ZZ,A,B,C))/(VT*VT+ONE_F64) &
+    +(NEWG(WTB,VB,QB,ZZ,A,B,C)-NEWG(WBB,VB,QB,ZZ,A,B,C))/(VB*VB+ONE_F64)
+END FUNCTION FF
+
+FUNCTION NEWG(U,V,Q,ZZ,A,B1,C) RESULT(RES)
+    REAL(F64),INTENT(IN) :: U,V,Q,ZZ,A,B1,C
+    REAL(F64) :: VV,Z,VZ,SVQ,S,T,WW,QQ,VQ,SS,TT,BQV
+    REAL(F64) :: G1,G2,G3,G4,G5,L1,L2,L3,G6,B
+    REAL(F64) :: VV2,VV1,BVVQQ,TS,S2T2,CVTS,RES
+    real(f64),parameter::eps=1.0d-15
+    VV=V*V
+    VV2=(VV+ONE_F64)
+    VV1=VV2-TWO_F64
+    B=B1/VV2
+    Z=SQRT(ZZ)
+    QQ=Q*Q
+    WW=ZZ+QQ
+    S=SQRT(U*U+WW)-U
+    if(s<eps) s=eps
+    T=S+TWO_F64*U
+    VZ=V*Z
+    VQ=V*Q
+    SVQ=S+VQ
+    G1=TWO_F64*C*Z*VV2*ATAN2(SVQ,VZ)
+    SS=S*S
+    TT=T*T
+    TS=T-S
+    CVTS=C*V*TS
+    S2T2=HALF_F64*(SS+TT)*VV
+    BQV=B*Q*V
+    G2=QUART_F64*A*V*(SS-TT)+HALF_F64*B*S2T2-BQV*VV*T-BQV*S+CVTS
+    L1=LOG(SVQ*SVQ+VZ*VZ)
+    L2=LOG(S)
+    L3=LOG(VV2)
+    BVVQQ=TWO_F64*B*VV*QQ
+    G3=L2*(A*V*WW+B*WW+TWO_F64*Q*C)
+    G4=(L3+L2-L1)*(B*S2T2-BQV*VV1*TS+CVTS)
+    G5=L1*(-HALF_F64*(VV*VV+ONE_F64)*WW*B+C*VV1*Q)
+    G6=(L1-L2)*BVVQQ
+    RES=G1+G2+G3+G4+G5+G6
+END FUNCTION NEWG
+
+END FUNCTION LPL_GF_L1
+
+
+FUNCTION LPL_GF_L2(DST,VRT0,VRT1,VRT2,Q0,Q1,Q2) RESULT (RES)
+    USE FDEFS
+    REAL(F32)::DST(3),VRT0(3),VRT1(3),VRT2(3)
+    REAL(F64)::Q1,Q2,Q0,RES
+    REAL(F64) ::RR11,RR12,RR13,RR22,RR23,RR33,M,MM 
+    REAL(F64) ::NRM,W1,W2,R1,R2,V1,V2,U1,U2,S1U,S2U,S1D,S2D 
+    REAL(F64) ::A1,A2,B1,B2,B,C1,C2,C,R3M,R1M,R2M
+    REAL(F64) ::X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3
+    
+    X1=VRT1(1)-VRT0(1)
+    Y1=VRT1(2)-VRT0(2)
+    Z1=VRT1(3)-VRT0(3)
+    X2=VRT2(1)-VRT0(1)
+    Y2=VRT2(2)-VRT0(2)
+    Z2=VRT2(3)-VRT0(3)
+    X3=DST(1)-VRT0(1)
+    Y3=DST(2)-VRT0(2)
+    Z3=DST(3)-VRT0(3)
+    RR11=X1**2+Y1**2+Z1**2
+    R1=SQRT(RR11)
+    RR12=X1*X2+Y1*Y2+Z1*Z2
+    RR13=X1*X3+Y1*Y3+Z1*Z3
+    RR22=X2**2+Y2**2+Z2**2
+    R2=SQRT(RR22)
+    RR23=X2*X3+Y2*Y3+Z2*Z3
+    RR33=X3**2+Y3**2+Z3**2
+    MM=0.25D0*(RR11+RR22-2.0D0*RR12)
+    M=SQRT(MM)
+    NRM=0.25D0*SQRT(RR11*RR22-RR12*RR12)/MM
+    S1D=-RR13/R1
+    S2D=-RR23/R2
+    S1U=S1D+R1
+    S2U=S2D+R2
+    W1=SQRT(RR33-RR13*RR13/RR11)
+    W2=SQRT(RR33-RR23*RR23/RR22)
+    A1=(Q1-Q2)/R1
+    A2=(Q1-Q2)/R2
+    C=(Q1+Q2-2.0D0*Q0)*M-0.25D0*(Q1-Q2)*(RR11-RR22)/M
+    B=2.0D0*Q0*M+(Q1-Q2)*0.5D0*(RR13-RR23)/M
+    B1=(B+RR13/RR11*C)/R1
+    B2=(B+RR23/RR22*C)/R2
+    C1=C/RR11
+    C2=C/RR22
+    R1M=0.5D0*(RR11-RR12)
+    R2M=0.5D0*(RR12-RR22)
+    R3M=0.5D0*(RR13-RR23)
+    V1=R1M/(M*R1)
+    V2=R2M/(M*R2)
+    U1=(R1M*RR13/RR11-R3M)/M
+    U2=(R2M*RR23/RR22-R3M)/M
+    RES=NRM*(INTG(S1U,W1,V1,U1,A1,B1,C1) &
+        -INTG(S1D,W1,V1,U1,A1,B1,C1)     &
+        -INTG(S2U,W2,V2,U2,A2,B2,C2)     &
+        +INTG(S2D,W2,V2,U2,A2,B2,C2))
+
+CONTAINS
+    
+FUNCTION INTG( X, W, V, U, AA, BB, CC) RESULT(RES) 
+    REAL(F64),INTENT(IN) :: X,W,V,U,AA,BB,CC
+    REAL(F64) :: RES,V1P,V1M,VV,DD,D,S,SP,SM,B,A,C,LN1,LN2,LN3
+    REAL(F64) :: AT,II,JJ,DDUU,V1M2,V1P2,V4,KK
+    real(f64),parameter::eps=1.0d-15
+     V1P=1.0D0+V
+     V1M=1.0D0-V
+     VV=V1P*V1M
+     DD=W**2*VV-U**2
+    if(dd<eps) dd=eps
+     D=SQRT(DD)
+     S=SQRT(X*X+W*W)
+     SP=S+X
+     SM=S-X
+     B=S+V*X+U
+     A=D*(S*V+X)
+     C=DD+U*B
+     if(sp<eps) sp=eps
+     LN1=LOG(SP)
+    if(sm<eps) sm=eps
+     LN2=LOG(SM)
+    if(b<eps) b=eps
+     LN3=LOG(B)
+     II= 0.5D0*(X*S+W*W*LN1)
+     AT=ATAN2(A,C)
+     JJ= -X+(X-V*U/VV)*LN3-U/VV*LN2+D/VV*AT
+     DDUU=D**2-U**2
+     V1M2=1.0D0/V1M**2
+     V1P2=1.0D0/V1P**2
+     V4=1.0D0/VV**2
+     KK= -0.25D0*X**2                                  &
+    +0.25D0*U*(SM/V1M+SP/V1P)                          &
+    +0.25D0*(DDUU*(1.0D0+V*V)*V4+2.0D0*X**2+W**2)*LN3  & 
+    +0.125D0*DDUU*(LN2*V1M2+LN1*V1P2)                  &
+    +D*U*V*V4*AT
+    RES= AA*II+BB*JJ+CC*KK
+END FUNCTION INTG
+
+END FUNCTION LPL_GF_L2
+
+! Green functions for Laplace equation integrated
+! over triangle with constant unit charge distribution
+ 
+FUNCTION LPL_GF_C1(DST,VRT0,VRT1,VRT2) RESULT (RES)
+    USE FDEFS
+    REAL(F32)::DST(3),VRT0(3),VRT1(3),VRT2(3)
+    REAL(F64)::RES
+    REAL(F64) X0,Y0, Z0
+    REAL(F64) X10,Y10,Z10,X20,Y20,Z20
+    REAL(F64) NX,NY,NZ,KX,KY,KZ,N2X,N2Y,N2Z
+    REAL(F64) D1,D2,C2,S2,U2,U1,V2,ZZ,U3,V3,V4
+    REAL(F64) PT1,PT,PB,QT,QB,PB1,PPT,PPB,WTT,WBB,WTB,WBT,VB,VT
+    REAL(F64),PARAMETER :: ZZERO=1.0D-12
+    
+    X10=VRT1(1)-VRT0(1)
+    Y10=VRT1(2)-VRT0(2)
+    Z10=VRT1(3)-VRT0(3)
+    X20=VRT2(1)-VRT0(1)
+    Y20=VRT2(2)-VRT0(2)
+    Z20=VRT2(3)-VRT0(3)
+    X0=VRT0(1)-DST(1)
+    Y0=VRT0(2)-DST(2)
+    Z0=VRT0(3)-DST(3)
+    D1=SQRT(X10*X10+Y10*Y10+Z10*Z10)
+    D2=SQRT(X20*X20+Y20*Y20+Z20*Z20)
+    NX=X10/D1
+    NY=Y10/D1
+    NZ=Z10/D1
+    N2X=X20/D2
+    N2Y=Y20/D2
+    N2Z=Z20/D2
+    C2=NX*N2X+NY*N2Y+NZ*N2Z
+    S2=SQRT(ONE_F64-C2*C2)
+    U2=D2*C2
+    U1=D1
+    V2=D2*S2
+    KX=(N2X-C2*NX)/S2
+    KY=(N2Y-C2*NY)/S2
+    KZ=(N2Z-C2*NZ)/S2
+    U3=NX*X0+NY*Y0+NZ*Z0
+    V3=KX*X0+KY*Y0+KZ*Z0   
+    ZZ=X0*X0+Y0*Y0+Z0*Z0-U3*U3-V3*V3
+    IF(ZZ<ZZERO) ZZ=ZZERO
+    V4=V2+V3
+    PT1=(U2-U1)/V2
+    PB1=U2/V2
+    PPT=SQRT(ONE_F64+PT1*PT1)
+    PPB=SQRT(ONE_F64+PB1*PB1)
+    QT=(U3+U1-PT1*V3)/PPT
+    QB=(U3-PB1*V3)/PPB
+    WTT=PPT*V4+PT1*QT
+    WTB=PPB*V4+PB1*QB
+    WBT=PPT*V3+PT1*QT
+    WBB=PPB*V3+PB1*QB
+    PT=PT1/PPT
+    PB=PB1/PPB
+    VT=SQRT((ONE_F64+PT)/(ONE_F64-PT))
+    VB=SQRT((ONE_F64+PB)/(ONE_F64-PB))  
+    RES=FF0(WTT,WBT,WTB,WBB,QT,QB,VT,VB,ZZ)
+
+CONTAINS
+
+FUNCTION FF0( WTT, WBT, WTB, WBB, QT,QB, VT, VB, ZZ) RESULT(RES)
+    REAL(F64):: WTT, WBT, WTB, WBB, QT, QB, VT, VB, ZZ,RES
+    RES=(-NEWG0(WTT,VT,QT,ZZ)+NEWG0(WBT,VT,QT,ZZ))/(VT*VT+ONE_F64) &
+    +(NEWG0(WTB,VB,QB,ZZ)-NEWG0(WBB,VB,QB,ZZ))/(VB*VB+ONE_F64)
+ENDFUNCTION FF0
+
+FUNCTION NEWG0( U, V, Q, ZZ) RESULT(RES)
+    REAL(F64)::U,V,Q,ZZ,RES
+    REAL(F64):: VV,Z,VZ,SVQ,S,T,WW,QQ,VQ
+    REAL(F64):: G1,G2,G3,G4,G5,L1,L2,L3
+    REAL(F64):: VV2,VV1,TS,CVTS
+    VV=V*V
+    VV2=(VV+ONE_F64)
+    VV1=VV2-TWO_F64
+    Z=SQRT(ZZ)
+    QQ=Q*Q
+    WW=ZZ+QQ
+    S=SQRT(U*U+WW)-U
+    T=S+TWO_F64*U
+    VZ=V*Z
+    VQ=V*Q
+    SVQ=S+VQ
+    G1=TWO_F64*Z*VV2*ATAN2(SVQ,VZ)
+    TS=T-S
+    CVTS=V*TS
+    G2=CVTS
+    L1=LOG(SVQ*SVQ+VZ*VZ)
+    L2=LOG(S)
+    L3=LOG(VV2)
+    G3=L2*TWO_F64*Q 
+    G4=(L3+L2-L1)*CVTS
+    G5=L1* VV1*Q
+    RES=G1+G2+G3+G4+G5
+ENDFUNCTION NEWG0
+
+ENDFUNCTION LPL_GF_C1
+
+FUNCTION LPL_GF_C2(DST,VRT0,VRT1,VRT2) RESULT (RES)
+    USE FDEFS
+    Use vec3d
+    REAL(F32)::DST(3),VRT0(3),VRT1(3),VRT2(3)
+    REAL(F64)::RES
+    REAL(F32)::R(3),U(3),V(3),K(3),N(3),M(3),R2,A,P,H
+    REAL(F64)::X,Y,Z
+    r=vrt0
+    u=vrt1-vrt0
+    v=vrt2-vrt0
+    A=LENGTH_F32(U)
+    K=U/A
+    R2=DOT_F32(V,V)
+    P=DOT_F32(V,K)
+    H=SQRT(R2-P**2)
+    M=(U-P*K)/H
+    N=CROSS_F32(K,M)
+    X=DOT_F32(DST-R,K)
+    Y=DOT_F32(DST-R,M)
+    Z=DOT_F32(DST-R,N)
+    RES=POT_TRG1(REAL(A,F64),REAL(P,F64),REAL(H,F64),X,Y,Z)
+contains
+REAL(F64) FUNCTION FPSI(S,U,V,W2) 
+    REAL(F64):: S,U,V,W2
+    REAL(F64)::VV,DD,D,R,B,A,C
+    VV=(1.0D0-V**2)
+    DD=W2*VV-U**2
+    D=SQRT(DD)
+    R=SQRT(S**2+W2)
+    B=R+V*S+U
+    A=D*(R*V+S)
+    C=DD+U*B
+    FPSI= -S*VV+(S*VV-V*U)*LOG(B)-U*LOG(R-S)+D*ATAN2(A,C)
+ENDFUNCTION FPSI  
+REAL(F64) FUNCTION POT_TRG1(A,P,H,X,Y,Z)
+    REAL(F64)::A,P,H,X,Y,Z
+    REAL(F64)::SR,SL,W2L,W2R,UL,UR,VL,VR,A1L,A2L,A1R,A2R,AL,BL,AR,BR,Z2
+    REAL(F64),PARAMETER :: ZZERO=1.0d-12
+    Z2=Z**2
+    IF(Z2<ZZERO) Z2=ZZERO
+    AL=P/H
+    AR=(P-A)/H
+    BL=AL*Y-X
+    BR=AR*Y-X+A
+    A2R=1.0D0+AR*AR
+    A1R=SQRT(A2R)
+    A2L=1.0D0+AL*AL
+    A1L=SQRT(A2L)
+    SR=AR*BR/A2R-Y
+    SL=AL*BL/A2L-Y
+    W2R=Z2/A2R+BR*BR/(A2R*A2R)
+    W2L=Z2/A2L+BL*BL/(A2L*A2L)
+    VR=AR/A1R
+    VL=AL/A1L
+    UR=BR/(A1R*A2R)
+    UL=BL/(A1L*A2L)
+    POT_TRG1= H*LOG(A1R/A1L)+(FPSI(SR+H,UR,VR,W2R)-FPSI(SR,UR,VR,W2R))*A2R+(FPSI(SL,UL,VL,W2L)-FPSI(SL+H,UL,VL,W2L))*A2L
+ENDFUNCTION POT_TRG1
+
+    
+END FUNCTION LPL_GF_C2
