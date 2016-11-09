@@ -9,7 +9,7 @@
 Dbl xpot(Flt z, Dbl phi) {
     return -z+phi;
 }
- 
+Dbl lplgfl1 (Vec3Flt dst ,Vec3Flt vrt0,Vec3Flt vrt1,Vec3Flt vrt2,Dbl q0,Dbl q1,Dbl q2); 
 /* linear charge distribution */
 int main(int argc,char * argv[]) {
     TSurf s;   
@@ -84,7 +84,8 @@ int main(int argc,char * argv[]) {
 */
     lm1=ALLOC_MEM(Dbl,n*n);
     time_start=cpuClock();
-    ret=mkSAMat1(lm1,ntc,tcvec,&s,lplGfL1);
+    //ret=mkSAMat1(lm1,ntc,tcvec,&s,lplGfL1);
+    ret=mkSAMat1(lm1,ntc,tcvec,&s,lplgfl1);
      time_stop=cpuClock();
     if(ret) {
 	fprintf(stderr,"mkSAMat1 with lplGfL1 returns %d\n",ret);

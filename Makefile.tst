@@ -34,8 +34,8 @@ draw_surf1.$(BEXT): draw_surf1.c
 	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS) $(LM)
 draw_surf2.$(BEXT): draw_surf2.c 
 	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS2) $(LM)
-#lplbem1-tst.$(BEXT): lplbem1-tst.c $(SLIB)
-#	$(CC) $(NOUT) $@ $^ $(MKLCOPT) $(MKLCLOPT) 
+lplbem1-tst.$(BEXT): lplbem1-tst.c $(SLIB)
+	$(CC) $(NOUT) $@ $^ -lgfortran $(MKLCOPT) $(MKLCLOPT) 
 
 
 
