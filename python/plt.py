@@ -1,16 +1,11 @@
+#! python
 ########################################################################
 # Shimon Panfil: Industrial Physics and Simulations                   ##
 # http://industrialphys.com                                           ##
 # THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           ##
 ########################################################################
-%.$(OEXT): %.f90
-	$(FC) -c $(FOPT)    $<  $(NOUT) $@ $(MKLFOPT)
-%.$(BEXT): %.f90
-	$(FC) $(FLOPT)  $(NOUT) $@ $^ $(MKLFLOPT) $(MKLFOPT)
-%.$(OEXT): %.c
-	$(CC) -c $(COPT)   $< $(NOUT) $@ $(MKLCOPT)
-%.$(BEXT): %.c
-	$(CC) $(CLOPT)  $(NOUT) $@ $^ $(MKLCLOPT) $(MKLCOPT)
-
-
+import matplotlib.pyplot as plt
+lmp=plt.matshow(lm)
+plt.colorbar(lmp)
+plt.show()
 

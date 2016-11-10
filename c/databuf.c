@@ -145,3 +145,29 @@ abend:
     return  ret;
 } 
 
+int write1DataBufDbl(Dbl *a,int n1,char * fname) {
+    DataBufDbl db;
+    initDataBufDbl(&db);
+    db.shape[0]=1+Dbl_LBL;
+    db.shape[1]=n1;
+    db.shape[2]=1;
+    db.stride[0]=1;
+    db.stride[1]=n1;
+    db.data=a;
+    return writeDataBufDbl(&db,fname);
+}
+
+int write2DataBufDbl(Dbl *a,int n1,int n2,char * fname) {
+    DataBufDbl db;
+    initDataBufDbl(&db);
+    db.shape[0]=2+Dbl_LBL;
+    db.shape[1]=n1;
+    db.shape[2]=n2;
+    db.stride[0]=1;
+    db.stride[1]=n1;
+    db.stride[2]=n1*n2;
+    db.data=a;
+    return writeDataBufDbl(&db,fname);
+}
+
+

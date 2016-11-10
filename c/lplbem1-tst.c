@@ -23,10 +23,10 @@ int main(int argc,char * argv[]) {
     //Dbl *lm2=0;
     int * ipiv=0;
     Dbl * e=0;
+    Dbl * ee=0;
     Dbl * xp=0;
     Dbl a,b,phi,z,dlt,mdlt,fct;
     Dbl phi0=1.0;
-    DataBufDbl db;
     char str[100];
     if(argc!=3) {
 	fprintf(stderr,"usage: %s surf lbl\n",argv[0]);
@@ -84,8 +84,8 @@ int main(int argc,char * argv[]) {
 */
     lm1=ALLOC_MEM(Dbl,n*n);
     time_start=cpuClock();
-    //ret=mkSAMat1(lm1,ntc,tcvec,&s,lplGfL1);
-    ret=mkSAMat1(lm1,ntc,tcvec,&s,lplgfl1);
+    ret=mkSAMat1(lm1,ntc,tcvec,&s,lplGfL1);
+    //ret=mkSAMat1(lm1,ntc,tcvec,&s,lplgfl1);
      time_stop=cpuClock();
     if(ret) {
 	fprintf(stderr,"mkSAMat1 with lplGfL1 returns %d\n",ret);
@@ -140,39 +140,32 @@ int main(int argc,char * argv[]) {
 	
     }
     printf("qtot=%e\n",a);
+    ee=ALLOC_MEM(Dbl,n);
     fct=0.75/M_PI;
+    for(i=0;i<n;i++) {
+	z=s.vvec[3*i+2];
+	ee[i]=e[i]-z*fct;
+    }
+
+    
     dlt=0.0;
     mdlt=0.0;
     maxi=0;
     for(i=0;i<n;i++) {
-	z=s.vvec[3*i+2];
-	b=(e[i]-z*fct)*(e[i]-z*fct);
+	b=ee[i]*ee[i];
 	dlt+=b;
 	b=sqrtf(b);
 	if(b>mdlt) {mdlt=b;maxi=i;}
     }
-    dlt=sqrtf(dlt/n);
+    dlt=sqrt(dlt/n);
     printf("maxerr=%e at %d (%f %f %f) std=%e\n",mdlt,maxi,s.vvec[3*maxi+0],s.vvec[3*maxi+1],s.vvec[3*maxi+2],dlt);
-    initDataBufDbl(&db);
-    db.shape[0]=2+Dbl_LBL;
-    db.shape[1]=n;
-    db.shape[2]=n;
-    db.stride[0]=1;
-    db.stride[1]=n;
-    db.stride[2]=n*n;
-    db.data=lm1;
     sprintf(str,"%s-lm1.bin",argv[2]);
-    ret=writeDataBufDbl(&db,str);
-    db.shape[0]=1+Dbl_LBL;
-    db.shape[1]=n;
-    db.shape[2]=1;
-    db.stride[0]=1;
-    db.stride[1]=n;
-    db.data=e;
-    sprintf(str,"%s-chrg1.bin",argv[2]);
-    ret=writeDataBufDbl(&db,str);
+    ret=write2DataBufDbl(lm1,n,n,str);
+    sprintf(str,"%s-ee1.bin",argv[2]);
+    ret=write1DataBufDbl(ee,n,str);
     
     FREE_MEM(xp);
+    FREE_MEM(ee);
     FREE_MEM(e);
     FREE_MEM(ipiv);
     FREE_MEM(lm1);

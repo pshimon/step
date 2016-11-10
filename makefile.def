@@ -22,8 +22,9 @@ vpath %.c   $(CDIR) src
 vpath %.h   $(CDIR) src
 MKLROOT:=/opt/intel/mkl
 MKLCOPT:=-m64 -I$(MKLROOT)/include
-MKLCLOPT:=-Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_lp64.a ${MKLROOT}/lib/intel64/libmkl_sequential.a ${MKLROOT}/lib/intel64/libmkl_core.a -Wl,--end-group -lpthread -lm -ldl
-
+MKLFOPT:=-m64 -I$(MKLROOT)/include
+MKLCLOPT:=-Wl,--start-group $(MKLROOT)/lib/intel64/libmkl_intel_lp64.a $(MKLROOT)/lib/intel64/libmkl_sequential.a $(MKLROOT)/lib/intel64/libmkl_core.a -Wl,--end-group -lpthread -lm -ldl
+MKLFLOPT:=-Wl,--start-group $(MKLROOT)/lib/intel64/libmkl_gf_lp64.a $(MKLROOT)/lib/intel64/libmkl_sequential.a $(MKLROOT)/lib/intel64/libmkl_core.a -Wl,--end-group -lpthread -lm -ldl
 #MKLCLOPT:= -L$(MKLROOT)/lib/intel64 -Wl,--no-as-needed -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl
 CINC=-I$(CDIR)
 

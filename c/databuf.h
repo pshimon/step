@@ -31,10 +31,14 @@
 # define MATH_LN10         2.30258509299404568402  /* log_e 10 */
 # define MATH_RAD2DEG	    (180.0*MATH_1_PI)     
 # define MATH_DEG2RAD	    (0.00555555555556 *MATH_PI)   /* pi/180 */  
-# define MATH_HUGE_NUMBER    1.0e300  /* practically infinity */
-# define MATH_TINY_NUMBER    1.0e-300 /* practically 0 */
-# define MATH_LARGE_NUMBER    1.0e30  /* practically infinity */
-# define MATH_SMALL_NUMBER    1.0e-30 /* practically 0 */
+# define MATH_HUGE_NUMBER_DBL    1.0e300  /* practically infinity */
+# define MATH_TINY_NUMBER_DBL    1.0e-300 /* practically 0 */
+# define MATH_HUGE_NUMBER_FLT    1.0e30  /* practically infinity */
+# define MATH_TINY_NUMBER_FLT    1.0e-30 /* practically 0 */
+# define MATH_LARGE_NUMBER_DBL    1.0e200  /* practically infinity */
+# define MATH_SMALL_NUMBER_DBL    1.0e-200 /* practically 0 */
+# define MATH_LARGE_NUMBER_FLT    1.0e20  /* practically infinity */
+# define MATH_SMALL_NUMBER_FLT    1.0e-20 /* practically 0 */
 
 
 #define ALLOC_MEM(type,n) ( type *)malloc((size_t) (n)*sizeof( type))
@@ -145,6 +149,7 @@ void cleanDataBufDbl(DataBufDbl *a);
 int makeDataBufDbl(DataBufDbl *a,int rank,int ind[]);//ind[] should be of length rank at least
 int writeDataBufDbl(DataBufDbl *a,char *file);
 int readDataBufDbl(DataBufDbl *a,char *file);
-
+int write1DataBufDbl(Dbl *a,int n1,char * fname);
+int write2DataBufDbl(Dbl *a,int n1,int n2,char * fname);
 
 #endif

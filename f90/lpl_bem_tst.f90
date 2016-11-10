@@ -15,7 +15,7 @@ PROGRAM LPL_BEM_TST
     CHARACTER(LEN=100) :: ARG    
     INTEGER::FLAG
     REAL(F32)::TM0,TM1
-    REAL(F64)::DLT,LPL_GF_L1
+    REAL(F64)::DLT,LPL_GF_L1 !,lmmax,lmmin
     EXTERNAL LPL_GF_L1
 
     INTERFACE
@@ -63,12 +63,19 @@ PROGRAM LPL_BEM_TST
     CALL MK_SAMAT_L(LM1,NV,NV,NCVEC,CTVEC,S,CP,LPL_GF_L1,FLAG)
     CALL CPU_TIME(TM1)
     PRINT *,'LPL_GF_L1 TAKES ',TM1-TM0
+    !lmmax=maxval(lm1)
+    !lmmin=minval(lm1)
+    !print *,'lmmin',lmmin,'lmmax',lmmax
     CALL CPU_TIME(TM0)
-!    CALL MK_SAMAT_L(LM0,NV,NV,NCVEC,CTVEC,S,CP,LPL_GF_L2,FLAG)
-    CALL MK_SAMAT_L(LM0,NV,NV,NCVEC,CTVEC,S,CP,lplGfL1,FLAG)
+    CALL MK_SAMAT_L(LM0,NV,NV,NCVEC,CTVEC,S,CP,LPL_GF_L2,FLAG)
+!    CALL MK_SAMAT_L(LM0,NV,NV,NCVEC,CTVEC,S,CP,lplGfL1,FLAG)
     CALL CPU_TIME(TM1)
-!    PRINT *,'LPL_GF_L2 TAKES ',TM1-TM0
-    PRINT *,'lplGfL1 TAKES ',TM1-TM0
+    PRINT *,'LPL_GF_L2 TAKES ',TM1-TM0
+!    PRINT *,'lplGfL1 TAKES ',TM1-TM0
+    !lmmax=maxval(lm0)
+    !lmmin=minval(lm0)
+    !print *,'lmmin',lmmin,'lmmax',lmmax
+
     DLT=maxval(abs(LM1-LM0))
     print *,'maxdif',dlt
     IF(ALLOCATED(NCVEC)) DEALLOCATE(NCVEC)
