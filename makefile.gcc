@@ -4,7 +4,7 @@
 # THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           ##
 ########################################################################
 CC:=gcc
-COPT:=-Ofast -g $(CINC)  $(FPIC) -Wall  #-fexcess-precision=standard -fopenmp
+COPT:=-Ofast -g $(CINC)  $(FPIC) -Wall #-fopenmp 
 CLOPT:= $(COPT) 
 FC:=gfortran
 FOPT:=-Ofast $(FPIC) -Wall -g  #-fopenmp

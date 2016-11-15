@@ -300,7 +300,7 @@ inline static double psi(double s,double u,double v,double w2) {
     double a=d*(r*v+s);
     double c=dd+u*b;
     return -s*vv+(s*vv-v*u)*log(b)-u*log(r-s)+d*atan2(a,c);
-};
+}
 /* psi0(s,u,w)= psi(s,u,0,w) */
 inline static double psi0(double s,double u,double w2) {
     double dd=w2-u*u;
@@ -310,7 +310,7 @@ inline static double psi0(double s,double u,double w2) {
     double a=d*s;
     double c=dd+u*b;
     return -s+s*log(b)-u*log(r-s)+d*atan2(a,c);
-};
+}
 /* triangle */
 inline static double pot_patch0(double a,double p,double h,double x,double y,double z2) {
     double sR,sL,w2L,w2R,uL,uR,vL,vR;
@@ -331,7 +331,7 @@ inline static double pot_patch0(double a,double p,double h,double x,double y,dou
     uR=bR/(a1R*a2R);
     uL=bL/(a1L*a2L);
     return h*log(a1R/a1L)+(psi(sR+h,uR,vR,w2R)-psi(sR,uR,vR,w2R))*a2R+(psi(sL,uL,vL,w2L)-psi(sL+h,uL,vL,w2L))*a2L;
-};
+}
 /* parallelogram */
 inline static double pot_patch1(double a,double p,double h,double x,double y,double z2) {
     double sR,sL,w2L,w2R,uL,uR,vL;
@@ -349,7 +349,7 @@ inline static double pot_patch1(double a,double p,double h,double x,double y,dou
     uR=bR/(a1L*a2L);
     uL=bL/(a1L*a2L);
     return (psi(sR+h,uR,vL,w2R)-psi(sR,uR,vL,w2R)+psi(sL,uL,vL,w2L)-psi(sL+h,uL,vL,w2L))*a2L;
-};
+}
 /* rectangular, p=0 */
 inline static double pot_patch2(double a,double h,double x,double y,double z2) {
     double sR,sL,w2L,w2R,uL,uR;
@@ -362,7 +362,7 @@ inline static double pot_patch2(double a,double h,double x,double y,double z2) {
     uR=bR;
     uL=bL;
     return psi0(sR+h,uR,w2R)-psi0(sR,uR,w2R)+psi0(sL,uL,w2L)-psi0(sL+h,uL,w2L);
-};
+}
 
 
 double potPatchT(Vec3Flt pnt,PatchFlt patch) {

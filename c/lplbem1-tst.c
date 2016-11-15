@@ -6,15 +6,21 @@
 #include "lplbem.h"
 #include "timers.h"
 #include "lalg.h"
+#include "trgint.h"
 Dbl xpot(Flt z, Dbl phi) {
     return -z+phi;
 }
 Dbl lplgfl1 (Vec3Flt dst ,Vec3Flt vrt0,Vec3Flt vrt1,Vec3Flt vrt2,Dbl q0,Dbl q1,Dbl q2); 
+
+
+
+
+
 /* linear charge distribution */
 int main(int argc,char * argv[]) {
     TSurf s;   
     double time_start,time_stop;
-    int ret,n,t,i,maxi;
+    int ret,n,t,i,maxi,j;
     Flt * cnt=0;
     Flt * qt1=0;
     Int * ntc=0;
@@ -28,6 +34,8 @@ int main(int argc,char * argv[]) {
     Dbl a,b,phi,z,dlt,mdlt,fct;
     Dbl phi0=1.0;
     char str[100];
+
+
     if(argc!=3) {
 	fprintf(stderr,"usage: %s surf lbl\n",argv[0]);
 	exit(1);
@@ -85,6 +93,13 @@ int main(int argc,char * argv[]) {
     lm1=ALLOC_MEM(Dbl,n*n);
     time_start=cpuClock();
     ret=mkSAMat1(lm1,ntc,tcvec,&s,lplGfL1);
+  /*  for(i=0;i<n;i++) {
+	for(j=0;j<n;j++) {
+	    printf("dst=%d src=%d %le\n",j,i,lm1[j+n*i]);
+	    if(lm1[j+n*i]<0.0) printf("***************************\n");
+	}
+    }*/
+    //ret=mkLM(lm1,ntc,tcvec,&s);
     //ret=mkSAMat1(lm1,ntc,tcvec,&s,lplgfl1);
      time_stop=cpuClock();
     if(ret) {
@@ -92,6 +107,9 @@ int main(int argc,char * argv[]) {
 	exit(1);
     }
     printf("mkSAMat1 with lplGfL1 takes %e s\n",time_stop-time_start);
+    sprintf(str,"%s-lm1.bin",argv[2]);
+    ret=write2DataBufDbl(lm1,n,n,str);
+
 /*    dlt=0.0;
     for(i=0;i<n*n;i++)  {
 	a=fabs(lm1[i]-lm2[i]);
@@ -159,8 +177,6 @@ int main(int argc,char * argv[]) {
     }
     dlt=sqrt(dlt/n);
     printf("maxerr=%e at %d (%f %f %f) std=%e\n",mdlt,maxi,s.vvec[3*maxi+0],s.vvec[3*maxi+1],s.vvec[3*maxi+2],dlt);
-    sprintf(str,"%s-lm1.bin",argv[2]);
-    ret=write2DataBufDbl(lm1,n,n,str);
     sprintf(str,"%s-ee1.bin",argv[2]);
     ret=write1DataBufDbl(ee,n,str);
     
