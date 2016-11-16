@@ -57,7 +57,7 @@ static inline double ff(double wtt,double wbt,double wtb,double wbb,
              double x1,double y1,double z1,
              double x2,double y2,double z2,
 	     double q0,double q1,double q2) { */
-Dbl lplGfL1 (Vec3Flt dst ,Vec3Flt vrt0,Vec3Flt vrt1,Vec3Flt vrt2,Dbl q0,Dbl q1,Dbl q2) {
+Dbl lplGfL1 (Vec3Dbl dst ,Vec3Dbl vrt0,Vec3Dbl vrt1,Vec3Dbl vrt2,Dbl q0,Dbl q1,Dbl q2) {
 	double x10,y10,z10,x20,y20,z20,x0,z0,y0;
 	double nx,ny,nz,kx,ky,kz,n2x,n2y,n2z;
 	double d1,d2,c2,s2,u2,u1,v2,zz,u3,v3,v4,a,b,c;
@@ -148,7 +148,7 @@ static inline double int_ijk(double x,double w,double v,double u,double aa,doubl
              double x0,double y0,double z0,double q0,
              double xx1,double yy1,double zz1,double q1,
              double xx2,double yy2,double zz2,double q2) {*/
-Dbl lplGfL2 (Vec3Flt dst ,Vec3Flt vrt0,Vec3Flt vrt1,Vec3Flt vrt2,Dbl q0,Dbl q1,Dbl q2) {
+Dbl lplGfL2 (Vec3Dbl dst ,Vec3Dbl vrt0,Vec3Dbl vrt1,Vec3Dbl vrt2,Dbl q0,Dbl q1,Dbl q2) {
     double rr11,rr12,rr13,rr22,rr23,rr33,m,mm;
     double nrm,w1,w2,r1,r2,v1,v2,u1,u2,s1u,s2u,s1d,s2d;
     double a1,a2,b1,b2,b,c1,c2,c;
@@ -233,7 +233,7 @@ static inline double ff0(double wtt,double wbt,double wtb,double wbb,
 		+(newg0(wtb,Vb,qb,zz)-newg0(wbb,Vb,qb,zz))/(Vb*Vb+1.0);
 	return res;
 }
-Dbl lplGfC1(Vec3Flt dst,Vec3Flt vrt0,Vec3Flt vrt1,Vec3Flt vrt2) {
+Dbl lplGfC1(Vec3Dbl dst,Vec3Dbl vrt0,Vec3Dbl vrt1,Vec3Dbl vrt2) {
     double x0,y0, z0;
     double x10,y10,z10,x20,y20,z20;
     double nx,ny,nz,kx,ky,kz,n2x,n2y,n2z;
@@ -365,12 +365,12 @@ inline static double pot_patch2(double a,double h,double x,double y,double z2) {
 }
 
 
-double potPatchT(Vec3Flt pnt,PatchFlt patch) {
-    Vec3Flt k,n,m;
+double potPatchT(Vec3Dbl pnt,PatchDbl patch) {
+    Vec3Dbl k,n,m;
     double a,h,p,r2;
     double x,y,z,zz;
-    a=sqrt(dot3Flt(patch[1],patch[1]));
-    r2=dot3Flt(patch[2],patch[2]);
+    a=sqrt(dot3Dbl(patch[1],patch[1]));
+    r2=dot3Dbl(patch[2],patch[2]);
     k[0]=patch[1][0]/a;k[1]=patch[1][1]/a;k[2]=patch[1][2]/a;
     p=patch[2][0]*k[0]+patch[2][1]*k[1]+patch[2][2]*k[2];
     h=sqrt(r2-p*p);
@@ -378,27 +378,27 @@ double potPatchT(Vec3Flt pnt,PatchFlt patch) {
     m[1]=(patch[2][1]-p*k[1])/h;
     m[2]=(patch[2][2]-p*k[2])/h; 
     n[0]=k[1]*m[2]-k[2]*m[1];n[1]=k[2]*m[0]-k[0]*m[2];n[2]=k[0]*m[1]-k[1]*m[0];
-    x=dot3Flt(pnt,k)-dot3Flt(patch[0],k);
-    y=dot3Flt(pnt,m)-dot3Flt(patch[0],m);
-    z=dot3Flt(pnt,n)-dot3Flt(patch[0],n);
+    x=dot3Dbl(pnt,k)-dot3Dbl(patch[0],k);
+    y=dot3Dbl(pnt,m)-dot3Dbl(patch[0],m);
+    z=dot3Dbl(pnt,n)-dot3Dbl(patch[0],n);
     zz=z*z;
     if(zz<ZZERO) zz=ZZERO;
     return pot_patch0(a,p,h,x,y,zz);
 }
-Dbl lplGfC2(Vec3Flt dst,Vec3Flt vrt0,Vec3Flt vrt1,Vec3Flt vrt2) {
-    PatchFlt p;
+Dbl lplGfC2(Vec3Dbl dst,Vec3Dbl vrt0,Vec3Dbl vrt1,Vec3Dbl vrt2) {
+    PatchDbl p;
     p[0][0]=vrt0[0]; p[0][1]=vrt0[1]; p[0][2]=vrt0[2];
     p[1][0]=vrt1[0]-vrt0[0]; p[1][1]=vrt1[1]-vrt0[1]; p[1][2]=vrt1[2]-vrt0[2];
     p[2][0]=vrt2[0]-vrt0[0]; p[2][1]=vrt2[1]-vrt0[1]; p[2][2]=vrt2[2]-vrt0[2];
     return potPatchT(dst,p);
 }
 /* parallelogramm */
-double potPatchP(Vec3Flt pnt,PatchFlt patch) {
-    Vec3Flt k,n,m;
+double potPatchP(Vec3Dbl pnt,PatchDbl patch) {
+    Vec3Dbl k,n,m;
     double a,h,p,r2;
     double x,y,z,zz;
-    a=sqrt(dot3Flt(patch[1],patch[1]));
-    r2=dot3Flt(patch[2],patch[2]);
+    a=sqrt(dot3Dbl(patch[1],patch[1]));
+    r2=dot3Dbl(patch[2],patch[2]);
     k[0]=patch[1][0]/a;k[1]=patch[1][1]/a;k[2]=patch[1][2]/a;
     p=patch[2][0]*k[0]+patch[2][1]*k[1]+patch[2][2]*k[2];
     h=sqrt(r2-p*p);
@@ -406,20 +406,20 @@ double potPatchP(Vec3Flt pnt,PatchFlt patch) {
     m[1]=(patch[2][1]-p*k[1])/h;
     m[2]=(patch[2][2]-p*k[2])/h; 
     n[0]=k[1]*m[2]-k[2]*m[1];n[1]=k[2]*m[0]-k[0]*m[2];n[2]=k[0]*m[1]-k[1]*m[0];
-    x=dot3Flt(pnt,k)-dot3Flt(patch[0],k);
-    y=dot3Flt(pnt,m)-dot3Flt(patch[0],m);
-    z=dot3Flt(pnt,n)-dot3Flt(patch[0],n);
+    x=dot3Dbl(pnt,k)-dot3Dbl(patch[0],k);
+    y=dot3Dbl(pnt,m)-dot3Dbl(patch[0],m);
+    z=dot3Dbl(pnt,n)-dot3Dbl(patch[0],n);
     zz=z*z;
     if(zz<ZZERO) zz=ZZERO;
     return pot_patch1(a,p,h,x,y,zz);
 }
 /* rectangular p=0*/
-double potPatchR(Vec3Flt pnt,PatchFlt patch) {
-    Vec3Flt k,n,m;
+double potPatchR(Vec3Dbl pnt,PatchDbl patch) {
+    Vec3Dbl k,n,m;
     double a,h,p,r2;
     double x,y,z,zz;
-    a=sqrt(dot3Flt(patch[1],patch[1]));
-    r2=dot3Flt(patch[2],patch[2]);
+    a=sqrt(dot3Dbl(patch[1],patch[1]));
+    r2=dot3Dbl(patch[2],patch[2]);
     k[0]=patch[1][0]/a;k[1]=patch[1][1]/a;k[2]=patch[1][2]/a;
     p=patch[2][0]*k[0]+patch[2][1]*k[1]+patch[2][2]*k[2];
     h=sqrt(r2-p*p);
@@ -427,9 +427,9 @@ double potPatchR(Vec3Flt pnt,PatchFlt patch) {
     m[1]=(patch[2][1]-p*k[1])/h;
     m[2]=(patch[2][2]-p*k[2])/h; 
     n[0]=k[1]*m[2]-k[2]*m[1];n[1]=k[2]*m[0]-k[0]*m[2];n[2]=k[0]*m[1]-k[1]*m[0];
-    x=dot3Flt(pnt,k)-dot3Flt(patch[0],k);
-    y=dot3Flt(pnt,m)-dot3Flt(patch[0],m);
-    z=dot3Flt(pnt,n)-dot3Flt(patch[0],n);
+    x=dot3Dbl(pnt,k)-dot3Dbl(patch[0],k);
+    y=dot3Dbl(pnt,m)-dot3Dbl(patch[0],m);
+    z=dot3Dbl(pnt,n)-dot3Dbl(patch[0],n);
     zz=z*z;
     if(zz<ZZERO) zz=ZZERO;
     return pot_patch2(a,h,x,y,zz);

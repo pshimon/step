@@ -5,31 +5,31 @@
 ***********************************************************/
 #include "lplbem.h"
 
-int mkQtot1(Flt *q,int *ntc,CList *tcvec,TSurf *s) {
-    Vec3Flt w;
-    Flt a;
+int mkQtot1(Dbl *q,int *ntc,CList *tcvec,TSurf *s) {
+    Vec3Dbl w;
+    Dbl a;
     int i,k;
     if(!ntc) return -1;
     if(!tcvec) return -2;
     for(i=0;i<s->nv;i++) {
-	a=0.0f;
+	a=0.0;
 	for(k=0;k<ntc[i];k++) {
 	    a+=trgNorm(w,s,tcvec[i][k]);
 	}
-	q[i]=a/6.0f;
+	q[i]=a/6.0;
     }
     return 0;
 }
 
-int mkQtot0(Flt *q,TSurf *s) {
-    Vec3Flt w;
+int mkQtot0(Dbl *q,TSurf *s) {
+    Vec3Dbl w;
     int k;
     for(k=0;k<s->nt;k++) {
-	q[k]=0.5f*trgNorm(w,s,k);	
+	q[k]=0.5*trgNorm(w,s,k);	
     }
     return 0;
 }
-int mkCenters(Flt *c,TSurf *s) {
+int mkCenters(Dbl *c,TSurf *s) {
     int j,k,n0,n1,n2;
     if(!c) return -1;
     for(j=0;j<s->nt;j++) {
@@ -45,7 +45,7 @@ int  mkSAMat1(Dbl *lm,int *ntc,CList *tcvec,TSurf *s,TrgPot1 tp1){
     int i,j,k,v0,v1,v2,n,m;
     Dbl *lmc;
     Dbl q0,q1,q2;
-    Flt *cpvec;
+    Dbl *cpvec;
     n=s->nv;
     m=s->nv;
     cpvec=s->vvec;
@@ -70,7 +70,8 @@ int  mkSAMat1(Dbl *lm,int *ntc,CList *tcvec,TSurf *s,TrgPot1 tp1){
     }
     return 0;
 }
-int  mkSAMat0(Dbl *lm,Flt *cpvec,TSurf *s,TrgPot0 tp0){
+
+int  mkSAMat0(Dbl *lm,Dbl *cpvec,TSurf *s,TrgPot0 tp0){
     int i,j,v0,v1,v2,n,m;
     Dbl *lmc;
     n=s->nt;
