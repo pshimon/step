@@ -3,8 +3,18 @@
 * http://industrialphys.com                                           **
 * THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           **
 ***********************************************************************/
-#ifndef OGL_GLFW_H
-#define OGL_GLFW_H
-#include <GLFW/glfw3.h>
-GLFWwindow* glfw_init_window(int width,int height,char * title);
+#ifndef OGL_GLUT_H
+#define OGL_GLUT_H
+#include <GL/freeglut.h>
+/* returns window handle, 0 -failure */
+int glutInitWindow(int * argc,char * argv[]);
+/* interface */
+void resize_cb(int w,int h);
+void display_cb();
+void timer_cb(int v);
+void idle_cb();
+void clean_cb(void);
+void keyboard_cb(unsigned char key,int x,int y);
+void special_cb(int key,int x,int y);
+
 #endif

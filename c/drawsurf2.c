@@ -4,7 +4,7 @@
 * THE SOFTWARE IS PROVIDED "AS IS",USE IT AT YOUR OWN RISK *
 ***********************************************************/
 #include "ogl.h"
-#include "ogl_glut.h"
+#include "oglglfw.h"
 #include "tsurf.h"
 GLuint vaoid[1]; /* VAO id, no need in more than 1 */
 GLuint vboid[3]; /* VBO ids vertices, normals, triangles*/
@@ -71,43 +71,6 @@ Vec3Flt ld={0.0f,0.0f,1.0f};/* light direction */
 Flt left,right,top,bot,near,far;
 Flt ax=0.0f;
 Flt ay=0.0f;
-void keyboard_cb(unsigned char key,int x,int y) {
-    switch (key) {
-	case 27:
-	case 'q':
-	    exit(0);
-	    break;
-    }
-}
-void special_cb(int key,int x,int y) {
-    Flt dx=0.1;
-    Flt dy=0.1;
-     switch (key) {
-            case GLUT_KEY_LEFT:
-                ax-=dx;
-		if(ax<-M_PI) ax+=2.0*M_PI;
-                break;
-            case GLUT_KEY_RIGHT:
-                ax+=dx;
-		if(ax>M_PI) ax-=2.0*M_PI;
-                break;
-             case GLUT_KEY_UP:
-                ay+=dy;
-		if(ay>M_PI) ay-=2.0*M_PI;
-                break;
-            case GLUT_KEY_DOWN:
-                ay-=dy;
-		if(ay<-M_PI) ay+=2.0*M_PI;
-                break;
-      
-       };
-    glutPostRedisplay();
-
-}
-
-void idle_cb(void){
-  glutPostRedisplay();
-}
 
 void clean_cb(void){
     ogl_delete_prog (pid);
@@ -131,7 +94,7 @@ void resize_cb(int w, int h) {
 
 }
 
-void display_cb(void){
+static void render(){
     Vec3Flt v;
     Mat4Flt m1,m2;
     v[0]=1.0f;v[1]=0.0f;v[2]=0.0f;
@@ -158,59 +121,35 @@ void display_cb(void){
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glDrawElements(GL_TRIANGLES, 3*nt, GL_UNSIGNED_INT, (GLvoid*)0);
     /* done */
-    glBindVertexArray(0);
-    glUseProgram(0);
-    glutSwapBuffers();
+    //glBindVertexArray(0);
+    //glUseProgram(0);
+ 
+ 
 }
-/*
-int read_sphere(TSurf *s,char * fname) {
-    FILE *fp=fopen(fname,"rb");
-    int n,t,ret,j;
-    size_t l;
-    Flt x,y,z,r;
-    if(fp==0) return -1;
-    if(fread(&t,sizeof(int),1,fp)!=1) {ret=-5;goto abend;}
-    if(fread(&n,sizeof(int),1,fp)!=1) {ret=-5;goto abend;}
-    if(makeTSurf(s,t,n)) {ret=-2;goto abend;}
-    l=3*t;
-    if(fread(s->tvec,sizeof(int), l,fp)!= l) {ret=-3;goto abend;}
-    l=3*n;
-    if(fread(s->vvec,sizeof(Flt), l,fp)!= l) {ret=-4;goto abend;}
-    //if(fread(s->nvec,sizeof(Flt), l,fp)!= l) {ret=-4;goto abend;}
-    for(j=0;j<n;j++) {
-	x=s->vvec[3*j+0];
-	y=s->vvec[3*j+1];
-	z=s->vvec[3*j+2];
-	r=sqrt(x*x+y*y+z*z);
-	s->nvec[3*j+0]=x/r;
-	s->nvec[3*j+1]=y/r;
-	s->nvec[3*j+2]=z/r;
-    }
-    ret=0;
-abend:
-    fclose(fp);    
-    return ret;
-}
-*/    
 
 int main(int argc, char* argv[]){
-    int handle; 
+ 
     Vec3Flt v; 
     int ret,i;
     TSurf s;
     Flt rmax,fct=1.1,r;
-    handle=glut_init_window(&argc,argv);
-    if(handle<1) {
-	fprintf(stderr,"failed to create window,handle =%d\n",handle);
-	exit(1);
-    }
-    printf ("(glut) Renderer: %s\n", glGetString (GL_RENDERER));
-    printf ("(glut) OpenGL version supported %s\n",glGetString (GL_VERSION) );
+     int width=800, height=600;
+  Flt dx=0.1;
+    Flt dy=0.1;
+
+    GLFWwindow *window;
 
     if(argc!=2) {
 	fprintf(stderr,"usage: %s surf \n",argv[0]);
 	exit(1);
     }
+    window=glfwInitWindow(width,height,argv[1]);
+    if (!window) {
+        fprintf(stderr, "GLFW3: failed to initialize\n");
+        exit(EXIT_FAILURE);
+    }
+    printf ("(glfw) Renderer: %s\n", glGetString (GL_RENDERER));
+    printf ("(glfw) OpenGL version supported %s\n",glGetString (GL_VERSION) );
     initTSurf(&s);
     ret=readTSurf(&s,argv[1]);
     if(ret) {
@@ -231,7 +170,6 @@ int main(int argc, char* argv[]){
     
     near=0;
     far=2*rmax*fct;
-
   
  /*   if(!vs_src) vs_src=read_bytes("v2.gsl");
     if(!vs_src) {
@@ -243,7 +181,7 @@ int main(int argc, char* argv[]){
 	fprintf(stderr,"failed to read fs\n");
 	exit(1);
     }
-*/  glutSetWindowTitle(argv[1]);
+*/  
     ogl_init_3d();
     pid=ogl_make_prog(vs_src,fs_src);
     ogl_make_buffs(vaoid,vboid,3*nv,3*nt,s.vvec,s.nvec,s.tvec);
@@ -252,7 +190,38 @@ int main(int argc, char* argv[]){
     ogl_set_uniform_v3(pid,"lc",lc);
     v[0]=0.0f;v[1]=0.0f;v[2]=-rmax*fct;
     translate4Flt(vm,v);
-    glutMainLoop();
+    
+ 
+    while (!glfwWindowShouldClose(window)) {
+
+	glfwGetFramebufferSize(window, &width, &height);
+	resize_cb(width,height);
+	render();	
+
+	glfwPollEvents();
+
+	if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE))
+	    glfwSetWindowShouldClose(window, GL_TRUE);
+	if (glfwGetKey (window, GLFW_KEY_LEFT)) {
+	    ax-=dx;
+	    if(ax<-M_PI) ax+=2.0*M_PI;
+	}
+	if (glfwGetKey (window, GLFW_KEY_RIGHT)) {
+	    ax+=dx;
+	    if(ax>M_PI) ax-=2.0*M_PI;
+	}
+	if (glfwGetKey (window, GLFW_KEY_UP)) {
+	    ay+=dy;
+	    if(ay>M_PI) ay-=2.0*M_PI;
+	}
+	if (glfwGetKey (window, GLFW_KEY_DOWN)) {
+	    ay-=dy;
+	    if(ay<-M_PI) ay+=2.0*M_PI;
+	}
+	glfwSwapBuffers(window);
+    }
+    clean_cb();
+    glfwTerminate();
     return 0;
 
 }

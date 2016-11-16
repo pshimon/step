@@ -4,8 +4,8 @@
 * THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           **
 ***********************************************************************/
 #include "ogl.h"
-#include "ogl_glfw.h"
-GLFWwindow* glfw_init_window(int width,int height,char * title) {
+#include "oglglfw.h"
+GLFWwindow* glfwInitWindow(int width,int height,char * title) {
     GLFWwindow* window;
      GLenum GlewInitResult;
      
