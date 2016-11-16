@@ -21,7 +21,7 @@ void oglPrintLog(GLuint sid);
 
 void oglSetUniformInt(GLuint pid,const char * name,int val);
 /* float */
-void oglMakeBuffsFlt(GLuint vaoid[],GLuint vboid[],int nv,int nt,float * vvec,float * nvec,int * tvec);
+void oglMakeBuffsFlt(GLuint vaoid[],GLuint vboid[],int nv,int nt,Flt * vvec,Flt * nvec,int * tvec);
 void oglSetUniformM4Flt(GLuint pid,const char * name,Mat4Flt val);
 void oglSetUniformM3Flt(GLuint pid,const char * name,Mat3Flt val);
 void oglSetUniformV3Flt(GLuint pid,const char * name,Flt * val);

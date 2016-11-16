@@ -89,14 +89,14 @@ void oglSetUniformInt(GLuint pid,const char * name,int val) {
     glUniform1i(loc,val);
 }
 /* float */
-void oglMakeBuffsFlt(GLuint vaoid[],GLuint vboid[],int nv,int nt,float * vvec,float * nvec,int * tvec) {
+void oglMakeBuffsFlt(GLuint vaoid[],GLuint vboid[],int nv,int nt,Flt * vvec,Flt * nvec,int * tvec) {
     glGenBuffers(3,vboid);
     /* vertices */
     glBindBuffer(GL_ARRAY_BUFFER, vboid[0]);
-    glBufferData(GL_ARRAY_BUFFER, (3 * nv) * sizeof(float), vvec, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, (3 * nv) * sizeof(Flt), vvec, GL_STATIC_DRAW);
     /* normals */
     glBindBuffer(GL_ARRAY_BUFFER, vboid[1]);
-    glBufferData(GL_ARRAY_BUFFER, (3 * nv) * sizeof(float), nvec, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, (3 * nv) * sizeof(Flt), nvec, GL_STATIC_DRAW);
     /* triangles */
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboid[2]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, (3*nt) * sizeof(int), tvec, GL_STATIC_DRAW);

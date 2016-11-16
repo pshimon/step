@@ -17,12 +17,11 @@
 typedef int CList[MAX_CONNECT];
 typedef struct {
     int * tvec;/*trg vector(3*nt);*/
-    Flt * vvec;/* vertices vec(3*nv)*/
-    Flt * nvec;/* normal vec(3*nv)*/
+    Dbl * vvec;/* vertices vec(3*nv)*/
+    Dbl * nvec;/* normal vec(3*nv)*/
     int nt; /* number of triangles */
     int nv; /* number of vertices */
 } TSurf;
-
 /* unintialized variable may contain garbage */
 int initTSurf(TSurf* s);
 /* to avoid memory leaks */
@@ -41,15 +40,12 @@ int mkDodecahedron(TSurf *s);
 int mkIcosahedron(TSurf *s);
 
 /* rerturns area of trg */
-float trgNorm(Vec3Flt w,TSurf *s,int t);
+Dbl trgNorm(Vec3Dbl w,TSurf *s,int t);
 /* array lst must be of  MAX_CONNECT length at least*/
-//int get_trgs(int * lst,TSurf *s,int v);
-//int get_trg_pair(int * first,int * second,int * lst,int nc,TSurf *s,int v);
-//int remove_repeated_vertices(TSurf *s, int vstart);
 int getTrgCon(int *ntc,CList *tcvec,TSurf *s);
 int getVrtCon(int *nvc,CList *vcvec,TSurf *s);
 int getVrtBetw(int *nvc,CList *vcvec,TSurf *s,int k1,int k2);
 int refineTSurf2(TSurf *s,TSurf *sold,int *nvc,CList *vcvec);
-int checkNormals(float * d,TSurf *s);
+int checkNormals(Dbl * d,TSurf *s);
 void mkUnitSphere(TSurf *s);
 #endif

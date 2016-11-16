@@ -136,7 +136,7 @@ int main(int argc, char* argv[]){
      int width=800, height=600;
   Flt dx=0.1;
     Flt dy=0.1;
-
+    Flt *vert,*norm;
     GLFWwindow *window;
 
     if(argc!=2) {
@@ -158,9 +158,15 @@ int main(int argc, char* argv[]){
     }
     nv=s.nv;
     nt=s.nt;
+    vert=ALLOC_MEM(Flt,3*s.nv);
+    norm=ALLOC_MEM(Flt,3*s.nv);
+    for(i=0;i<3*nv;i++) {
+	vert[i]=s.vvec[i];
+	norm[i]=s.nvec[i];
+    }
     rmax=0.0;
     for(i=0;i<nv;i++) {
-	r=norm3Flt(s.vvec+3*i);
+	r=norm3Flt(vert+3*i);
 	if(r>rmax) rmax=r;
     }
     left=-rmax*fct;
@@ -184,7 +190,7 @@ int main(int argc, char* argv[]){
 */  
     oglInit3d();
     pid=oglMakeProg(vs_src,fs_src);
-    oglMakeBuffsFlt(vaoid,vboid,3*nv,3*nt,s.vvec,s.nvec,s.tvec);
+    oglMakeBuffsFlt(vaoid,vboid,3*nv,3*nt,vert,norm,s.tvec);
     glClearColor(cl0[0],cl0[1],cl0[2], 1.0f);
     oglSetUniformV3Flt(pid,"ld",ld);
     oglSetUniformV3Flt(pid,"lc",lc);
@@ -222,6 +228,9 @@ int main(int argc, char* argv[]){
     }
     clean();
     glfwTerminate();
+    cleanTSurf(&s);
+    FREE_MEM(vert);
+    FREE_MEM(norm);
     return 0;
 
 }

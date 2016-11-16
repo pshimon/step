@@ -30,9 +30,9 @@ int makeTSurf(TSurf* s,int T,int N) {
     s->tvec=ALLOC_MEM(int,3*T);
     if(0==s->tvec) {ret=-4;goto abend;}
     s->nv=N;
-    s->vvec=ALLOC_MEM(Flt,3*N);
+    s->vvec=ALLOC_MEM(Dbl,3*N);
     if(0==s->vvec) {ret=-5;goto abend;}
-    s->nvec=ALLOC_MEM(Flt,3*N);
+    s->nvec=ALLOC_MEM(Dbl,3*N);
     if(0==s->nvec) {ret=-6;goto abend;}
     return 0;
 abend:
@@ -43,8 +43,8 @@ abend:
 int cpTSurf(TSurf* dst,TSurf* src) {
     if(makeTSurf(dst,src->nt,src->nv)) return -1;
     memcpy(dst->tvec,src->tvec,3*src->nt*sizeof(int));
-    memcpy(dst->vvec,src->vvec,3*src->nv*sizeof(Flt));
-    memcpy(dst->nvec,src->nvec,3*src->nv*sizeof(Flt));
+    memcpy(dst->vvec,src->vvec,3*src->nv*sizeof(Dbl));
+    memcpy(dst->nvec,src->nvec,3*src->nv*sizeof(Dbl));
     return 0;
 }
 int writeTSurf(TSurf *s,char * fname) {
@@ -56,8 +56,8 @@ int writeTSurf(TSurf *s,char * fname) {
     l=3*s->nt;
     if(fwrite(s->tvec,sizeof(int),l,fp)!= l) return -2;
     l=3*s->nv;
-    if(fwrite(s->vvec,sizeof(Flt),l,fp)!= l) return -3;
-    if(fwrite(s->nvec,sizeof(Flt),l,fp)!= l) return -4;
+    if(fwrite(s->vvec,sizeof(Dbl),l,fp)!= l) return -3;
+    if(fwrite(s->nvec,sizeof(Dbl),l,fp)!= l) return -4;
     fclose(fp);
     return 0;
 }
@@ -72,8 +72,8 @@ int readTSurf(TSurf *s,char * fname) {
     l=3*t;
     if(fread(s->tvec,sizeof(int), l,fp)!= l) {ret=-3;goto abend;}
     l=3*n;
-    if(fread(s->vvec,sizeof(Flt), l,fp)!= l) {ret=-4;goto abend;}
-    if(fread(s->nvec,sizeof(Flt), l,fp)!= l) {ret=-4;goto abend;}
+    if(fread(s->vvec,sizeof(Dbl), l,fp)!= l) {ret=-4;goto abend;}
+    if(fread(s->nvec,sizeof(Dbl), l,fp)!= l) {ret=-4;goto abend;}
     ret=0;
 abend:
     fclose(fp);    
@@ -98,11 +98,11 @@ int printTSurf(TSurf *s,char * fname) {
 int  mkTetrahedron(TSurf *s) {
     int nt=4,nv=4,j;
     int vt[]={0,1,2,0,3,1,0,2,3,1,3,2};
-    Flt vv[]={ 0.577350259,0.577350259,0.577350259,
+    Dbl vv[]={ 0.577350259,0.577350259,0.577350259,
 	0.577350259,     -0.577350259,     -0.577350259,
 	-0.577350259 ,     0.577350259,     -0.577350259,
 	-0.577350259,     -0.577350259,      0.577350259};
-    Flt vn[]=  {0.577350318,      0.577350318,      0.577350318,    
+    Dbl vn[]=  {0.577350318,      0.577350318,      0.577350318,    
 	0.577350318,     -0.577350318,     -0.577350318,    
 	-0.577350318,      0.577350318,     -0.577350318,    
 	-0.577350318,     -0.577350318,      0.577350318};    
@@ -140,7 +140,7 @@ int mkHexahedron(TSurf *s) {
           13,           7,           5,
           13,           5,           1,
           13,           1,           3};
-    Flt vv[]={   0.577350259     ,  0.577350259     ,  0.577350259     ,
+    Dbl vv[]={   0.577350259     ,  0.577350259     ,  0.577350259     ,
   0.577350259     ,  0.577350259     , -0.577350259     ,
   0.577350259     , -0.577350259     ,  0.577350259     ,
   0.577350259     , -0.577350259     , -0.577350259     ,
@@ -155,7 +155,7 @@ int mkHexahedron(TSurf *s) {
    0.00000000     ,   0.00000000     ,  0.577350259     ,
    0.00000000     ,   0.00000000     , -0.577350259     
 };
-    Flt vn[]=  { 0.577350318     ,  0.577350318     ,  0.577350318     ,
+    Dbl vn[]=  { 0.577350318     ,  0.577350318     ,  0.577350318     ,
   0.577350318     ,  0.577350318     , -0.577350318     ,
   0.577350318     , -0.577350318     ,  0.577350318     ,
   0.577350318     , -0.577350318     , -0.577350318     ,
@@ -188,13 +188,13 @@ int mkOctahedron(TSurf *s) {
            5 ,           1 ,           2 ,
            4 ,           1 ,           3 ,
            5 ,           3 ,           1 };
-    Flt vv[]={  1.00000000     ,   0.00000000     ,   0.00000000     ,
+    Dbl vv[]={  1.00000000     ,   0.00000000     ,   0.00000000     ,
   -1.00000000     ,   0.00000000     ,   0.00000000     ,
    0.00000000     ,   1.00000000     ,   0.00000000     ,
    0.00000000     ,  -1.00000000     ,   0.00000000     ,
    0.00000000     ,   0.00000000     ,   1.00000000     ,
    0.00000000     ,   0.00000000     ,  -1.00000000 };
-    Flt vn[]={ 1.00000000     ,   0.00000000     ,   0.00000000     ,
+    Dbl vn[]={ 1.00000000     ,   0.00000000     ,   0.00000000     ,
   -1.00000000     ,   0.00000000     ,   0.00000000     ,
    0.00000000     ,   1.00000000     ,   0.00000000     ,
    0.00000000     ,  -1.00000000     ,   0.00000000     ,
@@ -272,7 +272,7 @@ int mkDodecahedron(TSurf *s) {
           31 ,          13 ,          12 ,
           31 ,          12 ,          11 ,
           31 ,          11 ,           1 };
-    Flt vv[]={ 0.356822103     , -0.934172392     ,   0.00000000     ,
+    Dbl vv[]={ 0.356822103     , -0.934172392     ,   0.00000000     ,
  -0.356822103     , -0.934172392     ,   0.00000000     ,
  -0.577350259     , -0.577350259     ,  0.577350259     ,
    0.00000000     , -0.356822103     ,  0.934172392     ,
@@ -304,7 +304,7 @@ int mkDodecahedron(TSurf *s) {
   0.675973535     , -0.417774558     ,   0.00000000     ,
  -0.675973475     ,  0.417774558     ,   0.00000000     ,
  -0.675973535     , -0.417774558     ,   0.00000000  };
-    Flt vn[]={  0.356822103     , -0.934172392     ,   0.00000000     ,
+    Dbl vn[]={  0.356822103     , -0.934172392     ,   0.00000000     ,
  -0.356822103     , -0.934172392     ,   0.00000000     ,
  -0.577350318     , -0.577350318     ,  0.577350318     ,
    0.00000000     , -0.356822103     ,  0.934172392     ,
@@ -366,7 +366,7 @@ int mkIcosahedron(TSurf *s) {
            5 ,           8 ,           9 ,
            6 ,          10 ,          11 ,
            7 ,          11 ,          10 };
-    Flt vv[]={   0.00000000     ,  0.850650847     ,  0.525731146     ,
+    Dbl vv[]={   0.00000000     ,  0.850650847     ,  0.525731146     ,
    0.00000000     ,  0.850650847     , -0.525731146     ,
    0.00000000     , -0.850650847     ,  0.525731146     ,
    0.00000000     , -0.850650847     , -0.525731146     ,
@@ -378,7 +378,7 @@ int mkIcosahedron(TSurf *s) {
   0.850650847     , -0.525731146     ,   0.00000000     ,
  -0.850650847     ,  0.525731146     ,   0.00000000     ,
  -0.850650847     , -0.525731146     ,   0.00000000 };
-    Flt vn[]={   0.00000000     ,  0.850650847     ,  0.525731146     ,
+    Dbl vn[]={   0.00000000     ,  0.850650847     ,  0.525731146     ,
    0.00000000     ,  0.850650847     , -0.525731146     ,
    0.00000000     , -0.850650847     ,  0.525731146     ,
    0.00000000     , -0.850650847     , -0.525731146     ,
@@ -399,10 +399,10 @@ int mkIcosahedron(TSurf *s) {
     return 0;
 }
 
-Flt trgNorm(Vec3Flt w,TSurf *s,int t) {
-    Vec3Flt u,v; 
+Dbl trgNorm(Vec3Dbl w,TSurf *s,int t) {
+    Vec3Dbl u,v; 
     int i,v0,v1,v2;
-    Flt a;
+    Dbl a;
     v0=s->tvec[3*t+0];
     v1=s->tvec[3*t+1];
     v2=s->tvec[3*t+2];
@@ -410,8 +410,8 @@ Flt trgNorm(Vec3Flt w,TSurf *s,int t) {
 	u[i]=s->vvec[3*v1+i]-s->vvec[3*v0+i];
 	v[i]=s->vvec[3*v2+i]-s->vvec[3*v0+i];
     }
-    cross3Flt(w,u,v);
-    a=norm3Flt(w);
+    cross3Dbl(w,u,v);
+    a=norm3Dbl(w);
     if(a>MIN_NORM) {
 	for(i=0;i<3;i++) w[i]=w[i]/a;
 	return 0.5*a;
@@ -558,7 +558,7 @@ int getVrtCon(int *nvc,CList *vcvec,TSurf *s) {
 }
 int getVrtBetw(int *nvc,CList *vcvec,TSurf *s,int k1,int k2) {
     int nmin,j,k;
-    Flt xx,yy,zz,x,y,z,x1,x2,y1,y2,z1,z2,d;
+    Dbl xx,yy,zz,x,y,z,x1,x2,y1,y2,z1,z2,d;
     x1=s->vvec[3*k1];
     x2=s->vvec[3*k2];	
     y1=s->vvec[3*k1+1];
@@ -584,9 +584,9 @@ int getVrtBetw(int *nvc,CList *vcvec,TSurf *s,int k1,int k2) {
 
 
 inline static int new_vert(TSurf *s,int n,int m,int k) {
-    Flt a,b;
+    Dbl a,b;
     int j,ret;
-    a=dot3Flt(s->nvec+3*m,s->nvec+3*k);
+    a=dot3Dbl(s->nvec+3*m,s->nvec+3*k);
     if(a>-1.0f+MIN_NORM) {
 	b=1.0f/sqrtf(2.0f*(1.0f+a));
 	ret=0;
@@ -603,7 +603,7 @@ inline static int new_vert(TSurf *s,int n,int m,int k) {
 
 int refineTSurf2(TSurf *s,TSurf *sold,int *nvc,CList *vcvec) {
     int i,k,v0,v1,v2,ret,n,u0,u1,u2,j,m,v;
-  //  Flt x1,y1,z1,x2,y2,z2;
+  //  Dbl x1,y1,z1,x2,y2,z2;
     n=sold->nv;
     for(j=0;j<sold->nv;j++) n+=nvc[j];/* new vertex count */
     if(makeTSurf(s,4*sold->nt,n)) return -1;
@@ -655,11 +655,11 @@ int refineTSurf2(TSurf *s,TSurf *sold,int *nvc,CList *vcvec) {
     return ret;
 }
 
-int checkNormals(Flt * d,TSurf *s) {
+int checkNormals(Dbl * d,TSurf *s) {
     int n0,n1,n2;
     int t,i;
-    Vec3Flt w1,w2;
-    Flt a;
+    Vec3Dbl w1,w2;
+    Dbl a;
     for(t=0;t<s->nt;t++) {
 	a= trgNorm(w1,s,t);
 	if(a==0.0f) return -1;
@@ -668,19 +668,19 @@ int checkNormals(Flt * d,TSurf *s) {
 	n2=s->tvec[3*t+2];
 	w2[0]=0.0;w2[1]=0.0;w2[2]=0.0;
 	for(i=0;i<3;i++) w2[i]=(s->nvec[3*n0+i]+s->nvec[3*n1+i]+s->nvec[3*n2+i]);
-	a=norm3Flt(w2);
+	a=norm3Dbl(w2);
 	if(a<MIN_NORM) return t;
 	for(i=0;i<3;i++) w2[i]=w2[i]/a;
-	d[t]=dot3Flt(w1,w2);
+	d[t]=dot3Dbl(w1,w2);
     }
     return 0;
 }
     
 void mkUnitSphere(TSurf *s) {
-    Vec3Flt cnt,w1;
+    Vec3Dbl cnt,w1;
     int j,i;
-    Flt a=1.0/s->nv;
-    Flt b;
+    Dbl a=1.0/s->nv;
+    Dbl b;
     for(i=0;i<3;i++) cnt[i]=0.0;
     for(j=0;j<s->nv;j++) {
 	for(i=0;i<3;i++) cnt[i]+=s->vvec[3*j+i];
@@ -688,7 +688,7 @@ void mkUnitSphere(TSurf *s) {
     for(i=0;i<3;i++) cnt[i]*=a;
     for(j=0;j<s->nv;j++) {
 	for(i=0;i<3;i++) w1[i]=s->vvec[3*j+i]-cnt[i];
-	b=1.0/norm3Flt(w1);
+	b=1.0/norm3Dbl(w1);
 	for(i=0;i<3;i++) {
 	    w1[i]*=b;
 	    s->nvec[3*j+i]=w1[i];
