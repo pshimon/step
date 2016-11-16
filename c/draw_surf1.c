@@ -5,7 +5,7 @@
 ***********************************************************/
 #include "ogl.h"
 #include "ogl_glut.h"
-#include "surf.h"
+#include "tsurf.h"
 GLuint vaoid[1]; /* VAO id, no need in more than 1 */
 GLuint vboid[3]; /* VBO ids vertices, normals, triangles*/
 /* vertex shader source */

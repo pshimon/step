@@ -6,7 +6,7 @@
 #include "lplbem.h"
 #include "timers.h"
 #include "lalg.h"
-#include "trgint.h"
+
 Dbl xpot(Flt z, Dbl phi) {
     return -z+phi;
 }

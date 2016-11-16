@@ -3,7 +3,7 @@
 * http://industrialphys.com                                *
 * THE SOFTWARE IS PROVIDED "AS IS",USE IT AT YOUR OWN RISK *
 ***********************************************************/
-#include "surf.h"
+#include "tsurf.h"
 
 int initTSurf(TSurf* s) {
     if(s==0) return -1;

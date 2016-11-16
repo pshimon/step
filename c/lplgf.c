@@ -4,7 +4,7 @@
 * THE SOFTWARE IS PROVIDED "AS IS",USE IT AT YOUR OWN RISK *
 ***********************************************************/
 #include "lplgf.h"
-#include "geom.h"
+
 #define ZZERO 1.0e-12
 //#define EPS 1.0e-6
 

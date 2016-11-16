@@ -22,9 +22,37 @@
 \begin{document}
 \maketitle
 \chapter{Introduction}
+STEP is not a project, it is code repository. The code developed for different projects which may be reused 
+is edited and put here. Fortran, C and Python are the main languages, FORTRAN, C++, Matlab are also used.
+\section{Names}
+To avoid name clashes all global names (functions and global variables) in C/C++ use camelCase, while in Fortran global names (functions and subroutines) should be in low\_case or UPPER\_CASE with at least one underscore inside the name (compiler may add trailing underscore). 
 
-%\begin{thebibliography} {99}
-%\bibitem {purcell} Edward M. Purcell Electricity and Magnetism. Berkeley Physics course - volume 2. McGraw-Hill, 1963
-%\bibitem {LL} L.D. Landau, E.M. Lifshitz, L.P. Pitaevskii Electrodynamics of Continuous Media.  Butterworth–Heinemann,1984
-%\end{thebibliography}
+Because of possible conflict between object files it is also assumed that no C/C++ file name contains underscore, but fortran ones contain at least one.
+
+Local names are less restricted, they only should NOT try to be descriptive~\footnote{I consider local "descriptive names" generally a bad idea}. All variables should be defined and explained at the very beginning of the unit (as in FORTRAN). Global names should be explained immediately after definition (as in \cite {nr3}). This rule provides locality of information (see \ref{elinfp}). If you duplicate some piece of information you should take additional efforts to maintain compatibility. 
+
+This rule evidently contradicts "good software engineering" but allows to produce effective and robust software with less effort. Software engineering silently assumes that resources to simultaneously develop code, test it and make reasonable quality documentation are available. This is not a case with STEP. STEP is not (software) engineering, it looks like small  R\&D project.
+
+\section{Explicit and local information principle}
+\label {elinfp}
+Explicit and Local Information Principle (ELIP) is very simple actually. Generally it states that every logically closed piece of information should be explicit and located in one place. Sometimes duplication is necessary or desirable (e. g. for efficiency reasons) however every such duplication demands additional efforts to simultaneously update it in all locations. Let us look for example on vector. It seems very reasonable that vector should know its size and update it as necessary. However in many cases a number of vectors should have consistent (e.g. equal) size. So we need some procedure which will update size of group of vectors atomically. The simplest  solution is to have size as explicit parameter and refer it to one and the same variable.
+
+\section{Object oriented programming}
+OOP has no place in STEP (it spoils efficiency).
+\section{Optimization}
+Optimization can reduce readability, re-usability  etc. Recommended approach to write clear, readable code f and then profile it to see which parts should be optimized. However profiling may be not simple or impossible. Let us take for example that program runs for a hour. To make profiling reliable we should run it say thousand times. So one profiling cycle (we need it after every modification) will take almost month and half) of continuous computer work.
+
+In STEP, it is  necessary to keep performance  in mind when designing and coding software. 
+
+\chapter{Common utilities}
+
+\section{Data buffer}
+Data buffer (databuf.h, databuf.c, data\_buf.f90 and databuf.py) is common data structure comprising multidimensional (1--7) array of integer, real or complex data. It is developed to make easy  communications between different processes on  same machine or on cluster with homogeneous architecture.
+
+\section{Triangulated surface}
+
+
+\begin{thebibliography} {99}
+    \bibitem {nr3} William H. Press, Saul A. Teukolsky, William T. Vetterling, Brian P. Flannery: Numerical Recipes, 3rd edition, Cambridge University Press, 2007	
+\end{thebibliography}
 \end {document}

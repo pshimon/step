@@ -5,7 +5,7 @@
 ***********************************************************************/
 #ifndef SURF_H
 #define SURF_H
-#include "geom.h"
+#include "databuf.h"
 /* if distance between points is less than MIN_DIST 
  * they are considered coinciding
  */

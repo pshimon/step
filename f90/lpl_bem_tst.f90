@@ -4,7 +4,7 @@
 ! THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           !!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 PROGRAM LPL_BEM_TST
-    USE TSURF
+    USE T_SURF
     IMPLICIT NONE
     TYPE(TSURF_TYPE)::S     
     INTEGER::NT ! NUMBER OF TRIANGLES 

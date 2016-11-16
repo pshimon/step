@@ -5,7 +5,7 @@
 ***********************************************************************/
 #ifndef LPLBEM_H
 #define LPLBEM_H
-#include "surf.h"
+#include "tsurf.h"
 #include "lplgf.h"
 /* ntc, tcvec should be updated before using this function*/
 int mkQtot1(Flt *q,int *ntc,CList *tcvec,TSurf *s);//linear charge distribution

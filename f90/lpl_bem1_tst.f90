@@ -4,9 +4,8 @@
 ! THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           !!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 PROGRAM LPL_BEM1_TST
-    USE TSURF
-    USE LINALG
-    USE DATA_BUF
+    USE T_SURF
+    USE LIN_ALG
     USE LPL_GF
     USE LPL_GF_POT
     IMPLICIT NONE

@@ -3,8 +3,8 @@
 * http://industrialphys.com                                *
 * THE SOFTWARE IS PROVIDED "AS IS",USE IT AT YOUR OWN RISK *
 ***********************************************************/
-#include "surf.h"
-#include "geom.h"
+#include "tsurf.h"
+
 int main(int argc,char * argv[]) {
     int ret,i;
     Flt * dist;

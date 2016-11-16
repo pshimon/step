@@ -5,7 +5,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 MODULE LPL_GF_POT
 USE LPL_GF
-USE TSURF
+USE T_SURF
 IMPLICIT NONE
 PUBLIC
 CONTAINS
