@@ -11,19 +11,21 @@
 
 #define BUFFER_OFFSET(offs) ((void *) (offs))
 
-char * read_bytes(char* filename);
-
+char * readBytes(char* filename);
+void oglInit3d();
 /* returns program id on success 0 on error */
-GLuint  ogl_make_prog(const GLchar * vs,const GLchar * fs);
-void ogl_delete_prog (GLuint pid);
-void ogl_init_3d();
-void ogl_make_buffs(GLuint vaoid[],GLuint vboid[],int nv,int nt,float * vvec,float * nvec,int * tvec);
-void ogl_delete_buffs(GLuint vaoid[],GLuint vboid[]);
-void ogl_set_uniform_m4(GLuint pid,const char * name,Mat4Flt val);
-void ogl_print_log(GLuint sid);
-void ogl_set_uniform_m3(GLuint pid,const char * name,Mat3Flt val);
-void ogl_set_uniform_v3(GLuint pid,const char * name,float * val);
-void ogl_set_uniform_v4(GLuint pid,const char * name,float * val);
-void ogl_set_uniform_f32(GLuint pid,const char * name,float val);
-void ogl_set_uniform_i32(GLuint pid,const char * name,int val);
+GLuint  oglMakeProg(const GLchar * vs,const GLchar * fs);
+void oglDeleteProg(GLuint pid);
+void oglDeleteBuffs(GLuint vaoid[],GLuint vboid[]);
+void oglPrintLog(GLuint sid);
+
+void oglSetUniformInt(GLuint pid,const char * name,int val);
+/* float */
+void oglMakeBuffsFlt(GLuint vaoid[],GLuint vboid[],int nv,int nt,float * vvec,float * nvec,int * tvec);
+void oglSetUniformM4Flt(GLuint pid,const char * name,Mat4Flt val);
+void oglSetUniformM3Flt(GLuint pid,const char * name,Mat3Flt val);
+void oglSetUniformV3Flt(GLuint pid,const char * name,Flt * val);
+void oglSetUniformV4Flt(GLuint pid,const char * name,Flt * val);
+void oglSetUniformFlt(GLuint pid,const char * name,Flt val);
+
 #endif

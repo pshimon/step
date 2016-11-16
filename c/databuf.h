@@ -325,7 +325,7 @@ inline static void lookatFlt(Mat4Flt m,Vec3Flt eye,Vec3Flt cnt,Vec3Flt up) {
     m[indf4(3,2)] =-dot3Flt(f, eye);
 }
 
-inline static void m3_from_m4Flt(Mat3Flt m1,Mat4Flt m2) {
+inline static void m3FromM4Flt(Mat3Flt m1,Mat4Flt m2) {
     int i,j;
     for(i=0;i<3;i++)
 	for(j=0;j<3;j++)
@@ -576,7 +576,7 @@ inline static void lookatDbl(Mat4Dbl m,Vec3Dbl eye,Vec3Dbl cnt,Vec3Dbl up) {
     m[indf4(3,2)] =-dot3Dbl(f, eye);
 }
 
-inline static void m3_from_m4Dbl(Mat3Dbl m1,Mat4Dbl m2) {
+inline static void m3FromM4Dbl(Mat3Dbl m1,Mat4Dbl m2) {
     int i,j;
     for(i=0;i<3;i++)
 	for(j=0;j<3;j++)

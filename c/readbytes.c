@@ -4,7 +4,7 @@
 * THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           **
 ***********************************************************************/
 #include "databuf.h"
-char * read_bytes(char* filename) {
+char * readBytes(char* filename) {
     FILE* infile;	
     int len;
     char* source;

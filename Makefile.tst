@@ -10,14 +10,14 @@ include $(ROOTDIR)/makefile.rules
 # fortran library sources
 LSTF:= data_buf.f90  t_surf.f90  lpl_gf.f90 lin_alg.f90 lpl_gf_ext.f90 lpl_gf_pot.f90
 # C library sources
-LSTC:=databuf.c ogl.c  oglglfw.c read_bytes.c tsurf.c lplgf.c lplbem.c timers.c oglglut.c
+LSTC:=databuf.c ogl.c  oglglfw.c readbytes.c tsurf.c lplgf.c lplbem.c timers.c oglglut.c
 # combining
 SLST:=$(LSTF:.f90=.$(OEXT)) $(LSTC:.c=.$(OEXT))
 #static library name
 SLIB:=steplib.$(LEXT)
 # fortran program sources
 LSTBF:=data_buf_tst.f90 lpl_bem_tst.f90 lpl_bem1_tst.f90 
-LSTBC:=databuf-tst.c drawsurf1.c drawsurf2.c surf-test.c mksphere.c lplbem0-tst.c lplbem1-tst.c 
+LSTBC:=databuf-tst.c  drawsurf2.c surf-test.c mksphere.c lplbem0-tst.c lplbem1-tst.c 
 # combining
 TRG:=$(LSTBF:.f90=.$(BEXT)) $(LSTBC:.c=.$(BEXT))
 all:$(TRG)  
@@ -29,8 +29,6 @@ clean:
 #special treatment
 GLLIBS:=  -lGL -lglut -lGLEW
 GLLIBS2:=  -lGL -lglfw -lGLEW
-drawsurf1.$(BEXT): drawsurf1.c 
-	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS) $(LM)
 drawsurf2.$(BEXT): drawsurf2.c 
 	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS2) $(LM)
 lplbem1-tst.$(BEXT): lplbem1-tst.c $(SLIB)
