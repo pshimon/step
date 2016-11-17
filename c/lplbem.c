@@ -88,4 +88,35 @@ int  mkSAMat0(Dbl *lm,Dbl *cpvec,TSurf *s,TrgPot0 tp0){
     }
     return 0;
 }
+int  mkSAMat1Tst(Dbl *lm,int *ntc,CList *tcvec,TSurf *s,TrgPot1 tp1){
+    int i,j,k,v0,v1,v2,n,m;
+    Dbl *lmc;
+    Dbl q0,q1,q2,a;
+    Dbl *cpvec;
+    n=s->nv;
+    m=s->nv;
+    cpvec=s->vvec;
+    //for(i=0;i<n*n;i++) lm[i]=0.0;
+    for(j=0;j<m;j++) {
+	for(i=0;i<n;i++) {
+	    lmc=lm+i*m;
+	    a=0.0;
+	    for(k=0;k<ntc[i];k++) {
+		v0=s->tvec[3*tcvec[i][k]+0];
+		v1=s->tvec[3*tcvec[i][k]+1];
+		v2=s->tvec[3*tcvec[i][k]+2];
+		if(i==v0) {
+		    q0=1.0;q1=0.0;q2=0.0;
+		} else if( i==v1) {
+		    q1=1.0;q0=0.0;q2=0.0;
+		} else {
+		    q2=1.0;q1=0.0;q0=0.0;
+		}
+		a+=tp1(cpvec+3*j,s->vvec+3*v0,s->vvec+3*v1,s->vvec+3*v2,q0,q1,q2);
+	    }
+	    lmc[j]=a;
+	}
+    }
+    return 0;
+}
 
