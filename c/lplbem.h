@@ -16,5 +16,5 @@ int mkCenters(Dbl *q,TSurf *s);//centers of triangles
 /* self action matrices */
 int mkSAMat1(Dbl *lm,int *ntc,CList *tcvec,TSurf *s,TrgPot1 tp);
 int mkSAMat0(Dbl *lm,Dbl *cpvec,TSurf *s,TrgPot0 tp);
-int  mkSAMat1Tst(Dbl *lm,int *ntc,CList *tcvec,TSurf *s,TrgPot1 tp1);
+int  mkSAMat1Tst(Dbl *lm,int *ntc,CList *tcvec,TSurf *s);
 #endif

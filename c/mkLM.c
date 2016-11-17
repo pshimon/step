@@ -72,8 +72,7 @@ int main(int argc,char * argv[]) {
     lm1=ALLOC_MEM(Dbl,n*n);
     time_start=cpuClock();
     ret=mkSAMat1(lm1,ntc,tcvec,&s,lplGfL1);
-    //ret=mkSAMat1Tst(lm1,ntc,tcvec,&s,lplGfL1); //"wrong" order of loops  as in ref
-     time_stop=cpuClock();
+    time_stop=cpuClock();
     if(ret) {
 	fprintf(stderr,"mkSAMat1 with lplGfL1 returns %d\n",ret);
 	exit(1);
@@ -81,6 +80,18 @@ int main(int argc,char * argv[]) {
     printf("mkSAMat1 with lplGfL1 takes %e s\n",time_stop-time_start);
     sprintf(str,"%s-lm1.bin",argv[2]);
     ret=write2DataBufDbl(lm1,n,n,str);
+    time_start=cpuClock();
+    ret=mkSAMat1Tst(lm1,ntc,tcvec,&s); //"wrong" order of loops  as in ref
+    time_stop=cpuClock();
+    if(ret) {
+	fprintf(stderr,"mkSAMat1 with trgint returns %d\n",ret);
+	exit(1);
+    }
+    printf("mkSAMat1 with trgint takes %e s\n",time_stop-time_start);
+    sprintf(str,"%s-lm1-ref.bin",argv[2]);
+    ret=write2DataBufDbl(lm1,n,n,str);
+
+    
     FREE_MEM(lm1);
     FREE_MEM(qt1);
     FREE_MEM(cnt);

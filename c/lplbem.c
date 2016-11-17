@@ -88,14 +88,22 @@ int  mkSAMat0(Dbl *lm,Dbl *cpvec,TSurf *s,TrgPot0 tp0){
     }
     return 0;
 }
-int  mkSAMat1Tst(Dbl *lm,int *ntc,CList *tcvec,TSurf *s,TrgPot1 tp1){
+
+double trgint(double x,double y,double z,
+             double x0,double y0,double z0,double q0,
+             double x1,double y1,double z1,double q1,
+             double x2,double y2,double z2,double q2);
+
+int  mkSAMat1Tst(Dbl *lm,int *ntc,CList *tcvec,TSurf *s){
     int i,j,k,v0,v1,v2,n,m;
     Dbl *lmc;
     Dbl q0,q1,q2,a;
     Dbl *cpvec;
+    double x,y,z,x0,y0,z0,x1,y1,z1,x2,y2,z2;
     n=s->nv;
     m=s->nv;
     cpvec=s->vvec;
+    
     //for(i=0;i<n*n;i++) lm[i]=0.0;
     for(j=0;j<m;j++) {
 	for(i=0;i<n;i++) {
@@ -112,7 +120,19 @@ int  mkSAMat1Tst(Dbl *lm,int *ntc,CList *tcvec,TSurf *s,TrgPot1 tp1){
 		} else {
 		    q2=1.0;q1=0.0;q0=0.0;
 		}
-		a+=tp1(cpvec+3*j,s->vvec+3*v0,s->vvec+3*v1,s->vvec+3*v2,q0,q1,q2);
+		x=cpvec[3*j+0];
+		y=cpvec[3*j+1];
+		z=cpvec[3*j+2];
+		x0=s->vvec[v0*3+0];
+		y0=s->vvec[v0*3+1];
+		z0=s->vvec[v0*3+2];
+		x1=s->vvec[v1*3+0];
+		y1=s->vvec[v1*3+1];
+		z1=s->vvec[v1*3+2];
+		x2=s->vvec[v2*3+0];
+		y2=s->vvec[v2*3+1];
+		z2=s->vvec[v2*3+2];
+		a+=trgint(x,y,z,x0,y0,z0,q0,x1,y1,z1,q1,x2,y2,z2,q2);
 	    }
 	    lmc[j]=a;
 	}

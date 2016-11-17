@@ -8,9 +8,9 @@ include $(ROOTDIR)/makefile.def
 include $(ROOTDIR)/makefile.gcc
 include $(ROOTDIR)/makefile.rules
 # fortran library sources
-LSTF:= data_buf.f90  t_surf.f90  lpl_gf.f90 lin_alg.f90 lpl_gf_ext.f90 lpl_gf_pot.f90
+LSTF:= data_buf.f90  t_surf.f90  lpl_gf.f90 lin_alg.f90 lpl_gf_ext.f90 lpl_gf_pot.f90 
 # C library sources
-LSTC:=databuf.c ogl.c  oglglfw.c readbytes.c tsurf.c lplgf.c lplbem.c timers.c 
+LSTC:=databuf.c ogl.c  oglglfw.c readbytes.c tsurf.c lplgf.c lplbem.c timers.c trgint.c
 # combining
 SLST:=$(LSTF:.f90=.$(OEXT)) $(LSTC:.c=.$(OEXT))
 #static library name
