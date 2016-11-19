@@ -6,6 +6,7 @@
 #include "tsurf.h"
 
 int initTSurf(TSurf* s) {
+/* unintialized variable may contain garbage */    
     if(s==0) return -1;
     s->vvec=0;s->nvec=0;s->nv=0;
     s->tvec=0;s->nt=0;
@@ -13,6 +14,7 @@ int initTSurf(TSurf* s) {
 }
 
 void cleanTSurf(TSurf* s) {
+/* to avoid memory leaks */    
     if(s==0) return;
     FREE_MEM(s->vvec);
     FREE_MEM(s->tvec);
@@ -21,6 +23,7 @@ void cleanTSurf(TSurf* s) {
 }
 
 int makeTSurf(TSurf* s,int T,int N) {
+/* creates empty surface */    
     int ret;
     if(0==s) return -1;
     cleanTSurf(s);
@@ -400,6 +403,7 @@ int mkIcosahedron(TSurf *s) {
 }
 
 Dbl trgNorm(Vec3Dbl w,TSurf *s,int t) {
+/* rerturns area of trg */    
     Vec3Dbl u,v; 
     int i,v0,v1,v2;
     Dbl a;
@@ -422,6 +426,7 @@ Dbl trgNorm(Vec3Dbl w,TSurf *s,int t) {
 } 
 
 int getTrgCon(int *ntc,CList *tcvec,TSurf *s) {
+ /* for every veretex makes the list of triangles it is included */    
     int n0,k,n,i;
     if(ntc==0) return -1;
     if(tcvec==0) return -2; 
@@ -445,6 +450,8 @@ int getTrgCon(int *ntc,CList *tcvec,TSurf *s) {
 
 
 int getVrtCon(int *nvc,CList *vcvec,TSurf *s) {
+/* for every vertex makes list of vertices (with larger numbers) it connects to */
+ 
     int n0,n1,n2,k,n,key,i;
     if(nvc==0) return -1;
     if(vcvec==0) return -2; 
@@ -587,11 +594,11 @@ inline static int new_vert(TSurf *s,int n,int m,int k) {
     Dbl a,b;
     int j,ret;
     a=dot3Dbl(s->nvec+3*m,s->nvec+3*k);
-    if(a>-1.0f+MIN_NORM) {
-	b=1.0f/sqrtf(2.0f*(1.0f+a));
+    if(a>-1.0+MIN_NORM) {
+	b=1.0/sqrt(2.0*(1.0+a));
 	ret=0;
     } else {/* normal is set to 0 should not be here*/
-	b=0.0f;
+	b=0.0;
 	ret=1;
     }
     for(j=0;j<3;j++) {
@@ -696,4 +703,57 @@ void mkUnitSphere(TSurf *s) {
 	}
     }
 }
+Dbl dist(TSurf *s,int n1,int n2) {
+    Dbl x,y,z;
+    x=s->vvec[3*n1+0]-s->vvec[3*n2+0];
+    y=s->vvec[3*n1+1]-s->vvec[3*n2+1];
+    z=s->vvec[3*n1+2]-s->vvec[3*n2+2];
+    return sqrt(x*x+y*y+z*z);
+}
 
+void printStat(TSurf *s) {
+    Dbl a,amin,amax,amean;//trg areas
+    Dbl d,dmin,dmax,dmean;//distances between vertices
+    Dbl b,bmin,bmax,bmean;//diff between trinag normal and mean normal
+    int n0,n1,n2;
+    int t,i;
+    Vec3Dbl w1,w2;
+    amin=MATH_LARGE_NUMBER_DBL;amax=0.0;amean=0.0;
+    bmin=MATH_LARGE_NUMBER_DBL;bmax=0.0;bmean=0.0;
+    dmin=MATH_LARGE_NUMBER_DBL;dmax=0.0;dmean=0.0;
+    for(t=0;t<s->nt;t++) {
+	a= trgNorm(w1,s,t);
+	if(a>amax) amax=a;
+	if(a<amin) amin=a;
+	amean+=a;
+	n0=s->tvec[3*t+0];
+	n1=s->tvec[3*t+1];
+	n2=s->tvec[3*t+2];
+	w2[0]=0.0;w2[1]=0.0;w2[2]=0.0;
+	for(i=0;i<3;i++) w2[i]=(s->nvec[3*n0+i]+s->nvec[3*n1+i]+s->nvec[3*n2+i]);
+	a=norm3Dbl(w2);
+	for(i=0;i<3;i++) w2[i]=w2[i]/a;
+	b=1.0-dot3Dbl(w1,w2);
+	if(b>bmax) bmax=b;
+	if(b<bmin) bmin=b;
+	bmean+=b;
+	d=dist(s,n0,n1);
+	if(d>dmax) dmax=d;
+	if(d<dmin) dmin=d;
+	dmean+=d;
+	d=dist(s,n1,n2);
+	if(d>dmax) dmax=d;
+	if(d<dmin) dmin=d;
+	dmean+=d;
+	d=dist(s,n2,n0);
+	if(d>dmax) dmax=d;
+	if(d<dmin) dmin=d;
+	dmean+=d;
+    }
+    printf("distance(min,max,mean): %e %e %e\n",dmin,dmax,dmean/(3*s->nt));
+    printf("area (min,max,mean): %e %e %e\n",amin,amax,amean/s->nt);
+    printf("norm diff (min,max,mean): %e %e %e\n",bmin,bmax,bmean/s->nt);
+ 
+}
+
+    

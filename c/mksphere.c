@@ -20,6 +20,7 @@ int main(int argc,char * argv[]) {
     for(j=0;j<=5;j++) {
 	sprintf(fname,"usph_%d.tsb",j);
 	printf("%s %d %d\n",fname,sold->nt,sold->nv);
+	printStat(sold);
 	ret=writeTSurf(sold,fname);
 	nvc=ALLOC_MEM(int,sold->nv);
 	vcvec=ALLOC_MEM(CList,sold->nv);

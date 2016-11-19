@@ -372,11 +372,11 @@ inline static Dbl dot4Dbl(Vec4Dbl u, Vec4Dbl v) {/* u.v */
 }
 
 inline static Dbl norm3Dbl(Vec3Dbl u) {/* |u| */
-    return sqrtf(u[0]*u[0]+u[1]*u[1]+u[2]*u[2]);
+    return sqrt(u[0]*u[0]+u[1]*u[1]+u[2]*u[2]);
 }
 
 inline static Dbl norm4Dbl(Vec4Dbl u) {/* |u| */
-    return sqrtf(u[0]*u[0]+u[1]*u[1]+u[2]*u[2]+u[3]*u[3]);
+    return sqrt(u[0]*u[0]+u[1]*u[1]+u[2]*u[2]+u[3]*u[3]);
 }
 inline static Dbl dist3Dbl(Vec3Dbl u,Vec3Dbl v) {/* |u-v|*/
     Vec3Dbl w;
@@ -393,20 +393,20 @@ inline static void cross3Dbl(Vec3Dbl w,Vec3Dbl u,Vec3Dbl v) {/* w=uxv */
 inline static void vxm3Dbl(Vec3Dbl v,Mat3Dbl m,Vec3Dbl u) {/* v=u*m */
     int j,i;
     for(i=0;i<3;i++) {
-	v[i]=0.0f;
+	v[i]=0.0;
 	for(j=0;j<3;j++) v[i]+=u[j]*m[indf3(j,i)];
     }
 }
 inline static void mxv3Dbl(Vec3Dbl v,Mat3Dbl m,Vec3Dbl u) {/* v=m*u */
     int j,i;
     for(i=0;i<3;i++) {
-	v[i]=0.0f;
+	v[i]=0.0;
 	for(j=0;j<3;j++) v[i]+=u[j]*m[indf3(i,j)];
     }
 }
 inline static void mxm3Dbl(Mat3Dbl c,Mat3Dbl a,Mat3Dbl b) {/* c=a*b */
     int j,i,k;
-    for(i=0;i<3*3;i++) c[i]=0.0f; 
+    for(i=0;i<3*3;i++) c[i]=0.0; 
     for(j=0;j<3;j++) 
 	for(k=0;k<3;k++)
 	    for(i=0;i<3;i++)
@@ -422,7 +422,7 @@ inline static void rotm3Dbl(Mat3Dbl m,Vec3Dbl v,Dbl a) {
     for(j=0;j<3;j++) u[j]=v[j]/norm3Dbl(v);
     for(j=0;j<3;j++)
 	for(i=0;i<3;i++)
-	    m[indf3(i,j)]=u[i]*u[j]*(1.0f-c);
+	    m[indf3(i,j)]=u[i]*u[j]*(1.0-c);
     for(j=0;j<3;j++) m[indf3(i,i)]+=c;
     m[indf3(1,0)]+= s*u[2];
     m[indf3(2,0)]+=-s*u[1];
@@ -435,20 +435,20 @@ inline static void rotm3Dbl(Mat3Dbl m,Vec3Dbl v,Dbl a) {
 inline static void vxm4Dbl(Vec4Dbl v,Mat4Dbl m,Vec4Dbl u) {/* v=u*m */
     int j,i;
     for(i=0;i<4;i++) {
-	v[i]=0.0f;
+	v[i]=0.0;
 	for(j=0;j<4;j++) v[i]+=u[j]*m[indf4(j,i)];
     }
 }
 inline static void mxv4Dbl(Vec4Dbl v,Mat4Dbl m,Vec4Dbl u) {/* v=m*u */
     int j,i;
     for(i=0;i<4;i++) {
-	v[i]=0.0f;
+	v[i]=0.0;
 	for(j=0;j<4;j++) v[i]+=u[j]*m[indf4(i,j)];
     }
 }
 inline static void mxm4Dbl(Mat4Dbl c,Mat4Dbl a,Mat4Dbl b) {/* c=a*b */
     int j,i,k;
-    for(i=0;i<4*4;i++) c[i]=0.0f; 
+    for(i=0;i<4*4;i++) c[i]=0.0; 
     for(j=0;j<4;j++) 
 	for(k=0;k<4;k++)
 	    for(i=0;i<4;i++)
@@ -471,7 +471,7 @@ inline static void rotm4Dbl(Mat4Dbl m,Vec3Dbl v,Dbl a) {
 	norm3Dbl(v);
     for(j=0;j<3;j++)
 	for(i=0;i<3;i++)
-	    m[indf4(i,j)]=u[i]*u[j]*(1.0f-c);
+	    m[indf4(i,j)]=u[i]*u[j]*(1.0-c);
     for(j=0;j<3;j++) m[indf4(j,j)]+=c;
     m[indf4(1,0)]+= s*u[2];
     m[indf4(2,0)]+=-s*u[1];
@@ -480,51 +480,51 @@ inline static void rotm4Dbl(Mat4Dbl m,Vec3Dbl v,Dbl a) {
     m[indf4(0,2)]+= s*u[1];
     m[indf4(1,2)]+=-s*u[0];
     for(j=0;j<3;j++) {
-	m[indf4(j,3)]=0.0f;
-	m[indf4(3,j)]=0.0f;
+	m[indf4(j,3)]=0.0;
+	m[indf4(3,j)]=0.0;
     }
-    m[indf4(3,3)]=1.0f;
+    m[indf4(3,3)]=1.0;
 }
 inline static void translate4Dbl(Mat4Dbl m,Vec3Dbl v) {
     int j;
-    for(j=0;j<16;j++) m[j]=0.0f;
-    for(j=0;j<4;j++) m[indf4(j,j)]=1.0f;
+    for(j=0;j<16;j++) m[j]=0.0;
+    for(j=0;j<4;j++) m[indf4(j,j)]=1.0;
     for(j=0;j<3;j++) m[indf4(j,3)]=v[j];
 }
 inline static void scale4Dbl(Mat4Dbl m,Vec3Dbl v) {
     int j;
-    for(j=0;j<16;j++) m[j]=0.0f;
+    for(j=0;j<16;j++) m[j]=0.0;
     for(j=0;j<3;j++) m[indf4(j,j)]=v[j];
-    m[indf4(3,3)]=1.0f;
+    m[indf4(3,3)]=1.0;
 }
 inline static void frustumDbl(Mat4Dbl m,Dbl l,Dbl r,Dbl b,Dbl t,Dbl n,Dbl f) {
     int j;
-    for(j=0;j<16;j++) m[j]=0.0f;
-    m[indf4(0,0)]=2.0f*n/(r-l);
-    m[indf4(1,1)]=2.0f*n/(t-b);
+    for(j=0;j<16;j++) m[j]=0.0;
+    m[indf4(0,0)]=2.0*n/(r-l);
+    m[indf4(1,1)]=2.0*n/(t-b);
     m[indf4(0,2)]=(r+l)/(r-l);
     m[indf4(1,2)]=(t+b)/(t-b);
     m[indf4(2,2)]=-(f+n)/(f-n);
-    m[indf4(3,2)]=-1.0f;
-    m[indf4(2,3)]=-2.0f*f*n/(f-n);
+    m[indf4(3,2)]=-1.0;
+    m[indf4(2,3)]=-2.0*f*n/(f-n);
 }  
 inline static void frustum_invDbl(Mat4Dbl m,Dbl l,Dbl r,Dbl b,Dbl t,Dbl n,Dbl f) {
     int j;
-    for(j=0;j<16;j++) m[j]=0.0f;
-    m[indf4(0,0)]=(r-l)/(2.0f*n);
-    m[indf4(1,1)]=(t-b)/(2.0f*n);
-    m[indf4(3,2)]=-(f-n)/(2.0f*f*n);
-    m[indf4(0,3)]=(r+l)/(2.0f*n);
-    m[indf4(1,3)]=(t+b)/(2.0f*n);
-    m[indf4(2,3)]=-1.0f;
-    m[indf4(3,3)]=(f+n)/(2.0f*f*n);
+    for(j=0;j<16;j++) m[j]=0.0;
+    m[indf4(0,0)]=(r-l)/(2.0*n);
+    m[indf4(1,1)]=(t-b)/(2.0*n);
+    m[indf4(3,2)]=-(f-n)/(2.0*f*n);
+    m[indf4(0,3)]=(r+l)/(2.0*n);
+    m[indf4(1,3)]=(t+b)/(2.0*n);
+    m[indf4(2,3)]=-1.0;
+    m[indf4(3,3)]=(f+n)/(2.0*f*n);
 } 
 
 inline static void orthoDbl(Mat4Dbl m,Dbl l,Dbl r,Dbl b,Dbl t,Dbl n,Dbl f) {
     int j;
-    for(j=0;j<16;j++) m[j]=0.0f;
-    m[indf4(0,0)]=2.0f/(r-l);
-    m[indf4(1,1)]=2.0f/(t-b);
+    for(j=0;j<16;j++) m[j]=0.0;
+    m[indf4(0,0)]=2.0/(r-l);
+    m[indf4(1,1)]=2.0/(t-b);
     m[indf4(2,2)]=-2.0/(f-n);
     m[indf4(0,3)]=-(r+l)/(r-l);
     m[indf4(1,3)]=-(t+b)/(t-b);
@@ -533,21 +533,21 @@ inline static void orthoDbl(Mat4Dbl m,Dbl l,Dbl r,Dbl b,Dbl t,Dbl n,Dbl f) {
 }  
 inline static void ortho_invDbl(Mat4Dbl m,Dbl l,Dbl r,Dbl b,Dbl t,Dbl n,Dbl f) {
     int j;
-    for(j=0;j<16;j++) m[j]=0.0f;
-    m[indf4(0,0)]=(r-l)/2.0f;
-    m[indf4(1,1)]=(t-b)/2.0f;
-    m[indf4(3,2)]=-(f-n)/2.0f;
-    m[indf4(0,3)]=(r+l)/2.0f;
-    m[indf4(1,3)]=(t+b)/2.0f;
-    m[indf4(2,3)]=(f+n)/2.0f;
-    m[indf4(3,3)]=1.0f;
+    for(j=0;j<16;j++) m[j]=0.0;
+    m[indf4(0,0)]=(r-l)/2.0;
+    m[indf4(1,1)]=(t-b)/2.0;
+    m[indf4(3,2)]=-(f-n)/2.0;
+    m[indf4(0,3)]=(r+l)/2.0;
+    m[indf4(1,3)]=(t+b)/2.0;
+    m[indf4(2,3)]=(f+n)/2.0;
+    m[indf4(3,3)]=1.0;
 } 
 inline static void proj_matDbl(Mat4Dbl m,Dbl fovy,Dbl aspect_ratio, Dbl near_plane,Dbl far_plane) {
-    Dbl y_scale=1.0f/tan(M_PI/180*fovy/2);
+    Dbl y_scale=1.0/tan(M_PI/180*fovy/2);
     Dbl x_scale=y_scale / aspect_ratio;
     Dbl frustum_length = far_plane - near_plane;
     int j;
-    for(j=0;j<16;j++) m[j]=0.0f;
+    for(j=0;j<16;j++) m[j]=0.0;
     m[0] = x_scale;
     m[5] = y_scale;	
     m[10] = -((far_plane + near_plane) / frustum_length);
@@ -565,7 +565,7 @@ inline static void lookatDbl(Mat4Dbl m,Vec3Dbl eye,Vec3Dbl cnt,Vec3Dbl up) {
     a=norm3Dbl(s);
     for(i=0;i<3;i++) s[i]=s[i]/a;
     cross3Dbl(u,s,f);
-    for(i=0;i<16;i++) m[i]=0.0f;
+    for(i=0;i<16;i++) m[i]=0.0;
     for(i=0;i<3;i++) {
 	m[indf4(i,0)]=s[i];
 	m[indf4(i,1)]=u[i];
