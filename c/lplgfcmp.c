@@ -218,7 +218,7 @@ int main(int argc,char * argv[]) {
     vt10(lm,&s);
     time_stop=cpuClock();
     printf("vt10 takes %e s\n",time_stop-time_start);
-    sprintf(str,"%s-vt10n.bin",argv[2]);
+    sprintf(str,"%s-vt10k.bin",argv[2]);
     ret=write2DataBufDbl(lm,n,t,str);
     FREE_MEM(lm);
     FREE_MEM(cnt);
