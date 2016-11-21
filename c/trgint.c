@@ -67,7 +67,7 @@ double trgint(double x,double y,double z,
              double x0,double y0,double z0,double q0,
              double x1,double y1,double z1,double q1,
              double x2,double y2,double z2,double q2) {
-//	double x00,y00,z00;
+	double x00,y00,z00;
 	double x10,y10,z10,x20,y20,z20;
 	double nx,ny,nz,kx,ky,kz,n2x,n2y,n2z;
 	double d1,d2,c2,s2,u2,u1,v2,zz,u3,v3,v4,a,b,c;
@@ -96,7 +96,7 @@ double trgint(double x,double y,double z,
 	kx=(n2x-c2*nx)/s2;
 	ky=(n2y-c2*ny)/s2;
 	kz=(n2z-c2*nz)/s2;
-
+/*
 	x0-=x;
 	y0-=y;
 	z0-=z;
@@ -105,7 +105,7 @@ double trgint(double x,double y,double z,
 	v3=kx*x0+ky*y0+kz*z0;	
 	zz=x0*x0+y0*y0+z0*z0-u3*u3-v3*v3;
 
-/*
+*/
 	x00=x-x0;
 	y00=y-x0;
 	z00=z-x0;
@@ -114,7 +114,7 @@ double trgint(double x,double y,double z,
 	u3=-(nx*x00+ny*y00+nz*z00);
 	v3=-(kx*x00+ky*y00+kz*z00);	
 	zz=x00*x00+y00*y00+z00*z00-u3*u3-v3*v3;
-*/
+
 	if(zz<ZZERO) zz=ZZERO;
 	v4=v2+v3;
 	a=(q1-q0)/d1;
