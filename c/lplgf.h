@@ -10,13 +10,20 @@
  * over triangle with linear charge distribution
  * values q0,q1,q2 in vertices
  */
-typedef Dbl (*TrgPot1) (Vec3Dbl,Vec3Dbl,Vec3Dbl,Vec3Dbl,Dbl,Dbl,Dbl); 
 
-/*double trgInt1(double x,double y,double z,
-             double x0,double y0,double z0,
+double trgInt1(double x0,double y0,double z0,
              double x1,double y1,double z1,
              double x2,double y2,double z2,
-	     double q0,double q1,double q2);*/
+	     double q0,double q1,double q2);
+
+double trgInt(double x,double y,double z,
+             double x0,double y0,double z0,double q0,
+             double x1,double y1,double z1,double q1,
+             double x2,double y2,double z2,double q2);
+
+
+typedef Dbl (*TrgPot1) (Vec3Dbl,Vec3Dbl,Vec3Dbl,Vec3Dbl,Dbl,Dbl,Dbl); 
+
 Dbl lplGfL1 (Vec3Dbl dst ,Vec3Dbl vrt0,Vec3Dbl vrt1,Vec3Dbl vrt2,Dbl q0,Dbl q1,Dbl q2);
 /*double intTrg(double x,double y,double z,
              double x0,double y0,double z0,double q0,

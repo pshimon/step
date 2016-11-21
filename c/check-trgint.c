@@ -5,10 +5,6 @@
 ***********************************************************/
 #include "lplbem.h"
 #include "timers.h"
-double trgint(double x,double y,double z,
-             double x0,double y0,double z0,double q0,
-             double x1,double y1,double z1,double q1,
-             double x2,double y2,double z2,double q2);
 double reftrgint(double x,double y,double z,
              double x0,double y0,double z0,double q0,
              double x1,double y1,double z1,double q1,
@@ -46,7 +42,8 @@ void refvt1(Dbl *lm,TSurf *s) {
 	    x=cpvec[3*j+0];
 	    y=cpvec[3*j+1];
 	    z=cpvec[3*j+2];
-	    lmc[j]+=reftrgint(x,y,z,x0,y0,z0,q0,x1,y1,z1,q1,x2,y2,z2,q2);
+	    //lmc[j]+=reftrgint(x,y,z,x0,y0,z0,q0,x1,y1,z1,q1,x2,y2,z2,q2);
+	    lmc[j]+=trgInt(x,y,z,x0,y0,z0,q0,x1,y1,z1,q1,x2,y2,z2,q2);
 	}
     }
 }
@@ -55,7 +52,7 @@ void vt1(Dbl *lm,TSurf *s) {
     Dbl *lmc;
     Dbl q0,q1,q2;
     Dbl *cpvec;
-    Dbl x,y,z,x0,y0,z0,x1,y1,z1,x2,y2,z2;
+    //Dbl x,y,z,x0,y0,z0,x1,y1,z1,x2,y2,z2;
     n=s->nv;
     t=s->nt;
     cpvec=s->vvec;
@@ -64,25 +61,10 @@ void vt1(Dbl *lm,TSurf *s) {
     for(i=0;i<t;i++) {
 	lmc=lm+i*n;
 	v0=s->tvec[3*i+0];
-	x0=s->vvec[v0*3+0];
-	y0=s->vvec[v0*3+1];
-	z0=s->vvec[v0*3+2];
-
 	v1=s->tvec[3*i+1];
-	x1=s->vvec[v1*3+0];
-	y1=s->vvec[v1*3+1];
-	z1=s->vvec[v1*3+2];
-
 	v2=s->tvec[3*i+2];
-	x2=s->vvec[v2*3+0];
-	y2=s->vvec[v2*3+1];
-	z2=s->vvec[v2*3+2];
-
 	for(j=0;j<n;j++) {
-	    x=cpvec[3*j+0];
-	    y=cpvec[3*j+1];
-	    z=cpvec[3*j+2];
-	    lmc[j]+=trgint(x,y,z,x0,y0,z0,q0,x1,y1,z1,q1,x2,y2,z2,q2);
+	    lmc[j]+=lplGfL1(cpvec+3*j,s->vvec+3*v0,s->vvec+3*v1,s->vvec+3*v2,q0,q1,q2);
 	}
     }
 }

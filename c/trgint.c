@@ -1,21 +1,11 @@
-/**************************************************************************
- * Author: Shimon Panfil                                                  *
- * http://panfil.org                                                      *
- * Copyright (c) 2007 Shimon Panfil: Industrial Physics and Simulations   *
- * http://industrialphys.com                                              * 
- *                                                                        *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       *
- *  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF    * 
- *  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.*
- *  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  *
- *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,  *
- *  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE     * 
- *  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                *
- *************************************************************************/ 
-
+/***********************************************************
+* Shimon Panfil: Industrial Physics and Simulations        *
+* http://industrialphys.com                                *
+* THE SOFTWARE IS PROVIDED "AS IS",USE IT AT YOUR OWN RISK *
+***********************************************************/
 #include <math.h>
 #define ZZERO 1.0e-12
-//#define ONEOVER4PI 0.07957747154594767
+
 
 static inline double newg(double u,double v,double q,double zz,
 		double a,double b,double c) {
@@ -64,7 +54,7 @@ static inline double ff(double wtt,double wbt,double wtb,double wbb,
 }
 
 
-static inline double trgint1(double x00,double y00,double z00,
+double trgInt1(double x00,double y00,double z00,
              double x10,double y10,double z10,
              double x20,double y20,double z20,
 	     double q0,double q1,double q2){
@@ -116,7 +106,7 @@ static inline double trgint1(double x00,double y00,double z00,
 	res=ff(wtt,wbt,wtb,wbb,qt,qb,Vt,Vb,zz,a,b,c);
     return res;
 }
-
+/*
 double trgint(double x,double y,double z,
              double x0,double y0,double z0,double q0,
              double x1,double y1,double z1,double q1,
@@ -134,4 +124,4 @@ double trgint(double x,double y,double z,
 	z00=z-z0;
 	return trgint1(x00,y00,z00,x10,y10,z10,x20,y20,z20,q0,q1,q2);
 }
-
+*/
