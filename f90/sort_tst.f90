@@ -1,11 +1,12 @@
 PROGRAM sort_tst
 USE data_buf
 use sort_lib
+use rng
 INTEGER :: left, right,flag,n,n1,i
 integer,parameter::m=5
-REAL(F32) :: t1, t2,times(2,m)
+REAL(F64) :: t1, t2,times(2,m)
 REAL(F64), ALLOCATABLE :: a(:)
-
+INTEGER ::seed
 INTERFACE
     subroutine sortquick(a,l,r)  bind(c,name='sortQuick')
     IMPORT::C_DOUBLE,C_INT
@@ -29,6 +30,8 @@ ENDINTERFACE
 
     left = 1
     right = n
+    seed=-1
+    call INIT_RANDOM_SEED(seed)
     CALL random_number(a)
     CALL cpu_time(t1)
     CALL sort_quick(a,left, right)

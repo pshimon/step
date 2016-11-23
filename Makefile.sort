@@ -8,9 +8,9 @@ include $(ROOTDIR)/makefile.def
 include $(ROOTDIR)/makefile.gcc
 include $(ROOTDIR)/makefile.rules
 # fortran library sources
-LSTF:=data_buf.f90 sort_lib.f90 
+LSTF:=data_buf.f90 sort_lib.f90 rng.f90
 # C library sources
-LSTC:= databuf.c sortlib.c 
+LSTC:= databuf.c sortlib.c timers.c
 # combining
 SLST:=$(LSTF:.f90=.$(OEXT)) $(LSTC:.c=.$(OEXT))
 #static library name
@@ -18,7 +18,7 @@ SLIB:=tstlib.$(LEXT)
 # fortran program sources
 LSTBF:=sort_tst.f90
 # C program sources
-LSTBC:=
+LSTBC:=sorttst.c
 # combining
 TRG:=$(LSTBF:.f90=.$(BEXT)) $(LSTBC:.c=.$(BEXT))
 all:$(TRG)  
@@ -27,10 +27,6 @@ $(SLIB): $(SLST)
 $(TRG):$(SLIB)
 clean:	
 	$(RM) *.$(LEXT) *.$(BEXT) *.$(MEXT) *.$(OEXT) *.$(SHEXT)
-#special treatment
-draw_surf1.$(BEXT): draw_surf1.c $(ULIB) $(GLIB)
-	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS) $(LM)
-
 
 
 
