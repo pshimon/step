@@ -1,0 +1,36 @@
+########################################################################
+# Shimon Panfil: Industrial Physics and Simulations                   ##
+# http://industrialphys.com                                           ##
+# THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK           ##
+########################################################################
+ROOTDIR:=../step
+include $(ROOTDIR)/makefile.def
+include $(ROOTDIR)/makefile.gcc
+include $(ROOTDIR)/makefile.rules
+# fortran library sources
+LSTF:=data_buf.f90 sort_lib.f90 
+# C library sources
+LSTC:= databuf.c sortlib.c 
+# combining
+SLST:=$(LSTF:.f90=.$(OEXT)) $(LSTC:.c=.$(OEXT))
+#static library name
+SLIB:=tstlib.$(LEXT)
+# fortran program sources
+LSTBF:=sort_tst.f90
+# C program sources
+LSTBC:=
+# combining
+TRG:=$(LSTBF:.f90=.$(BEXT)) $(LSTBC:.c=.$(BEXT))
+all:$(TRG)  
+$(SLIB): $(SLST) 
+	$(LBS)$(SLIB) $(SLST) 
+$(TRG):$(SLIB)
+clean:	
+	$(RM) *.$(LEXT) *.$(BEXT) *.$(MEXT) *.$(OEXT) *.$(SHEXT)
+#special treatment
+draw_surf1.$(BEXT): draw_surf1.c $(ULIB) $(GLIB)
+	$(CC)  $(CLOPT) $(NOUT) $@ $^    $(GLLIBS) $(LM)
+
+
+
+
