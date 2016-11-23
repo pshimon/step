@@ -3,20 +3,17 @@
 * http://industrialphys.com                                *
 * THE SOFTWARE IS PROVIDED "AS IS",USE IT AT YOUR OWN RISK *
 ***********************************************************/
-#include "databuf.h"
+#include "sortlib.h"
 
 /* adopted from NR and Sedgewick */
 /* function names chosen to avoid any connotation with actual ordering
  * say before instead of BEFORE (it may be more actually)
  * first instead of minimal etc.
  */
-typedef Dbl Item;
-#define KEY(A) (A)
-#define BEFORE(A, B) (KEY(A) < KEY(B))
-#define SWAP(A, B) { Item t = A; A = B; B = t; } 
-#define ORDER(A, B) if (BEFORE(B, A)) SWAP(A, B)
+#define BEFORE(A, B) ((A) < (B))
+#define SWAP(A, B) { Dbl t = A; A = B; B = t; }
 
-void sortSel(Item a[], int l, int r) { 
+void sortSelDbl(Dbl a[], int l, int r) { 
     int i, j,min;
     for (i = l; i < r; i++) {  
 	min = i;
@@ -25,9 +22,9 @@ void sortSel(Item a[], int l, int r) {
     } 
 }
 
-void sortIns(Item a[], int l, int r) { 
+void sortInsDbl(Dbl a[], int l, int r) { 
     int i,j,min=l;
-    Item v;
+    Dbl v;
     for (i = l; i <= r; i++) if (BEFORE(a[i], a[min])) min = i;/* find location of element to be the first */
     if(min>l) SWAP(a[l], a[min]); 
     /* above step is not necessary, but useful: only one condition to check in while loop below */
@@ -38,9 +35,9 @@ void sortIns(Item a[], int l, int r) {
     } 
 }
 
-void sortShell(Item a[], int l, int r) { 
+void sortShellDbl(Dbl a[], int l, int r) { 
     int i, j, h; 
-    Item v;
+    Dbl v;
     for (h = 1; h <= (r-l)/9; h = 3*h+1);/* finding initial increment */
     for ( ; h > 0; h /= 3) {
 	for (i = l+h; i <= r; i++) { 
@@ -54,9 +51,9 @@ void sortShell(Item a[], int l, int r) {
 
 /* quick sort */
 
-static int partition(Item a[], int l, int r) { 
+static int partition(Dbl a[], int l, int r) { 
     int i = l-1, j = r; 
-    Item v = a[r];
+    Dbl v = a[r];
 
     SWAP(a[(l+r)/2], a[r-1]);
     ORDER(a[l], a[r-1]); 
@@ -72,18 +69,18 @@ static int partition(Item a[], int l, int r) {
     SWAP(a[i], a[r]);
     return i;
 }
-
-#define M 10
-void sortQuick(Item a[], int l, int r) { 
+/* partitions less than SWITCHSORT remain usnsorted */
+static void quickSortDbl(Dbl a[], int l, int r) { 
     int i; 
-    if (r-l <= M) return;
+    if (r-l <= SWITCHSORT) return;
     i = partition(a, l+1, r-1);
-    sortQuick(a, l, i-1);
-    sortQuick(a, i+1, r);
-    sortIns(a,l,r);
+    quickSortDbl(a, l, i-1);
+    quickSortDbl(a, i+1, r);
 } 
-	  
-
+void sortQuickDbl(Dbl a[], int l, int r) {
+    quickSortDbl(a,l,r);
+    sortInsDbl(a,l,r);	  
+}
 /* nor recursive implementation */
 
 #define STACK_SIZE 32 /* enough for 32 bit   index */
@@ -95,13 +92,13 @@ int stackTop;
 #define PUSH2(A, B)  PUSH(B); PUSH(A)
 #define POP stackArr[stackTop--]
 
-void sortQuickNr(Item a[], int l, int r) { 
+void sortQuickNrDbl(Dbl a[], int l, int r) { 
     int i;
     STACK_INIT; 
     PUSH2(l, r);
     while (STACK_NOT_EMPTY) {
 	l = POP; r = POP; 
-	if (r-l <= M) continue;
+	if (r-l <= SWITCHSORT) continue;
 	i = partition(a, l, r);
 	if (i-l > r-i) 	{ /* push pointers to larger part on stack  first */
 	    PUSH2(l, i-1); 
@@ -111,13 +108,7 @@ void sortQuickNr(Item a[], int l, int r) {
 	    PUSH2(l, i-1); 
 	}
     }
-    sortIns(a,l,r);
+    sortInsDbl(a,l,r);
 }
-/* usage :
- 
-void sort(Item a[], int l, int r)
-  { 
-    quicksort(a, l, r);
-    insertion(a, l, r);
-  }
-*/
+
+
