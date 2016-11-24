@@ -8,14 +8,17 @@
 int check(Dbl *a,int n) {
     int ret,i;
     ret=0;
-    for(i=1;i<n;i++) if(a[i]<a[i-1]) {ret=1;break;}
+    for(i=1;i<n;i++) if(a[i]<a[i-1]) {
+	ret=1;
+	fprintf(stderr,"a[%d]=%e <a[%d]=%e\n",i,a[i],i-1,a[i-1]);
+	break;}
     return ret;
 }
 
 int main() {
     Dbl *a;
     int n,n1,i;
-    int left,right,m=5,j;
+    int left,right,m=4,j;
     //time_t t;
     Dbl fct,t1,t0,t2,t3;
     n=100;
@@ -29,7 +32,12 @@ int main() {
 	left=0;
 	right=n-1;
 	t0=cpuClock();
-	sortQuickDbl(a,left,right);
+	sortHeapDbl(a,left,right);
+//	sortShellDbl(a,left,right);
+//	sortInsDbl(a,left,right);
+//	sortSelDbl(a,left,right);
+//	sortQuickNrDbl(a,left,right);
+//	sortQuickDbl(a,left,right);
 	t1=cpuClock();
 	if(check(a,n)) {
 	    fprintf(stderr,"array not sorted!\n");
@@ -37,7 +45,12 @@ int main() {
 	}
 // now sort the sorted list
 	t2=cpuClock();
-	sortQuickDbl(a,left,right);
+	sortHeapDbl(a,left,right);
+//	sortInsDbl(a,left,right);	
+//	sortInsDbl(a,left,right);	
+//	sortSelDbl(a,left,right);
+//	sortQuickNrDbl(a,left,right);
+//	sortQuickDbl(a,left,right);
     	t3=cpuClock();
 	if(check(a,n)) {
 	    fprintf(stderr,"array not sorted!\n");

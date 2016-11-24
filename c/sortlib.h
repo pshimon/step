@@ -13,4 +13,5 @@ void sortInsDbl(Dbl a[], int l, int r);
 void sortShellDbl(Dbl a[], int l, int r);
 void sortQuickDbl(Dbl a[], int l, int r);
 void sortQuickNrDbl(Dbl a[], int l, int r);
+void sortHeapDbl(Dbl a[],int l,int r);
 #endif

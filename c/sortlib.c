@@ -92,7 +92,7 @@ int stackTop;
 #define PUSH2(A, B)  PUSH(B); PUSH(A)
 #define POP stackArr[stackTop--]
 
-void sortQuickNrDbl(Dbl a[], int l, int r) { 
+static void quickSortNrDbl(Dbl a[], int l, int r) { 
     int i;
     STACK_INIT; 
     PUSH2(l, r);
@@ -108,7 +108,38 @@ void sortQuickNrDbl(Dbl a[], int l, int r) {
 	    PUSH2(l, i-1); 
 	}
     }
+}
+
+void sortQuickNrDbl(Dbl a[], int l, int r) {
+    quickSortNrDbl(a,l,r);
     sortInsDbl(a,l,r);
 }
 
+/* heap sort */
+static void siftDownDbl(Dbl  ra[], int l,int r){
+    int j,jold;
+    Dbl a;
+    a=ra[l];
+    jold=l;
+    j=2*l+1;
+    while (j <= r) {
+	if (j < r && ra[j] < ra[j+1]) j++; 
+	if (a >= ra[j]) break; 
+	ra[jold]=ra[j];
+	jold=j;
+	j=2*j+1;
+    }
+    ra[jold]=a; 
+}
+void sortHeapDbl(Dbl  ra[],int l,int r) {
+    int i;
+    Dbl tmp;
+    for (i=(r+1)/2-1; i>=l; i--) siftDownDbl(ra,i,r);
+    for (i=r; i>l; i--) {
+	tmp=ra[l];
+	ra[l]=ra[i];
+	ra[i]=tmp;
+	siftDownDbl(ra,l,i-1); 
+    }
+}
 
