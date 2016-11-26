@@ -17,7 +17,7 @@ void sortSelDbl(Dbl a[], int l, int r) {
     int i, j,min;
     for (i = l; i < r; i++) {  
 	min = i;
-	for (j = i+1; j <= r; j++) if (BEFORE(a[j], a[min])) min = j;/* find location of element to be the first */
+	for (j = i+1; j <= r; j++) if (BEFORE(a[j], a[min])) min = j;
 	SWAP(a[i], a[min]);
     } 
 }

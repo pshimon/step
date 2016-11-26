@@ -7,7 +7,7 @@ CC:=gcc
 COPT:=-Ofast -g $(CINC)  $(FPIC) -Wall #-fopenmp 
 CLOPT:= $(COPT) 
 FC:=gfortran
-FOPT:=-Ofast $(FPIC) -Wall -g  #-fopenmp
+FOPT:=-Ofast $(FPIC) -Wall -g  -cpp #-fopenmp
 FPE:= -ffpe-trap=invalid,zero,overflow
 FLOPT:=$(FOPT) #$(FPE)
 	

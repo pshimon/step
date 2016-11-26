@@ -1,10 +1,9 @@
 PROGRAM sort_tst
-USE data_buf
 use sort_lib
 use rng
 INTEGER :: left, right,flag,n,n1,i
-integer,parameter::m=5
-REAL(F64) :: t1, t2,times(2,m)
+integer,parameter::m=4
+REAL(F32) :: t1, t2,times(2,m)
 REAL(F64), ALLOCATABLE :: a(:)
 INTEGER ::seed
 INTERFACE
@@ -34,14 +33,22 @@ ENDINTERFACE
     call INIT_RANDOM_SEED(seed)
     CALL random_number(a)
     CALL cpu_time(t1)
-    CALL sort_quick(a,left, right)
+    CALL SORT_HEAP_F64(A,LEFT, RIGHT)
+ !   CALL SORT_SHELL_F64(A,LEFT, RIGHT)
+ !   CALL SORT_INS_F64(A,LEFT, RIGHT)    
+ !   CALL SORT_SEL_F64(A,LEFT, RIGHT)
+ !   CALL sort_quick(a,left, right)
  !   CALL sortquick(a,left-1, right-1)
     CALL cpu_time(t2)
     CALL check
     times(1,i) = t2 - t1
  ! now sort the sorted list
     CALL cpu_time(t1)
-    CALL sort_quick(a,left, right)
+    CALL SORT_HEAP_F64(A,LEFT, RIGHT)
+!    CALL SORT_SHELL_F64(A,LEFT, RIGHT)    
+!    CALL SORT_INS_F64(A,LEFT, RIGHT)
+ !   CALL SORT_SEL_F64(A,LEFT, RIGHT)
+ !   CALL sort_quick(a,left, right)
 !    CALL sortquick(a,left-1, right-1)
     CALL cpu_time(t2)
     CALL check
