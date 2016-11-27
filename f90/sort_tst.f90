@@ -7,7 +7,7 @@ REAL(F32) :: t1, t2,times(2,m)
 REAL(F64), ALLOCATABLE :: a(:)
 INTEGER ::seed
 INTERFACE
-    subroutine sortquick(a,l,r)  bind(c,name='sortQuick')
+    subroutine sortquick(a,l,r)  bind(c,name='sortSelDbl')
     IMPORT::C_DOUBLE,C_INT
     REAL(C_DOUBLE)::a(:)
     integer(c_int),intent(in),value::l,r
@@ -33,23 +33,25 @@ ENDINTERFACE
     call INIT_RANDOM_SEED(seed)
     CALL random_number(a)
     CALL cpu_time(t1)
-    CALL SORT_HEAP_F64(A,LEFT, RIGHT)
+  !  CALL SORT_QUICK_NR_F64(A,LEFT, RIGHT)
+  !  CALL SORT_HEAP_F64(A,LEFT, RIGHT)
  !   CALL SORT_SHELL_F64(A,LEFT, RIGHT)
- !   CALL SORT_INS_F64(A,LEFT, RIGHT)    
+    CALL SORT_INS_F64(A,LEFT, RIGHT)    
  !   CALL SORT_SEL_F64(A,LEFT, RIGHT)
- !   CALL sort_quick(a,left, right)
+ !   CALL SORT_QUICK_F64(A,LEFT, RIGHT)
  !   CALL sortquick(a,left-1, right-1)
     CALL cpu_time(t2)
     CALL check
     times(1,i) = t2 - t1
  ! now sort the sorted list
     CALL cpu_time(t1)
-    CALL SORT_HEAP_F64(A,LEFT, RIGHT)
+!    CALL SORT_QUICK_NR_F64(A,LEFT, RIGHT)
+ !   CALL SORT_HEAP_F64(A,LEFT, RIGHT)
 !    CALL SORT_SHELL_F64(A,LEFT, RIGHT)    
-!    CALL SORT_INS_F64(A,LEFT, RIGHT)
+    CALL SORT_INS_F64(A,LEFT, RIGHT)
  !   CALL SORT_SEL_F64(A,LEFT, RIGHT)
- !   CALL sort_quick(a,left, right)
-!    CALL sortquick(a,left-1, right-1)
+ !   CALL SORT_QUICK_F64(A,LEFT, RIGHT)
+ !   CALL sortquick(a,left-1, right-1)
     CALL cpu_time(t2)
     CALL check
     times(2,i) = t2 - t1
@@ -63,7 +65,6 @@ CONTAINS
   SUBROUTINE check
   INTEGER :: i
   REAL(F64) :: val
-
   val = a(left)
   DO i = left+1, right
     IF( val <= a(i)) THEN
