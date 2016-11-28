@@ -9,7 +9,7 @@ INTEGER ::seed
 INTERFACE
     subroutine sortquick(a,l,r)  bind(c,name='sortSelDbl')
     IMPORT::C_DOUBLE,C_INT
-    REAL(C_DOUBLE)::a(:)
+    REAL(C_DOUBLE)::a(*)
     integer(c_int),intent(in),value::l,r
     ENDsubroutine sortquick
 
@@ -36,10 +36,10 @@ ENDINTERFACE
   !  CALL SORT_QUICK_NR_F64(A,LEFT, RIGHT)
   !  CALL SORT_HEAP_F64(A,LEFT, RIGHT)
  !   CALL SORT_SHELL_F64(A,LEFT, RIGHT)
-    CALL SORT_INS_F64(A,LEFT, RIGHT)    
+ !   CALL SORT_INS_F64(A,LEFT, RIGHT)    
  !   CALL SORT_SEL_F64(A,LEFT, RIGHT)
  !   CALL SORT_QUICK_F64(A,LEFT, RIGHT)
- !   CALL sortquick(a,left-1, right-1)
+   CALL sortquick(a,left-1, right-1)
     CALL cpu_time(t2)
     CALL check
     times(1,i) = t2 - t1
@@ -48,10 +48,10 @@ ENDINTERFACE
 !    CALL SORT_QUICK_NR_F64(A,LEFT, RIGHT)
  !   CALL SORT_HEAP_F64(A,LEFT, RIGHT)
 !    CALL SORT_SHELL_F64(A,LEFT, RIGHT)    
-    CALL SORT_INS_F64(A,LEFT, RIGHT)
+  !  CALL SORT_INS_F64(A,LEFT, RIGHT)
  !   CALL SORT_SEL_F64(A,LEFT, RIGHT)
  !   CALL SORT_QUICK_F64(A,LEFT, RIGHT)
- !   CALL sortquick(a,left-1, right-1)
+    CALL sortquick(a,left-1, right-1)
     CALL cpu_time(t2)
     CALL check
     times(2,i) = t2 - t1
