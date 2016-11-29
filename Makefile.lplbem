@@ -5,7 +5,7 @@
 ########################################################################
 ROOTDIR:=../step
 include $(ROOTDIR)/makefile.def
-include $(ROOTDIR)/makefile.gcc
+include $(ROOTDIR)/makefile.scc
 include $(ROOTDIR)/makefile.rules
 # fortran library sources
 LSTF:= common_defs.f90 data_buf.f90  mat_vec.f90 t_surf.f90  lpl_gf.f90 lin_alg.f90 lpl_gf_ext.f90 lpl_gf_pot.f90 

@@ -8,7 +8,7 @@ COPT:=-O3 $(FPIC) $(CINC) -g #-openmp
 CLOPT:= $(COPT)
 
 FC:=ifort
-FOPT:=-O3 $(FPIC) -warn all -g -nogen-interfaces #-openmp
+FOPT:=-O3 $(FPIC) -warn all -g -nogen-interfaces -fpp #-openmp
 FPE:= -fpe0
 FLOPT:= $(FOPT) $(FPE)
 

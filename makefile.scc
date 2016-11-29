@@ -9,7 +9,7 @@ FPE:=-ftrap=common
 CLOPT:= $(COPT) $(FPE)
 
 FC:=sunf95
-FOPT:=-O3 $(FPIC)
+FOPT:=-O5 $(FPIC) -fpp -DNONEWUNIT
 FPE:=-ftrap=common #default
 FLOPT:=$(FOPT) $(FPE)
 
