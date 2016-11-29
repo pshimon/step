@@ -8,7 +8,7 @@ include $(ROOTDIR)/makefile.def
 include $(ROOTDIR)/makefile.gcc
 include $(ROOTDIR)/makefile.rules
 # fortran library sources
-LSTF:=data_buf.f90 sort_lib.f90 rng.f90
+LSTF:=common_defs.f90 mat_vec.f90 data_buf.f90 sort_lib.f90 rng.f90 
 # C library sources
 LSTC:= databuf.c sortlib.c timers.c
 # combining

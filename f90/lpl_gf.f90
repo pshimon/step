@@ -4,7 +4,7 @@
 ! THE SOFTWARE IS PROVIDED "AS IS", USE IT AT YOUR OWN RISK!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 MODULE LPL_GF
-USE DATA_BUF
+USE MAT_VEC
 IMPLICIT NONE
 PUBLIC
 CONTAINS
